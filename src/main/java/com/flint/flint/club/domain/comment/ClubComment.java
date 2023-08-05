@@ -4,6 +4,7 @@ import com.flint.flint.club.domain.main.Club;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.UUID;
  */
 @Entity
 @NoArgsConstructor
-@Data
+@Getter
 public class ClubComment {
     @Id @GeneratedValue(strategy = GenerationType.UUID) @Column(name = "club_comment_id")
     private UUID id;

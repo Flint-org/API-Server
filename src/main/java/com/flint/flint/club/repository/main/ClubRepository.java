@@ -5,7 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
-
-@Repository
+/**
+ * Club Repository Interface Class
+ * @author 김기현
+ * @since 2023-08-03
+ */
 public interface ClubRepository extends JpaRepository<Club, UUID> {
 }

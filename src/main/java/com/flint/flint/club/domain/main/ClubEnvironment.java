@@ -3,6 +3,7 @@ package com.flint.flint.club.domain.main;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -14,11 +15,11 @@ import java.util.UUID;
  * @since 2023-08-05
  */
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 public class ClubEnvironment {
-    @Id @GeneratedValue(strategy = GenerationType.UUID) @Column(name = "club_environment_id")
-    private UUID id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "club_environment_id")
+    private Long id;
     @Column(name = "club_location")
     private String location;
     @Column(name = "club_date_of_week")

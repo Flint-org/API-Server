@@ -3,6 +3,7 @@ package com.flint.flint.club.domain.comment;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
@@ -13,7 +14,7 @@ import java.util.UUID;
  * @since 2023-08-05
  */
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 public class ClubCommentLike {
     @Id @GeneratedValue(strategy = GenerationType.UUID) @Column(name = "club_comment_like_id")

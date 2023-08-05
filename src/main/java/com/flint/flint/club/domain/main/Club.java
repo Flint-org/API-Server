@@ -4,6 +4,7 @@ import com.flint.flint.club.domain.specification.ClubMeetingType;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ import java.util.UUID;
  */
 @Entity
 @NoArgsConstructor
-@Data
+@Getter
 public class Club {
     @Id @GeneratedValue(strategy = GenerationType.UUID) @Column(name = "club_id")
     private UUID id;

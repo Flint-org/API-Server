@@ -4,6 +4,7 @@ import com.flint.flint.club.domain.specification.ClubFrequency;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
@@ -14,11 +15,11 @@ import java.util.UUID;
  * @since 2023-08-05
  */
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 public class ClubCategory {
-    @Id @GeneratedValue(strategy = GenerationType.UUID) @Column(name = "club_category_id")
-    private UUID id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "club_category_id")
+    private Long id;
     @Column(name = "club_upper_category")
     private String upperCategory;
     @Column(name = "club_lower_category")

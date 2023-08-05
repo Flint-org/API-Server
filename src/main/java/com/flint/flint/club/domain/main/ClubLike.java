@@ -4,6 +4,7 @@ package com.flint.flint.club.domain.main;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
@@ -14,11 +15,11 @@ import java.util.UUID;
  * @since 2023-08-05
  */
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 public class ClubLike {
-    @Id @GeneratedValue(strategy = GenerationType.UUID) @Column(name = "club_id")
-    private UUID id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "club_id")
+    private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     private Club club;
 
