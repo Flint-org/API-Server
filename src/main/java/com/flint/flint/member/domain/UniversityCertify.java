@@ -5,6 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 사용자의 대학인증관련자료를 저장하는 객체
+ * @Author 정순원
+ * @Since 2023-08-07
+ */
 @Entity
 @Getter
 @NoArgsConstructor
@@ -40,10 +45,3 @@ public class UniversityCertify {
     }
 
 }
-
-
-
-
-
-
-

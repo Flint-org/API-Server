@@ -1,8 +1,12 @@
-package com.flint.flint.member.domain.enums;
+package com.flint.flint.member.domain.spec;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * @Author 정순원
+ * @Since 2023-08-07
+ */
 @AllArgsConstructor
 @Getter
 public enum Authority {

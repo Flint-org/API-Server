@@ -6,6 +6,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * @Author 정순원
+ * @Since 2023-08-07
+ */
 @Entity
 @Getter
 @NoArgsConstructor
@@ -29,4 +33,5 @@ public class ScrapClub {
         this.member = memeber;
         this.club = club;
     }
+
 }

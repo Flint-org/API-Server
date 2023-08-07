@@ -6,6 +6,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * @Author 정순원
+ * @Since 2023-08-07
+ */
 @Entity
 @Getter
 @NoArgsConstructor
@@ -25,8 +29,9 @@ public class PostCommentReport {
     private PostComent postComent;
 
     @Builder
-    public HeartPost(Member memeber, PostComment postComment) {
+    public PostCommentReport(Member memeber, PostComment postComment) {
         this.member = memeber;
         this.postComent = postComment;
     }
+
 }

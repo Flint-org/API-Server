@@ -1,12 +1,15 @@
-package com.flint.flint.member.domain.idCard;
+package com.flint.flint.member.domain.idcard;
 
 import com.flint.flint.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
 
+/**
+ * @Author 정순원
+ * @Since 2023-08-07
+ */
 @Entity
 @Getter
 @NoArgsConstructor
@@ -30,4 +33,5 @@ public class IdCardBox {
         this.club = club;
         this.member = member;
     }
+
 }

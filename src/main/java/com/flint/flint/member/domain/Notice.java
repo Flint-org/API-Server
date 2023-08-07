@@ -1,11 +1,16 @@
 package com.flint.flint.member.domain;
 
-import com.flint.flint.member.domain.enums.NoticeType;
+import com.flint.flint.member.domain.spec.NoticeType;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 알림수신여부확인
+ * @Author 정순원
+ * @Since 2023-08-07
+ */
 @Entity
 @Getter
 @NoArgsConstructor
@@ -29,4 +34,5 @@ public class Notice {
         this.member = member;
         this.noticeType = noticeType;
     }
+
 }
