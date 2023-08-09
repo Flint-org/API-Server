@@ -1,6 +1,7 @@
 package com.flint.flint.club.domain.main;
 
 import com.flint.flint.club.domain.specification.ClubMeetingType;
+import com.flint.flint.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -33,11 +34,8 @@ public class Club {
     private LocalDate meetingStartDate;
     @Column(name = "club_end_date")
     private LocalDate meetingEndDate;
-    @Column(name = "club_meeting_type")
+    @Column(name = "club_meeting_type") @Enumerated(EnumType.STRING)
     private ClubMeetingType type;
-
-    // 유저
-
 
     @Builder
     public Club(String name, String description, String rule, int viewCount, LocalDate meetingStartDate, LocalDate meetingEndDate, ClubMeetingType type) {

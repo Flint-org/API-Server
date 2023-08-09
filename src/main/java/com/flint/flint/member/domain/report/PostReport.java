@@ -1,5 +1,6 @@
 package com.flint.flint.member.domain.report;
 
+import com.flint.flint.community.domain.Post;
 import com.flint.flint.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;

@@ -26,18 +26,18 @@ import java.util.UUID;
 public class ClubRequirement {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "club_Requirement_id")
     private Long id;
-    @Column(name = "join_authorize_type")
+    @Column(name = "join_authorize_type") @Enumerated(EnumType.STRING)
     private ClubJoinRequirement joinType;
     @Column(name = "club_grade_limit")
     private String grade;
     @Column(name = "club_member_limit")
     private int memberLimitCount;
-    @Column(name = "club_gender_type")
+    @Column(name = "club_gender_type") @Enumerated(EnumType.STRING)
     private ClubGenderRequirement genderType;
     @Column(name = "club_etc_limit")
     private String etc;
 
-    @OneToOne @Column(name = "club_id")
+    @OneToOne @PrimaryKeyJoinColumn(name = "club_id")
     private Club club;
 
     @Builder

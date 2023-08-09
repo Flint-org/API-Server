@@ -1,5 +1,6 @@
 package com.flint.flint.club.domain.comment;
 
+import com.flint.flint.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +20,12 @@ import java.util.UUID;
 public class ClubCommentLike {
     @Id @GeneratedValue(strategy = GenerationType.UUID) @Column(name = "club_comment_like_id")
     private UUID id;
-    @ManyToOne(fetch = FetchType.LAZY) @Column(name = "club_comment_id")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "club_comment_id")
     private ClubComment comment;
 
     // 유저
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "member_id")
+    private Member member;
 
     @Builder
     public ClubCommentLike(ClubComment comment) {

@@ -25,7 +25,7 @@ public class ClubEnvironment {
     @Column(name = "club_date_of_week")
     private LocalDate day;
 
-    @OneToOne @Column(name = "club_id")
+    @OneToOne @PrimaryKeyJoinColumn(name = "club_id")
     private Club club;
 
     @Builder

@@ -24,10 +24,10 @@ public class ClubCategory {
     private String upperCategory;
     @Column(name = "club_lower_category")
     private String lowerCategory;
-    @Column(name = "club_frequency_type")
+    @Column(name = "club_frequency_type") @Enumerated(EnumType.STRING)
     private ClubFrequency frequencyType;
 
-    @OneToOne @Column(name = "club_id")
+    @OneToOne @PrimaryKeyJoinColumn(name = "club_id")
     private Club club;
 
     @Builder

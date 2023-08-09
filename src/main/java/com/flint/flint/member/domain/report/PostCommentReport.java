@@ -1,6 +1,7 @@
 package com.flint.flint.member.domain.report;
 
 import com.flint.flint.member.domain.Member;
+import com.flint.flint.community.domain.PostComment;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,12 +27,12 @@ public class PostCommentReport {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_comment_id")
-    private PostComent postComent;
+    private PostComment postComment;
 
     @Builder
     public PostCommentReport(Member memeber, PostComment postComment) {
         this.member = memeber;
-        this.postComent = postComment;
+        this.postComment = postComment;
     }
 
 }
