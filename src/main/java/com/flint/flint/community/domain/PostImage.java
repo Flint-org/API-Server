@@ -6,6 +6,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 게시글 이미지 엔티티
+ * @author 신승건
+ * @since 2023-08-04
+ */
 @Entity
 @Getter
 @NoArgsConstructor
