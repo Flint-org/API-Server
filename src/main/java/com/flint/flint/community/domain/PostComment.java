@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 게시글 댓글 엔티티
+ * @author 신승건
+ * @since 2023-08-04
+ */
 @Entity
 @Getter
 @NoArgsConstructor
