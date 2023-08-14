@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        JAVA_HOME = tool name: 'JDK 17', type: 'jdk'
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -10,7 +15,10 @@ pipeline {
 
         stage('Project Build') {
             steps {
-                // Docker Image Build
+                // Java 17 설치
+                tool name: 'JDK 17', type: 'jdk'
+
+                // 프로젝트 빌드
                 sh 'chmod +x gradlew'
                 sh './gradlew build'
             }
