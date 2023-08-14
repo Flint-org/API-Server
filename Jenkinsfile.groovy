@@ -11,6 +11,7 @@ pipeline {
         stage('Project Build') {
             steps {
                 // Docker Image Build
+                sh 'chmod +x gradlew'
                 sh './gradlew build'
             }
         }
@@ -24,7 +25,6 @@ pipeline {
                 }
                 sh 'docker tag flint-back-docker:CD rlgus2738/flint-back-docker:CD'
                 sh 'docker push rlgus2738/flint-back-docker:CD'
-            }
             }
         }
     }
