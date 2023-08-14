@@ -25,7 +25,6 @@ pipeline {
                 sh 'docker tag flint-back-docker:CD rlgus2738/flint-back-docker:CD'
                 sh 'docker push rlgus2738/flint-back-docker:CD'
             }
-            }
         }
     }
     post {
