@@ -16,7 +16,6 @@ pipeline {
         stage('Project Build') {
             steps {
                 // Java 17 설치
-                sh 'source /etc/profile'
                 tool name: 'JDK 17', type: 'jdk'
 
                 // 프로젝트 빌드
