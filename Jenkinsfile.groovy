@@ -39,7 +39,7 @@ pipeline {
         stage('Deploy on Server') {
             steps {
                 // 배포할 스크립트 파일 실행
-                sh 'chmod +x deploy_script.sh'
+                sh 'sudo chmod +x deploy_script.sh'
                 sh './deploy_script.sh'
             }
         }
