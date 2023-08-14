@@ -1,0 +1,4 @@
+jwt:
+  secretKey: ${ACCESS_TOKEN_SECRET}
+  accessTokenExpiration: 86400000
+  refreshTokenExpiration: 604800000
