@@ -1,4 +1,4 @@
-pipeline (
+pipeline {
     agent any
 
     stages {
@@ -18,10 +18,10 @@ pipeline (
         }
 
         stage('Run') {
-            steps{
+            steps {
                 // Docker 컨테이너 실행
                 script {
-                    def dockerImage = docker.image(flint-back-dockerfile:latest)
+                    def dockerImage = docker.image(flint - back - dockerfile: latest)
 
                     dockerImage.run('p 8080:80 -d')
                 }
@@ -36,4 +36,4 @@ pipeline (
             dockerImage.remove(force: true)
         }
     }
-)
+}
