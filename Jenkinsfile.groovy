@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        JAVA_HOME = tool name: 'JDK 17', type: 'jdk'
+        JAVA_HOME = tool name: 'openjdk:17', type: 'jdk'
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
 
