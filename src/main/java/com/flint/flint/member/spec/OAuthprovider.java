@@ -1,4 +1,4 @@
-package com.flint.flint.member.domain.spec;
+package com.flint.flint.member.spec;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,11 +9,10 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum Gender {
+public enum OAuthprovider {
 
-    FEMALE("여자"),
-    MALE("남자");
+    KAKAO("카카오"),
+    NAVER("네이버");
 
-    private String title;
-
+    private String name;
 }

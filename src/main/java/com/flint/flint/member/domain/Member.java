@@ -1,8 +1,8 @@
 package com.flint.flint.member.domain;
 
-import com.flint.flint.member.domain.spec.Authority;
-import com.flint.flint.member.domain.spec.Gender;
-import com.flint.flint.member.domain.spec.OAuthprovider;
+import com.flint.flint.member.spec.Authority;
+import com.flint.flint.member.spec.Gender;
+import com.flint.flint.member.spec.OAuthprovider;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
@@ -15,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 /**
- * 첫 생성시 별점 0점과 유저권한으로 초기화
+ * 첫 생성시 별점 0점과 인증하지 않은 유저권한으로 초기화
  * @Author 정순원
  * @Since 2023-08-07
  */
@@ -45,13 +45,13 @@ public class Member {
 
     @Max(5)
     @Min(0)
-    @Column(name = "evaluation", columnDefinition = "FLOAT(10,2) CONSTRAINT chk_evaluation CHECK (evaluation BETWEEN 0 AND 5)")
+    @Column(name = "evaluation")
     private Float evaluation = (float) 0;
 
     //유저, 관리자
     @Enumerated(EnumType.STRING)
-    private Authority authority = Authority.USER;
-    ;
+    private Authority authority = Authority.ANAUTHUSER;
+
 
     @Enumerated(EnumType.STRING)
     @Column(name = "OAuthProvider")

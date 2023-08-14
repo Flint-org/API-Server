@@ -1,4 +1,4 @@
-package com.flint.flint.member.domain.spec;
+package com.flint.flint.member.spec;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,10 @@ import lombok.Getter;
 @Getter
 public enum Authority {
 
-    USER("ROLE_USER"),
+    AUTHUSER("ROLE_AUTHUSER"),
+    ANAUTHUSER("ROLE_ANAUTHUSER"),
     ADMIN("ROLE_ADMIN");
+
 
     private final String role;
 }

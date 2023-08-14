@@ -1,6 +1,6 @@
 package com.flint.flint.member.domain;
 
-import com.flint.flint.member.domain.spec.NoticeType;
+import com.flint.flint.member.spec.NoticeType;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
