@@ -1,13 +1,10 @@
 package com.flint.flint.club.domain.main;
 
-import com.flint.flint.club.domain.specification.ClubFrequency;
+import com.flint.flint.club.domain.spec.ClubFrequency;
 import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
 
 /**
  * Club Category Class : Online or Offline

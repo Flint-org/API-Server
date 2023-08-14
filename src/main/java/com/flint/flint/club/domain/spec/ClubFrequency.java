@@ -1,4 +1,4 @@
-package com.flint.flint.club.domain.specification;
+package com.flint.flint.club.domain.spec;
 
 import lombok.Getter;
 

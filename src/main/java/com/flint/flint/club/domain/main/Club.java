@@ -1,10 +1,9 @@
 package com.flint.flint.club.domain.main;
 
-import com.flint.flint.club.domain.specification.ClubMeetingType;
-import com.flint.flint.member.domain.Member;
+import com.flint.flint.club.domain.spec.ClubMeetingType;
+import com.flint.flint.club.request.ClubCreateRequest;
 import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -47,4 +46,5 @@ public class Club {
         this.meetingEndDate = meetingEndDate;
         this.type = type;
     }
+
 }

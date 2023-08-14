@@ -1,14 +1,11 @@
 package com.flint.flint.club.domain.main;
 
-import com.flint.flint.club.domain.specification.ClubGenderRequirement;
-import com.flint.flint.club.domain.specification.ClubJoinRequirement;
+import com.flint.flint.club.domain.spec.ClubGenderRequirement;
+import com.flint.flint.club.domain.spec.ClubJoinRequirement;
 import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
 
 /**
  * Club Join Requirement Class
