@@ -35,6 +35,13 @@ pipeline {
                 sh 'docker push rlgus2738/flint-back-docker:CD'
             }
         }
+
+        stage('Deploy on Server') {
+            steps {
+                // 배포할 스크립트 파일 실행
+                sh './deploy_script.sh'
+            }
+        }
     }
     post {
         always {
