@@ -8,32 +8,29 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Project Build') {
             steps {
                 // Docker Image Build
-                script {
-                    docker.build('flint-back-dockerfile:latest', '.')
-                }
+                sh './gradlew build'
             }
         }
 
-        stage('Run') {
+        stage('Docker Build & Run') {
             steps {
-                // Docker 컨테이너 실행
-                script {
-                    def dockerImage = docker.image(flint - back - dockerfile: latest)
-
-                    dockerImage.run('p 8080:80 -d')
+                // Docker Image Build
+                sh 'docker build -t flint-back-docker:CD'
+                withCredentials([usernamePassword(credentialsId: 'back', passwordVariable: 'flint', usernameVariable: 'rlgus2738')]) {
+                    sh 'docker login -u rlgus2738 -p tktktkfkd5!'
                 }
+                sh 'docker tag flint-back-docker:CD rlgus2738/flint-back-docker:CD'
+                sh 'docker push rlgus2738/flint-back-docker:CD'
+            }
             }
         }
     }
     post {
         always {
-            def dockerImage = docker.image('flint-back-dockerfile:latest')
-
-            dockerImage.stop()
-            dockerImage.remove(force: true)
+            sh 'docker logout'
         }
     }
 }
