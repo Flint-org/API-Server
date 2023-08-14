@@ -27,7 +27,7 @@ pipeline {
         stage('Docker Build & Run') {
             steps {
                 // Docker Image Build
-                sh 'docker build -t flint-back-docker:CD'
+                sh 'docker build -t flint-back-docker:CD .'
                 withCredentials([usernamePassword(credentialsId: 'back', passwordVariable: 'flint', usernameVariable: 'rlgus2738')]) {
                     sh 'docker login -u rlgus2738 -p tktktkfkd5!'
                 }
