@@ -52,4 +52,8 @@ public class ClubRequirement {
         this.etc = etc;
         this.club = club;
     }
+
+    public void setClub(Club club) {
+        this.club = club;
+    }
 }
