@@ -2,6 +2,7 @@ package com.flint.flint.club.domain.main;
 
 import com.flint.flint.club.domain.spec.ClubMeetingType;
 import com.flint.flint.club.request.ClubCreateRequest;
+import com.flint.flint.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Club {
+public class Club extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "club_id")
     private Long id;
     @Column(name = "club_name")

@@ -1,14 +1,16 @@
 package com.flint.flint.club.controller.main;
 
+import com.flint.flint.club.domain.main.Club;
+import com.flint.flint.club.domain.spec.ClubCategoryType;
 import com.flint.flint.club.request.ClubCreateRequest;
+import com.flint.flint.club.request.PageRequest;
+import com.flint.flint.club.response.ClubDetailGetResponse;
+import com.flint.flint.club.response.ClubsGetResponse;
 import com.flint.flint.club.service.comment.ClubCommentServiceImpl;
 import com.flint.flint.club.service.main.ClubServiceImpl;
-import com.flint.flint.common.handler.GlobalExceptionHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 모임을 위한 컨트롤러 클래스
@@ -23,6 +25,18 @@ public class ClubController {
 
     @PostMapping(path = "/api/club")
     public void createClub(@RequestBody ClubCreateRequest clubCreateRequest) {
-        clubService.createService(clubCreateRequest);
+        clubService.createClub(clubCreateRequest);
+    }
+
+    @GetMapping(path = "/api/club")
+    public Page<Club> getClubs(@RequestParam ClubCategoryType clubCategoryType,
+                               @RequestParam String sortProperties,
+                               @RequestParam String direction) {
+        return clubService.getClubs(clubCategoryType, sortProperties, direction);
+    }
+
+    @GetMapping(path = "/api/club/{clubId}")
+    public ClubDetailGetResponse getClubDetail(@PathVariable("clubId") Long clubId) {
+        return clubService.getClubDetail(clubId);
     }
 }
