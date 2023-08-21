@@ -15,10 +15,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.flint.flint.club.domain.main.QClub.club;
 import static com.flint.flint.club.domain.main.QClubCategory.clubCategory;
 import static com.flint.flint.club.domain.main.QMemberInClub.memberInClub;
+import static com.querydsl.core.types.dsl.Wildcard.count;
 
 @Slf4j
 public class ClubCustomRepositoryImpl implements ClubCustomRepository {
@@ -32,27 +34,34 @@ public class ClubCustomRepositoryImpl implements ClubCustomRepository {
     public Page<Club> getClubsByPaging(ClubCategoryType clubCategoryType, Pageable pageable) {
         List<Club> results = getClubsByCategory(clubCategoryType, pageable);
 
-        Long count = jpaQueryFactory
-                .select(club.count())
-                .from(club, clubCategory)
-                .leftJoin(club).on(clubCategory.club.eq(club))
+        List<Tuple> fetch = jpaQueryFactory.select(club, clubCategory)
+                .from(club)
+                .innerJoin(clubCategory).on(club.id.eq(clubCategory.id))
                 .where(clubCategory.categoryType.eq(clubCategoryType))
-                .fetchOne();
+                .fetch();
 
-        return new PageImpl<>(results, pageable, count);
+        List<Club> collect = fetch.stream().map(tuple -> tuple.get(club))
+                .toList();
+
+
+        return new PageImpl<>(results, pageable, collect.size());
     }
 
     // 카테고리에 맞는 Club 전체 조회
-    public List<Club> getClubsByCategory(ClubCategoryType clubCategoryType, Pageable pageable) {
+    private List<Club> getClubsByCategory(ClubCategoryType clubCategoryType, Pageable pageable) {
 
-        return jpaQueryFactory.select(club)
-                .from(club, clubCategory)
-                .leftJoin(club).on(clubCategory.club.eq(club))
+        List<Tuple> fetch = jpaQueryFactory.select(club, clubCategory)
+                .from(club)
+                .innerJoin(clubCategory).on(club.id.eq(clubCategory.id))
                 .where(clubCategory.categoryType.eq(clubCategoryType))
-                .orderBy(clubsSort(pageable))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(clubsSort(pageable))
                 .fetch();
+
+        return fetch.stream()
+                .map(tuple -> tuple.get(club))
+                .toList();
     }
 
     private OrderSpecifier<?> clubsSort(Pageable pageable) {
