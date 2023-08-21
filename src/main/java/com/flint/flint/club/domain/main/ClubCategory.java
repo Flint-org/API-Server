@@ -1,5 +1,6 @@
 package com.flint.flint.club.domain.main;
 
+import com.flint.flint.club.domain.spec.ClubCategoryType;
 import com.flint.flint.club.domain.spec.ClubFrequency;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -17,10 +18,8 @@ import lombok.NoArgsConstructor;
 public class ClubCategory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "club_category_id")
     private Long id;
-    @Column(name = "club_upper_category")
-    private String upperCategory;
-    @Column(name = "club_lower_category")
-    private String lowerCategory;
+    @Column(name = "club_category")
+    private ClubCategoryType categoryType;
     @Column(name = "club_frequency_type") @Enumerated(EnumType.STRING)
     private ClubFrequency frequencyType;
 
@@ -28,10 +27,15 @@ public class ClubCategory {
     private Club club;
 
     @Builder
-    public ClubCategory(String upperCategory, String lowerCategory, ClubFrequency frequencyType, Club club) {
-        this.upperCategory = upperCategory;
-        this.lowerCategory = lowerCategory;
+    public ClubCategory(ClubCategoryType clubCategoryType,
+                        ClubFrequency frequencyType,
+                        Club club) {
+        this.categoryType = clubCategoryType;
         this.frequencyType = frequencyType;
+        this.club = club;
+    }
+
+    public void setClub(Club club) {
         this.club = club;
     }
 }
