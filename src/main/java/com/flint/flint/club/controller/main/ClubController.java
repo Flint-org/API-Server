@@ -3,6 +3,7 @@ package com.flint.flint.club.controller.main;
 import com.flint.flint.club.request.ClubCreateRequest;
 import com.flint.flint.club.service.comment.ClubCommentServiceImpl;
 import com.flint.flint.club.service.main.ClubServiceImpl;
+import com.flint.flint.common.handler.GlobalExceptionHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,12 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("club")
 public class ClubController {
     private final ClubServiceImpl clubService;
     private final ClubCommentServiceImpl clubCommentService;
 
-    @PostMapping(path = "")
+    @PostMapping(path = "/api/club")
     public void createClub(@RequestBody ClubCreateRequest clubCreateRequest) {
         clubService.createService(clubCreateRequest);
     }
