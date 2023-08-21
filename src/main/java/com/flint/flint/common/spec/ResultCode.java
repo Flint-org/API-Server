@@ -16,7 +16,7 @@ public enum ResultCode {
     OK("F000", "요청 정상 처리"),
 
     // 서버 내부 에러 (5xx 에러)
-    INTERNAL_SERVER_ERROR("F100", "서버 에러 발생");
+    INTERNAL_SERVER_ERROR("F100", "서버 에러 발생"),
 
     // F2xx: 인증, 권한에 대한 예외
 
@@ -25,6 +25,7 @@ public enum ResultCode {
     // F4xx: 커뮤니티, 게시글 예외
 
     // F5xx: 모임 예외
+    CLUB_NOT_FOUND_ERROR("F500", "모임을 찾을 수 없습니다.");
 
     private final String code;
     private final String message;
