@@ -10,5 +10,5 @@ import java.util.UUID;
  * @author 김기현
  * @since 2023-08-03
  */
-public interface ClubRepository extends JpaRepository<Club, UUID> {
+public interface ClubRepository extends JpaRepository<Club, Long> {
 }
