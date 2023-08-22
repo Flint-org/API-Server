@@ -7,17 +7,15 @@ import com.flint.flint.club.repository.main.*;
 import com.flint.flint.club.request.ClubCreateRequest;
 import com.flint.flint.club.request.PageRequest;
 import com.flint.flint.club.response.ClubDetailGetResponse;
-import com.flint.flint.club.response.ClubsGetResponse;
 import com.flint.flint.common.exception.FlintCustomException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import static com.flint.flint.common.spec.ResultCode.CLUB_NOT_FOUND_ERROR;
+import static com.flint.flint.common.spec.ResultCode.*;
 
 @RequiredArgsConstructor
 @Service
@@ -74,9 +72,38 @@ public class ClubServiceImpl {
         return clubRepository.getClubsByPaging(clubCategoryType, pageable);
     }
 
-    public ClubDetailGetResponse getClubDetail(Long clubId) {
+    public ClubDetailGetResponse getClubDetail(Long clubId, ClubCategoryType clubCategoryType) {
+        // 유효성 검사 : 조회한 club이 해당 카테고리에 맞지 않는 경우
+        Club getClub = clubRepository.findById(clubId).orElseThrow(
+                () -> new FlintCustomException(HttpStatus.BAD_REQUEST, CLUB_NOT_MATCH_CATEGORY_ERROR)
+        );
+        ClubEnvironment getClubEnvironment = clubEnvironmentRepository.findByClub(getClub).orElseThrow(
+                () -> new FlintCustomException(HttpStatus.NOT_FOUND, CLUB_ENVIRONMENT_NOT_FOUND_ERROR)
+        );
+        ClubCategory getClubCategory = clubCategoryRepository.findByClub(getClub).orElseThrow(
+                () -> new FlintCustomException(HttpStatus.NOT_FOUND, CLUB_CATEGORY_NOT_FOUND_ERROR)
+        );
+        ClubRequirement getClubRequirement = clubRequirementRepository.findByClub(getClub).orElseThrow(
+                () -> new FlintCustomException(HttpStatus.NOT_FOUND, CLUB_REQUIREMENT_NOT_FOUND_ERROR)
+        );
 
-        return null;
+        // Club Entity To Dto
+        return ClubDetailGetResponse.builder()
+                .categoryType(getClubCategory.getCategoryType())
+                .frequencyType(getClubCategory.getFrequencyType())
+                .name(getClub.getName())
+                .description(getClub.getDescription())
+                .rule(getClub.getRule())
+                .meetingStartDate(getClub.getMeetingStartDate())
+                .meetingEndDate(getClub.getMeetingEndDate())
+                .meetingType(getClub.getMeetingType())
+                .location(getClubEnvironment.getLocation())
+                .day(getClubEnvironment.getDay())
+                .joinType(getClubRequirement.getJoinType())
+                .grade(getClubRequirement.getGrade())
+                .memberLimitCount(getClubRequirement.getMemberLimitCount())
+                .genderType(getClubRequirement.getGenderType())
+                .build();
     }
 
 }

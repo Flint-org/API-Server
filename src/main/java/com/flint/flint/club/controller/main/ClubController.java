@@ -36,7 +36,8 @@ public class ClubController {
     }
 
     @GetMapping(path = "/api/club/{clubId}")
-    public ClubDetailGetResponse getClubDetail(@PathVariable("clubId") Long clubId) {
-        return clubService.getClubDetail(clubId);
+    public ClubDetailGetResponse getClubDetail(@PathVariable("clubId") Long clubId,
+                                               @RequestParam ClubCategoryType clubCategoryType) {
+        return clubService.getClubDetail(clubId, clubCategoryType);
     }
 }
