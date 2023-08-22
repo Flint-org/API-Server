@@ -11,6 +11,7 @@ import com.flint.flint.club.repository.main.ClubRepository;
 import com.flint.flint.club.repository.main.ClubRequirementRepository;
 import com.flint.flint.club.request.ClubCreateRequest;
 import com.flint.flint.club.request.PageRequest;
+import com.flint.flint.club.response.ClubDetailGetResponse;
 import com.flint.flint.club.service.main.ClubServiceImpl;
 import com.querydsl.core.types.OrderSpecifier;
 import jakarta.transaction.Transactional;
@@ -122,7 +123,6 @@ public class ClubServiceTest {
                     .genderType(ClubGenderRequirement.NONE)
                     .build();
 
-            // when
             clubService.createClub(request);
         }
 
@@ -146,4 +146,35 @@ public class ClubServiceTest {
         assertEquals(2, clubs.getTotalPages());
     }
 
+    @Test
+    @DisplayName("모임 단건 조회")
+    void test3() throws RuntimeException {
+        // given
+        Long id = 0L;
+        for(int i = 1; i <= 10; i++) {
+            ClubCreateRequest request = ClubCreateRequest.builder()
+                    .categoryType(ClubCategoryType.RUNNING)
+                    .frequencyType(ClubFrequency.REGULAR)
+                    .name("러닝 모임 모집 " + i)
+                    .description("러닝 모임을 모집합니다 많은 참여 부탁드립니다")
+                    .rule("규칙은 다음과 같습니다")
+                    .meetingStartDate(LocalDate.parse("2023-09-09"))
+                    .meetingEndDate(LocalDate.parse("2023-10-10"))
+                    .meetingType(ClubMeetingType.OFFLINE)
+                    .location("성남시")
+                    .day(LocalDate.parse("2023-09-25").getDayOfWeek())
+                    .joinType(ClubJoinRequirement.AUTH_JOIN)
+                    .grade("3.8")
+                    .memberLimitCount(5)
+                    .genderType(ClubGenderRequirement.NONE)
+                    .build();
+
+            clubService.createClub(request);
+        }
+        // when
+        ClubDetailGetResponse response = clubService.getClubDetail(clubRepository.findAll().get(0).getId(), ClubCategoryType.EXERCISE);
+
+        // then
+        assertEquals("러닝 모임 모집 1", response.getName());
+    }
 }
