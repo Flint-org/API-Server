@@ -15,6 +15,5 @@ public enum Authority {
     ANAUTHUSER("ROLE_ANAUTHUSER"),
     ADMIN("ROLE_ADMIN");
 
-
     private final String role;
 }

@@ -5,14 +5,15 @@ import lombok.Getter;
 
 /**
  * @Author 정순원
- * @Since 2023-08-07
+ * @Since 2023-08-23
  */
 @Getter
 @AllArgsConstructor
-public enum OAuthprovider {
+public enum Agree {
 
-    KAKAO("카카오"),
-    NAVER("네이버");
+    Y("동의"),
+    N("거부");
 
-    private String name;
+    private String status;
+
 }

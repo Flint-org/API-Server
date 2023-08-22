@@ -1,4 +1,4 @@
-package com.flint.flint.jwt;
+package com.flint.flint.security.auth.jwt;
 
 
 import com.flint.flint.member.repository.MemberRepository;

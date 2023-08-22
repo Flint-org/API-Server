@@ -1,4 +1,13 @@
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: back123
+
+
+
 jwt:
-  secretKey: ${ACCESS_TOKEN_SECRET}
+  secretkey: ${TOKEN_SECRET}
   accessTokenExpiration: 86400000
   refreshTokenExpiration: 604800000
