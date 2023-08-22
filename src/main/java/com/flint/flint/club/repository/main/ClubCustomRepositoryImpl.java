@@ -31,6 +31,7 @@ public class ClubCustomRepositoryImpl implements ClubCustomRepository {
     }
 
     @Override
+    // todo: club Entity 를 DTO로 번경하여 보내기
     public Page<Club> getClubsByPaging(ClubCategoryType clubCategoryType, Pageable pageable) {
         List<Club> results = getClubsByCategory(clubCategoryType, pageable);
 
