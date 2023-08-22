@@ -1,8 +1,8 @@
 package com.flint.flint.member.domain;
 
+import com.flint.flint.common.BaseTimeEntity;
 import com.flint.flint.member.spec.Authority;
 import com.flint.flint.member.spec.Gender;
-import com.flint.flint.member.spec.OAuthprovider;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
@@ -15,14 +15,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 /**
- * 첫 생성시 별점 0점과 인증하지 않은 유저권한으로 초기화
+ * 첫 생성시 별점 0점으로 초기화
  * @Author 정순원
  * @Since 2023-08-07
  */
 @Entity
 @Getter
 @NoArgsConstructor
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,6 @@ public class Member {
 
     @Email
     @NotNull
-    @Column(unique = true)
     private String email;
 
     @Column(length = 50)
@@ -40,7 +39,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "YYYY")
     private LocalDate birthday;
 
     @Max(5)
@@ -52,22 +51,27 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Authority authority = Authority.ANAUTHUSER;
 
+    @NotNull
+    private String providerName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "OAuthProvider")
-    private OAuthprovider oauthProvider;
+    @NotNull
+    private String providerId;
 
     @Builder
     public Member(String email,
                   String name,
                   Gender gender,
                   LocalDate birthday,
-                  OAuthprovider oauthProvider) {
+                  Authority authority,
+                  String providerName,
+                  String providerId) {
         this.email = email;
         this.name = name;
         this.gender = gender;
         this.birthday = birthday;
-        this.oauthProvider = oauthProvider;
+        this.authority = authority;
+        this.providerName = providerName;
+        this.providerId = providerId;
     }
 
 }
