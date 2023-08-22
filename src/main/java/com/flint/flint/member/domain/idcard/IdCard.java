@@ -1,5 +1,6 @@
 package com.flint.flint.member.domain.idcard;
 
+import com.flint.flint.common.BaseTimeEntity;
 import com.flint.flint.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class IdCard {
+public class IdCard extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

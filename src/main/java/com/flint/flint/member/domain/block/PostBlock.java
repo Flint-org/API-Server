@@ -1,5 +1,6 @@
 package com.flint.flint.member.domain.block;
 
+import com.flint.flint.common.BaseTimeEntity;
 import com.flint.flint.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class PostBlock {
+public class PostBlock extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
