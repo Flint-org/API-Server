@@ -1,4 +1,4 @@
-package com.flint.flint.community.domain;
+package com.flint.flint.community.domain.post;
 
 import com.flint.flint.common.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -7,28 +7,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 게시글 좋아요 엔티티
+ * 게시글 이미지 엔티티
  * @author 신승건
  * @since 2023-08-04
  */
 @Entity
 @Getter
 @NoArgsConstructor
-public class PostLike extends BaseTimeEntity {
+public class PostImage extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "POST_LIKE")
+    @Column(name = "POST_IMAGE_ID")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "POST_ID")
+    @JoinColumn(name = "POST_ID", nullable = false)
     private Post post;
 
-    // 유저
+    @Column(length = 100, nullable = false)
+    private String imgUrl;
 
     @Builder
-    public PostLike(Post post) {
+    public PostImage(Post post, String imgUrl) {
         this.post = post;
+        this.imgUrl = imgUrl;
     }
 }

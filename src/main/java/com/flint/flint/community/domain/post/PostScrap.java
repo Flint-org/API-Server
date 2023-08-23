@@ -1,6 +1,7 @@
-package com.flint.flint.community.domain;
+package com.flint.flint.community.domain.post;
 
 import com.flint.flint.common.BaseTimeEntity;
+import com.flint.flint.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,10 +26,13 @@ public class PostScrap extends BaseTimeEntity {
     @JoinColumn(name = "POST_ID")
     private Post post;
 
-    // 유저
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Builder
-    public PostScrap(Post post) {
+    public PostScrap(Post post, Member member) {
         this.post = post;
+        this.member = member;
     }
 }
