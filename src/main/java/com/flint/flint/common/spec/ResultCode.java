@@ -16,13 +16,14 @@ public enum ResultCode {
     OK("F000", "요청 정상 처리"),
 
     // 서버 내부 에러 (5xx 에러)
-    INTERNAL_SERVER_ERROR("F100", "서버 에러 발생");
+    INTERNAL_SERVER_ERROR("F100", "서버 에러 발생"),
 
     // F2xx: 인증, 권한에 대한 예외
 
     // F3xx: 유저 예외
 
     // F4xx: 커뮤니티, 게시글 예외
+    MAJOR_BOARD_NOT_FOUND("F400", "존재하지 않는 전공 게시판입니다.");
 
     // F5xx: 모임 예외
 
