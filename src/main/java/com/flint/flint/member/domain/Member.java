@@ -45,7 +45,7 @@ public class Member {
 
     @Max(5)
     @Min(0)
-    @Column(name = "evaluation", columnDefinition = "FLOAT(10,2) CONSTRAINT chk_evaluation CHECK (evaluation BETWEEN 0 AND 5)")
+//    @Column(name = "evaluation", columnDefinition = "FLOAT(10,2) CONSTRAINT chk_evaluation CHECK (evaluation BETWEEN 0 AND 5)")
     private Float evaluation = (float) 0;
 
     //유저, 관리자

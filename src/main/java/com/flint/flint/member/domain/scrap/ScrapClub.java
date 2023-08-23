@@ -1,5 +1,6 @@
 package com.flint.flint.member.domain.scrap;
 
+import com.flint.flint.club.domain.main.Club;
 import com.flint.flint.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;

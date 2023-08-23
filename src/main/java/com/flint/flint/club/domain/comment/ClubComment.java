@@ -27,10 +27,10 @@ public class ClubComment {
     private Club club;
 
     // comment 순환 참조
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "club_comment_id")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "comment_parent_id")
     private ClubComment commentParent;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "commentParent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClubComment> commentChildren;
 
     // 유저

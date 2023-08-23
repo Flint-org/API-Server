@@ -1,5 +1,6 @@
 package com.flint.flint.member.domain.report;
 
+import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -29,8 +30,8 @@ public class PostReport {
     private Post post;
 
     @Builder
-    public PostReport(Member memeber, Post post) {
-        this.member = memeber;
+    public PostReport(Member member, Post post) {
+        this.member = member;
         this.post = post;
     }
 
