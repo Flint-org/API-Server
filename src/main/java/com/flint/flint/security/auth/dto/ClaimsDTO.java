@@ -1,6 +1,6 @@
 package com.flint.flint.security.auth.dto;
 
-import com.flint.flint.member.domain.Member;
+import com.flint.flint.member.domain.main.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

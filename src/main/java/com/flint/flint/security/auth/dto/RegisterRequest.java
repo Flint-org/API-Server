@@ -1,9 +1,5 @@
 package com.flint.flint.security.auth.dto;
 
-import com.flint.flint.member.spec.Agree;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 
