@@ -2,6 +2,7 @@ package com.flint.flint.member.domain;
 
 import com.flint.flint.common.BaseTimeEntity;
 import com.flint.flint.member.spec.Agree;
+import com.flint.flint.security.auth.dto.RegisterRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -41,15 +42,11 @@ public class Policy extends BaseTimeEntity {
 
 
     @Builder
-    public Policy (Member member,
-                  Agree serviceUsingAgree,
-                  Agree personalInformationAgree,
-                  Agree marketingAgree
-                  ) {
+    public Policy  (Member member, RegisterRequest registerRequest) {
         this.member = member;
-        this.serviceUsingAgree = serviceUsingAgree;
-        this.personalInformationAgree = personalInformationAgree;
-        this.marketingAgree = marketingAgree;
+        this.serviceUsingAgree = Agree.valueOf(registerRequest.getServiceUsingAgree());
+        this.personalInformationAgree = Agree.valueOf(registerRequest.getPersonalInformationAgree());
+        this.marketingAgree = Agree.valueOf(registerRequest.getMarketingAgree());
     }
 
 }
