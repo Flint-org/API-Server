@@ -6,7 +6,6 @@ import com.flint.flint.security.auth.dto.RegisterRequest;
 import com.flint.flint.security.oauth.dto.OAuth2AccessToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -22,15 +21,15 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseForm<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken OAuth2AccessToken){
-        AuthenticationResponse authenticationResponse = authenticationService.register(registerRequest, OAuth2AccessToken);
+    public ResponseForm<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken oAuth2AccessToken){
+        AuthenticationResponse authenticationResponse = authenticationService.register(registerRequest, oAuth2AccessToken);
         return new ResponseForm<>(authenticationResponse);
 
     }
 
     @GetMapping("/login/{providerName}")
-    public ResponseForm<AuthenticationResponse> login(@PathVariable String providerName, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken OAuth2AccessToken) {
-        AuthenticationResponse authenticationResponse = authenticationService.login(providerName, OAuth2AccessToken);
+    public ResponseForm<AuthenticationResponse> login(@PathVariable String providerName, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken oAuth2AccessToken) {
+        AuthenticationResponse authenticationResponse = authenticationService.login(providerName, oAuth2AccessToken);
         return new ResponseForm<>(authenticationResponse);
     }
 

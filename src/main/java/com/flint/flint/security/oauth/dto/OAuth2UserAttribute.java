@@ -1,6 +1,7 @@
 package com.flint.flint.security.oauth.dto;
 
-import com.flint.flint.member.domain.Member;
+import com.flint.flint.member.domain.main.Member;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
@@ -11,13 +12,10 @@ import java.util.Map;
  * @Since 2023-08-19
  */
 @NoArgsConstructor
+@Data
 public abstract class OAuth2UserAttribute {
 
     private  Map<String, Object> attributes;
-
-    public OAuth2UserAttribute(Map<String, Object> attributes) {
-        this.attributes = new HashMap<>(attributes);
-    }
 
     public Map<String, Object> getAttributes() {
         return attributes;

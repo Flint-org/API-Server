@@ -1,5 +1,6 @@
 package com.flint.flint.security.oauth.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
@@ -10,6 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @Data
+@AllArgsConstructor
 public class OAuth2AccessToken {
 
     private String accessToken;

@@ -2,11 +2,10 @@ package com.flint.flint.security.auth;
 
 
 import com.flint.flint.security.auth.jwt.JwtService;
-import com.flint.flint.member.domain.Member;
-import com.flint.flint.member.domain.Policy;
+import com.flint.flint.member.domain.main.Member;
+import com.flint.flint.member.domain.main.Policy;
 import com.flint.flint.member.repository.MemberRepository;
 import com.flint.flint.member.repository.PolicyRepository;
-import com.flint.flint.member.spec.Agree;
 import com.flint.flint.redis.RedisUtil;
 import com.flint.flint.security.auth.dto.AuthenticationResponse;
 import com.flint.flint.security.auth.dto.ClaimsDTO;

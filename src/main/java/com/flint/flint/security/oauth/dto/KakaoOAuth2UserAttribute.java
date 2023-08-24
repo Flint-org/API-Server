@@ -1,8 +1,10 @@
 package com.flint.flint.security.oauth.dto;
 
-import com.flint.flint.member.domain.Member;
-import com.flint.flint.member.spec.Gender;
+import com.flint.flint.member.domain.main.Member;
+import com.flint.flint.member.domain.spec.Gender;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.minidev.json.JSONObject;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDate;
@@ -14,20 +16,15 @@ import java.util.Map;
  * @Since 2023-08-19
  */
 @NoArgsConstructor
+@Data
 public class KakaoOAuth2UserAttribute extends OAuth2UserAttribute {
 
     private static final String KAKAO_PROVIDER_ID = "kakao";
-    private static final String KAKAO_ACCOUNT_KEY = "kakao_account";
-    private static final String KAKAO_PROFILE_KEY = "profile";
 
+    private String id;
     private Map<String, Object> kakaoAccount;
-    private Map<String, Object> profile;
 
-    public KakaoOAuth2UserAttribute(Map<String, Object> attributes) {
-        super(attributes);
-        this.kakaoAccount = (Map<String, Object>) attributes.get(KAKAO_ACCOUNT_KEY);
-        this.profile = (Map<String, Object>) kakaoAccount.get(KAKAO_PROFILE_KEY);
-    }
+
     @Override
     public Member toEntity() {
         return Member.builder()
@@ -40,10 +37,9 @@ public class KakaoOAuth2UserAttribute extends OAuth2UserAttribute {
                 .build();
     }
 
+    //TODO
     @Override
-    public String getProviderId() {
-        return kakaoAccount.get("id").toString();
-    }
+    public String getProviderId() { return this.id;}
 
     @Override
     public String getEmail() {
@@ -69,14 +65,14 @@ public class KakaoOAuth2UserAttribute extends OAuth2UserAttribute {
     public void UserAttributesByOAuthToken(OAuth2AccessToken oauth2AccessToken) {
 
 
-        KakaoOAuth2UserAttribute attribute = WebClient.create()
+        JSONObject response = WebClient.create()
                 .get()
                 .uri("https://kapi.kakao.com/v2/user/me")
                 .headers(httpHeaders -> httpHeaders.setBearerAuth(oauth2AccessToken.getAccessToken()))
                 .retrieve()
-                .bodyToMono(KakaoOAuth2UserAttribute.class)
+                .bodyToMono(JSONObject.class)
                 .block();
-        this.kakaoAccount = attribute.kakaoAccount;
-        this.profile = attribute.profile;
+        this.id = response.get("id").toString();
+        this.kakaoAccount = (Map<String, Object>)response.get("kakao_account");
     }
 }
