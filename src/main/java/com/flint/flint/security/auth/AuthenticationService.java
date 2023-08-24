@@ -13,6 +13,7 @@ import com.flint.flint.security.auth.dto.RegisterRequest;
 import com.flint.flint.security.oauth.dto.OAuth2UserAttribute;
 import com.flint.flint.security.oauth.dto.OAuth2AccessToken;
 import com.flint.flint.security.oauth.dto.OAuth2UserAttributeFactory;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,7 @@ public class AuthenticationService {
      * 회원가입
      * member 저장, 수신동의 저장, 엑세스,리프레쉬토큰 생성, redis에 리프레쉬 토큰 저장
      */
+    @Transactional
     public AuthenticationResponse register(RegisterRequest registerRequest, OAuth2AccessToken oAuth2AccessToken) {
         //카카오인지 네이버인지 선택
         OAuth2UserAttribute oAuth2UserAttribute = OAuth2UserAttributeFactory.of(registerRequest.getProviderName());
@@ -66,6 +68,7 @@ public class AuthenticationService {
      * 로그인
      * 엑세스,리프레쉬토큰 생성, redis에 리프레쉬 토큰 저장
      */
+    @Transactional
     public AuthenticationResponse login(String providerName, OAuth2AccessToken oAuth2AccessToken) {
         OAuth2UserAttribute oAuth2UserAttribute = OAuth2UserAttributeFactory.of(providerName);
         oAuth2UserAttribute.UserAttributesByOAuthToken(oAuth2AccessToken);
@@ -85,6 +88,7 @@ public class AuthenticationService {
     /**
      * 리프레쉬 토큰 재발급
      */
+    @Transactional
     public AuthenticationResponse newTokenByRefreshToken(String refreshToken) {
         String providerId = jwtService.parseProviderId(refreshToken);
         Member member = memberRepository.findByEmail(providerId).orElseThrow();
