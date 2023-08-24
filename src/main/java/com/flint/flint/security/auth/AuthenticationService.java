@@ -33,31 +33,30 @@ public class AuthenticationService {
 
 
     /**
+     * 회원가입
      * member 저장, 수신동의 저장, 엑세스,리프레쉬토큰 생성, redis에 리프레쉬 토큰 저장
      */
     public AuthenticationResponse register(RegisterRequest registerRequest, OAuth2AccessToken oAuth2AccessToken) {
-        String providerName = registerRequest.getProviderName();
-        String serviceUsingAgree = registerRequest.getServiceUsingAgree();
-        String personalInformationAgree = registerRequest.getPersonalInformationAgree();
-        String marketingAgree = registerRequest.getMarketingAgree();
         //카카오인지 네이버인지 선택
-        OAuth2UserAttribute oAuth2UserAttribute = OAuth2UserAttributeFactory.of(providerName);
+        OAuth2UserAttribute oAuth2UserAttribute = OAuth2UserAttributeFactory.of(registerRequest.getProviderName());
         //정보 추출
         oAuth2UserAttribute.UserAttributesByOAuthToken(oAuth2AccessToken);
         Member member = oAuth2UserAttribute.toEntity();
-        Policy policy = Policy.builder()
-                .member(member)
-                .personalInformationAgree(Agree.valueOf(personalInformationAgree))
-                .serviceUsingAgree(Agree.valueOf(serviceUsingAgree))
-                .marketingAgree(Agree.valueOf(marketingAgree))
-                .build();
+        Policy policy = Policy.builder().
+                member(member).
+                registerRequest(registerRequest).
+                build();
         memberRepository.save(member);
         policyRepository.save(policy);
+        //토큰에 넣을 Claim들을 전달할 DTO 생성
         ClaimsDTO claimsDTO = ClaimsDTO.from(member);
+        //토큰 생성
         String accessToken = jwtService.generateAccessToken(claimsDTO);
         String refreshToken = jwtService.generateRefreshToken(claimsDTO);
         String providerId = jwtService.parseProviderId(refreshToken);
+        //redis에 리프레쉬 토큰 저장
         redisUtil.save(refreshToken, providerId);
+
         return AuthenticationResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -65,7 +64,8 @@ public class AuthenticationService {
     }
 
     /**
-     엑세스,리프레쉬토큰 생성, redis에 리프레쉬 토큰 저장
+     * 로그인
+     * 엑세스,리프레쉬토큰 생성, redis에 리프레쉬 토큰 저장
      */
     public AuthenticationResponse login(String providerName, OAuth2AccessToken oAuth2AccessToken) {
         OAuth2UserAttribute oAuth2UserAttribute = OAuth2UserAttributeFactory.of(providerName);
@@ -99,7 +99,6 @@ public class AuthenticationService {
                     .refreshToken(newRefreshToken)
                     .build();
         }
-
         return null;
     }
 }
