@@ -22,16 +22,16 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseForm<AuthenticationResponse>> register(@RequestBody RegisterRequest registerRequest, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken OAuth2AccessToken){
+    public ResponseForm<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken OAuth2AccessToken){
         AuthenticationResponse authenticationResponse = authenticationService.register(registerRequest, OAuth2AccessToken);
-        return ResponseEntity.ok().body(new ResponseForm<AuthenticationResponse>(authenticationResponse));
+        return new ResponseForm<>(authenticationResponse);
 
     }
 
     @GetMapping("/login/{providerName}")
-    public ResponseEntity<ResponseForm<AuthenticationResponse>> login(@PathVariable String providerName, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken OAuth2AccessToken) {
+    public ResponseForm<AuthenticationResponse> login(@PathVariable String providerName, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken OAuth2AccessToken) {
         AuthenticationResponse authenticationResponse = authenticationService.login(providerName, OAuth2AccessToken);
-        return ResponseEntity.ok().body(new ResponseForm<AuthenticationResponse>(authenticationResponse));
+        return new ResponseForm<>(authenticationResponse);
     }
 
 //TODO
@@ -43,8 +43,8 @@ public class AuthenticationController {
 //    }
 
     @PostMapping("/renew")
-    public ResponseEntity<ResponseForm<AuthenticationResponse>> newTokenByRefreshToken (@RequestHeader(HttpHeaders.AUTHORIZATION) String refreshToken) {
+    public ResponseForm<AuthenticationResponse> newTokenByRefreshToken (@RequestHeader(HttpHeaders.AUTHORIZATION) String refreshToken) {
         AuthenticationResponse authenticationResponse = authenticationService.newTokenByRefreshToken(refreshToken);
-        return ResponseEntity.ok().body(new ResponseForm<AuthenticationResponse>(authenticationResponse));
+        return new ResponseForm<>(authenticationResponse);
     }
 }
