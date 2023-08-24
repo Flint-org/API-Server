@@ -1,8 +1,8 @@
-package com.flint.flint.member.domain;
+package com.flint.flint.member.domain.main;
 
 import com.flint.flint.common.BaseTimeEntity;
-import com.flint.flint.member.spec.Authority;
-import com.flint.flint.member.spec.Gender;
+import com.flint.flint.member.domain.spec.Authority;
+import com.flint.flint.member.domain.spec.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;

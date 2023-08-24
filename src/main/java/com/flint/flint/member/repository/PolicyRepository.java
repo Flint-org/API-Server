@@ -1,6 +1,6 @@
 package com.flint.flint.member.repository;
 
-import com.flint.flint.member.domain.Policy;
+import com.flint.flint.member.domain.main.Policy;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

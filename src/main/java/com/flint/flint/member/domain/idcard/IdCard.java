@@ -1,7 +1,7 @@
 package com.flint.flint.member.domain.idcard;
 
 import com.flint.flint.common.BaseTimeEntity;
-import com.flint.flint.member.domain.Member;
+import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

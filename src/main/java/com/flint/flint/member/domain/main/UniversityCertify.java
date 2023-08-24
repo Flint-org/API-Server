@@ -1,4 +1,4 @@
-package com.flint.flint.member.domain;
+package com.flint.flint.member.domain.main;
 
 import com.flint.flint.common.BaseTimeEntity;
 import jakarta.persistence.*;
