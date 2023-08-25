@@ -49,19 +49,7 @@ public class AuthenticationService {
                 build();
         memberRepository.save(member);
         policyRepository.save(policy);
-        //토큰에 넣을 Claim들을 전달할 DTO 생성
-        ClaimsDTO claimsDTO = ClaimsDTO.from(member);
-        //토큰 생성
-        String accessToken = jwtService.generateAccessToken(claimsDTO);
-        String refreshToken = jwtService.generateRefreshToken(claimsDTO);
-        String providerId = jwtService.parseProviderId(refreshToken);
-        //redis에 리프레쉬 토큰 저장
-        redisUtil.save(refreshToken, providerId);
-
-        return AuthenticationResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        return generateToken(member);
     }
 
     /**
@@ -74,15 +62,7 @@ public class AuthenticationService {
         oAuth2UserAttribute.UserAttributesByOAuthToken(oAuth2AccessToken);
         String providerId = oAuth2UserAttribute.getProviderId();
         Member member = memberRepository.findByProviderId(providerId).orElseThrow();
-        ClaimsDTO claimsDTO = ClaimsDTO.from(member);
-        String accessToken = jwtService.generateAccessToken(claimsDTO);
-        String refreshToken = jwtService.generateRefreshToken(claimsDTO);
-        redisUtil.save(refreshToken, providerId);
-
-        return AuthenticationResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        return generateToken(member);
     }
 
     /**
@@ -93,15 +73,25 @@ public class AuthenticationService {
         String providerId = jwtService.parseProviderId(refreshToken);
         Member member = memberRepository.findByEmail(providerId).orElseThrow();
         if (jwtService.isTokenValid(refreshToken)) {
-            ClaimsDTO claimsDTO = ClaimsDTO.from(member);
-            String newAccessToken = jwtService.generateAccessToken(claimsDTO);
-            String newRefreshToken = jwtService.generateRefreshToken(claimsDTO);
-            redisUtil.save(newRefreshToken, providerId);
-            return AuthenticationResponse.builder()
-                    .accessToken(newAccessToken)
-                    .refreshToken(newRefreshToken)
-                    .build();
+            return generateToken(member);
         }
         return null;
     }
+
+    /**
+     * 엑세스 토큰 리프레쉬 토큰 생성, 레디쉬에 리프레쉬 토큰 저장
+     */
+    private AuthenticationResponse generateToken(Member member) {
+        ClaimsDTO claimsDTO = ClaimsDTO.from(member);
+        String providerId = claimsDTO.getProviderId();
+        String accessToken = jwtService.generateAccessToken(claimsDTO);
+        String refreshToken = jwtService.generateRefreshToken(claimsDTO);
+        redisUtil.save(refreshToken, providerId);
+
+            return AuthenticationResponse.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build();
+        }
+
 }
