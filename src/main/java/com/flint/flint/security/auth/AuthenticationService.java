@@ -53,7 +53,8 @@ public class AuthenticationService {
     }
 
     /**
-     * 로그인
+     * 유저 리프레쉬 토큰의 만료기간까지 다 지났을 때 로그인
+     * (리프레쉬 토큰이 살아있을 때 로그인은 newTokenByRefreshToken()를 호출한다)
      * 엑세스,리프레쉬토큰 생성, redis에 리프레쉬 토큰 저장
      */
     @Transactional

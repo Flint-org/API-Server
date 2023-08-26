@@ -21,13 +21,13 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseForm<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken oAuth2AccessToken){
+    public ResponseForm<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken oAuth2AccessToken, Res){
         AuthenticationResponse authenticationResponse = authenticationService.register(registerRequest, oAuth2AccessToken);
         return new ResponseForm<>(authenticationResponse);
 
     }
 
-    @GetMapping("/login/{providerName}")
+    @PostMapping("/login/{providerName}")
     public ResponseForm<AuthenticationResponse> login(@PathVariable String providerName, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken oAuth2AccessToken) {
         AuthenticationResponse authenticationResponse = authenticationService.login(providerName, oAuth2AccessToken);
         return new ResponseForm<>(authenticationResponse);
