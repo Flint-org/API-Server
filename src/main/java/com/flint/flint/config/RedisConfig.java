@@ -1,4 +1,4 @@
-package com.flint.flint.redis;
+package com.flint.flint.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
