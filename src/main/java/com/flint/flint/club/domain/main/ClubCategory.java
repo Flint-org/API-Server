@@ -27,7 +27,7 @@ public class ClubCategory {
     @Column(name = "club_frequency_type")
     private ClubFrequency frequencyType;
 
-    @OneToOne @Column(name = "club_id")
+    @OneToOne @JoinColumn(name = "club_id")
     private Club club;
 
     @Builder

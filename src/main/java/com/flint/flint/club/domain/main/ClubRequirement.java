@@ -37,7 +37,7 @@ public class ClubRequirement {
     @Column(name = "club_etc_limit")
     private String etc;
 
-    @OneToOne @Column(name = "club_id")
+    @OneToOne  @JoinColumn(name = "club_id")
     private Club club;
 
     @Builder

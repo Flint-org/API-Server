@@ -18,9 +18,9 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 public class ClubLike {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "club_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "club_lke_id")
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "club_id")
     private Club club;
 
     // 유저

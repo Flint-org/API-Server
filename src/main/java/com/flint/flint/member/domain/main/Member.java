@@ -15,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 /**
- * 첫 생성시 별점 0점으로 초기화
+ * 첫 생성시 별점 0점, 인증 안한 유저로 초기화
  * @Author 정순원
  * @Since 2023-08-07
  */
@@ -74,4 +74,8 @@ public class Member extends BaseTimeEntity {
         this.providerId = providerId;
     }
 
+    public Member updateAuthority(Authority authority) {
+        this.authority = authority;
+        return this;
+    }
 }

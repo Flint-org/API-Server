@@ -118,9 +118,9 @@ public class JwtService {
     public Authentication getAuthentication(String accessToken) {
 
         Claims claims = parseAllClaims(accessToken);
-        String email = claims.getSubject();
-        Long id = (Long) (claims.get("id"));
-        String providerId = claims.get("providerId").toString();
+        String providerId = claims.getSubject();
+        Long id = Long.parseLong((claims.get("id")).toString());
+        String email = claims.get("email").toString();
         String authority =  claims.get("authority").toString();
         AuthorityMemberDTO authorityMemberDTO = AuthorityMemberDTO.builder()
                 .id(id)
