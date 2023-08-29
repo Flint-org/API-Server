@@ -1,7 +1,8 @@
 package com.flint.flint.member.domain.scrap;
 
 import com.flint.flint.club.domain.main.Club;
-import com.flint.flint.member.domain.Member;
+import com.flint.flint.common.BaseTimeEntity;
+import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class ScrapClub {
+public class ScrapClub extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
