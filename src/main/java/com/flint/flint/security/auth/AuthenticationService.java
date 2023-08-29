@@ -82,7 +82,7 @@ public class AuthenticationService {
     /**
      * 엑세스 토큰 리프레쉬 토큰 생성, 레디쉬에 리프레쉬 토큰 저장
      */
-    private AuthenticationResponse generateToken(Member member) {
+    public AuthenticationResponse generateToken(Member member) {
         ClaimsDTO claimsDTO = ClaimsDTO.from(member);
         String providerId = claimsDTO.getProviderId();
         String accessToken = jwtService.generateAccessToken(claimsDTO);

@@ -30,6 +30,8 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
 
                 .authorizeRequests(authorizeRequests -> authorizeRequests.requestMatchers("/api/v1/auth").permitAll())
+                .authorizeRequests(authorizeRequests -> authorizeRequests.requestMatchers("/mail").permitAll())
+
 
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint)) ;
 

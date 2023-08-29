@@ -16,11 +16,12 @@ public enum ResultCode {
     OK("F000", "요청 정상 처리"),
 
     // 서버 내부 에러 (5xx 에러)
-    INTERNAL_SERVER_ERROR("F100", "서버 에러 발생");
+    INTERNAL_SERVER_ERROR("F100", "서버 에러 발생"),
 
     // F2xx: 인증, 권한에 대한 예외
 
     // F3xx: 유저 예외
+    USER_NOT_FOUND("F300", "존재하지 않는 유저입니다.");
 
     // F4xx: 커뮤니티, 게시글 예외
 
