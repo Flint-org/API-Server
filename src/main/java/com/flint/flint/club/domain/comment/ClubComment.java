@@ -1,6 +1,7 @@
 package com.flint.flint.club.domain.comment;
 
 import com.flint.flint.club.domain.main.Club;
+import com.flint.flint.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -27,13 +28,15 @@ public class ClubComment {
     private Club club;
 
     // comment 순환 참조
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "club_comment_id")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "club_comment_parent_id")
     private ClubComment commentParent;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "commentParent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClubComment> commentChildren;
 
     // 유저
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "member_id")
+    private Member member;
 
     @Builder
     public ClubComment(String contents, Club club) {

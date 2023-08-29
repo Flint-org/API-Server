@@ -22,7 +22,7 @@ public class ClubImage {
     @Column(name = "club_image_url")
     private String imgUrl;
 
-    @OneToOne @Column(name = "club_id")
+    @OneToOne @PrimaryKeyJoinColumn(name = "club_id")
     private Club club;
 
     @Builder
