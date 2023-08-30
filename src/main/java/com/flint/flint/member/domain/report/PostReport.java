@@ -1,7 +1,8 @@
 package com.flint.flint.member.domain.report;
 
 import com.flint.flint.community.domain.post.Post;
-import com.flint.flint.member.domain.Member;
+import com.flint.flint.common.BaseTimeEntity;
+import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class PostReport {
+public class PostReport extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

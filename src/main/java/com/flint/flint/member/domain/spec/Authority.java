@@ -11,7 +11,8 @@ import lombok.Getter;
 @Getter
 public enum Authority {
 
-    USER("ROLE_USER"),
+    AUTHUSER("ROLE_AUTHUSER"),
+    ANAUTHUSER("ROLE_ANAUTHUSER"),
     ADMIN("ROLE_ADMIN");
 
     private final String role;

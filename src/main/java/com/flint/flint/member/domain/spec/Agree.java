@@ -5,15 +5,15 @@ import lombok.Getter;
 
 /**
  * @Author 정순원
- * @Since 2023-08-07
+ * @Since 2023-08-23
  */
 @Getter
 @AllArgsConstructor
-public enum NoticeType {
+public enum Agree {
 
-    YES("이메일수신허용"),
-    NO("이메일수신거부");
+    Y("동의"),
+    N("거부");
 
-    private String description;
+    private String status;
 
 }

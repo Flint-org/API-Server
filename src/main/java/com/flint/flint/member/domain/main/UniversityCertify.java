@@ -1,5 +1,6 @@
-package com.flint.flint.member.domain;
+package com.flint.flint.member.domain.main;
 
+import com.flint.flint.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class UniversityCertify {
+public class UniversityCertify extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

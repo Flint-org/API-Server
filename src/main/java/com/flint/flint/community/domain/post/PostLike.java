@@ -1,7 +1,11 @@
 package com.flint.flint.community.domain.post;
 
 import com.flint.flint.common.BaseTimeEntity;
+<<<<<<< HEAD:src/main/java/com/flint/flint/community/domain/post/PostLike.java
 import com.flint.flint.member.domain.Member;
+=======
+import com.flint.flint.community.domain.Post;
+>>>>>>> develop:src/main/java/com/flint/flint/community/domain/PostLike.java
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
