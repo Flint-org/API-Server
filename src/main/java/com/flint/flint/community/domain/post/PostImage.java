@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 게시글 이미지 엔티티
+ *
  * @author 신승건
  * @since 2023-08-04
  */

@@ -1,5 +1,6 @@
 package com.flint.flint.club.domain.main;
 
+import com.flint.flint.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
-public class ClubEnvironment {
+public class ClubEnvironment extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "club_environment_id")
