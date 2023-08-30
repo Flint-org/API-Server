@@ -1,6 +1,7 @@
 package com.flint.flint.community.domain;
 
 import com.flint.flint.common.BaseTimeEntity;
+import com.flint.flint.community.domain.Post;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

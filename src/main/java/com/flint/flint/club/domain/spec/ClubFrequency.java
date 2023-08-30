@@ -1,10 +1,13 @@
-package com.flint.flint.club.domain.specification;
+package com.flint.flint.club.domain.spec;
+
+import lombok.Getter;
 
 /**
  * Club Frequency Type Enum Class : Once,
  * @author 김기현
  * @since 2023-08-05
  */
+@Getter
 public enum ClubFrequency {
     REGULAR("Regular"),
     ONCE("Once");

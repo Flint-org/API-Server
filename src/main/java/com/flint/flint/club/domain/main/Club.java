@@ -1,9 +1,10 @@
 package com.flint.flint.club.domain.main;
 
-import com.flint.flint.club.domain.specification.ClubMeetingType;
+import com.flint.flint.club.domain.spec.ClubMeetingType;
+import com.flint.flint.club.request.ClubCreateRequest;
+import com.flint.flint.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,9 +19,9 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Club {
-    @Id @GeneratedValue(strategy = GenerationType.UUID) @Column(name = "club_id")
-    private UUID id;
+public class Club extends BaseTimeEntity {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "club_id")
+    private Long id;
     @Column(name = "club_name")
     private String name;
     @Column(name = "club_description")
@@ -33,20 +34,24 @@ public class Club {
     private LocalDate meetingStartDate;
     @Column(name = "club_end_date")
     private LocalDate meetingEndDate;
-    @Column(name = "club_meeting_type")
-    private ClubMeetingType type;
-
-    // 유저
-
+    @Column(name = "club_meeting_type") @Enumerated(EnumType.STRING)
+    private ClubMeetingType meetingType;
 
     @Builder
-    public Club(String name, String description, String rule, int viewCount, LocalDate meetingStartDate, LocalDate meetingEndDate, ClubMeetingType type) {
+    public Club(String name,
+                String description,
+                String rule,
+                int viewCount,
+                LocalDate meetingStartDate,
+                LocalDate meetingEndDate,
+                ClubMeetingType meetingType) {
         this.name = name;
         this.description = description;
         this.rule = rule;
         this.viewCount = viewCount;
         this.meetingStartDate = meetingStartDate;
         this.meetingEndDate = meetingEndDate;
-        this.type = type;
+        this.meetingType = meetingType;
     }
+
 }

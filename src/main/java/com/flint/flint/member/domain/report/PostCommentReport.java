@@ -28,12 +28,12 @@ public class PostCommentReport extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_comment_id")
-    private PostComment postComent;
+    private PostComment postComment;
 
     @Builder
     public PostCommentReport(Member memeber, PostComment postComment) {
         this.member = memeber;
-        this.postComent = postComment;
+        this.postComment = postComment;
     }
 
 }

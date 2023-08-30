@@ -1,5 +1,6 @@
 package com.flint.flint.club.domain.comment;
 
+import com.flint.flint.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,8 @@ public class ClubCommentLike {
     private ClubComment comment;
 
     // 유저
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "member_id")
+    private Member member;
 
     @Builder
     public ClubCommentLike(ClubComment comment) {
