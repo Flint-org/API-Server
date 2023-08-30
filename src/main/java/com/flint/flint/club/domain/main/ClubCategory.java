@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * Club Category Class : Online or Offline
+ *
  * @author 김기현
  * @since 2023-08-05
  */
@@ -16,14 +17,18 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ClubCategory {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "club_category_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "club_category_id")
     private Long id;
     @Column(name = "club_category")
     private ClubCategoryType categoryType;
-    @Column(name = "club_frequency_type") @Enumerated(EnumType.STRING)
+    @Column(name = "club_frequency_type")
+    @Enumerated(EnumType.STRING)
     private ClubFrequency frequencyType;
 
-    @OneToOne @PrimaryKeyJoinColumn(name = "club_id")
+    @OneToOne
+    @JoinColumn(name = "club_id")
     private Club club;
 
     @Builder

@@ -22,6 +22,7 @@ public class ClubCommentLike {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "club_comment_like_id")
     private UUID id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_comment_id")
     private ClubComment comment;

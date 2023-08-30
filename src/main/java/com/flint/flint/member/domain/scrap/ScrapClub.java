@@ -31,8 +31,8 @@ public class ScrapClub extends BaseTimeEntity {
     private Club club;
 
     @Builder
-    public ScrapClub(Member memeber, Club club) {
-        this.member = memeber;
+    public ScrapClub(Member member, Club club) {
+        this.member = member;
         this.club = club;
     }
 

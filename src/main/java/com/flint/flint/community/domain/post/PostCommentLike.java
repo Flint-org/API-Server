@@ -1,6 +1,7 @@
-package com.flint.flint.community.domain;
+package com.flint.flint.community.domain.post;
 
 import com.flint.flint.common.BaseTimeEntity;
+import com.flint.flint.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,10 +26,13 @@ public class PostCommentLike extends BaseTimeEntity {
     @JoinColumn(name = "POST_COMMENT_ID")
     private PostComment postComment;
 
-    // 유저
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Builder
-    public PostCommentLike(PostComment postComment) {
+    public PostCommentLike(PostComment postComment, Member member) {
         this.postComment = postComment;
+        this.member = member;
     }
 }

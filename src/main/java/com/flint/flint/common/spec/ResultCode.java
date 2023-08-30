@@ -23,6 +23,7 @@ public enum ResultCode {
     // F3xx: 유저 예외
 
     // F4xx: 커뮤니티, 게시글 예외
+    MAJOR_BOARD_NOT_FOUND("F400", "존재하지 않는 전공 게시판입니다.");
 
     // F5xx: 모임 예외
     CLUB_NOT_FOUND_ERROR("F500", "모임을 찾을 수 없습니다."),
