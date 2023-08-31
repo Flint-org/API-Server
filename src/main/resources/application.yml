@@ -15,6 +15,7 @@ jwt:
 email:
   id: jsw5913@gmail.com
   password: ${EMAIL_PASSWORD}
+  expiration: 300000
 
 
 

@@ -13,7 +13,6 @@ import static com.flint.flint.common.spec.ResultCode.*;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;

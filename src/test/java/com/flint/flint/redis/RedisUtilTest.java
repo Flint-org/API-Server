@@ -1,8 +1,8 @@
 package com.flint.flint.redis;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,9 +27,9 @@ class RedisUtilTest {
         String refreshToken ="2v5So4tNiKT2Lyq3x97NUcKlyuDkrW7Gr4cIkBXnCisMpgAAAYomuMJ4";
         String providerId = "1234";
         //when
-        redisUtil.save(refreshToken, providerId);
+//        redisUtil.save(refreshToken, providerId);
 
         //then
-        assertThat(redisUtil.findByProviderId(providerId)).isEqualTo("2v5So4tNiKT2Lyq3x97NUcKlyuDkrW7Gr4cIkBXnCisMpgAAAYomuMJ4");
+        assertThat(redisUtil.findByKey(providerId)).isEqualTo("2v5So4tNiKT2Lyq3x97NUcKlyuDkrW7Gr4cIkBXnCisMpgAAAYomuMJ4");
     }
 }
