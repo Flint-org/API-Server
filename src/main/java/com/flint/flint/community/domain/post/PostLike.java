@@ -1,11 +1,7 @@
 package com.flint.flint.community.domain.post;
 
 import com.flint.flint.common.BaseTimeEntity;
-<<<<<<< HEAD:src/main/java/com/flint/flint/community/domain/post/PostLike.java
-import com.flint.flint.member.domain.Member;
-=======
-import com.flint.flint.community.domain.Post;
->>>>>>> develop:src/main/java/com/flint/flint/community/domain/PostLike.java
+import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 게시글 좋아요 엔티티
+ *
  * @author 신승건
  * @since 2023-08-04
  */
