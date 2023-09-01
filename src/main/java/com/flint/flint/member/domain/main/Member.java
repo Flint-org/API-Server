@@ -12,10 +12,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 
 /**
  * 첫 생성시 별점 0점으로 초기화
+ *
  * @Author 정순원
  * @Since 2023-08-07
  */
@@ -44,11 +46,6 @@ public class Member extends BaseTimeEntity {
 
     @Max(5)
     @Min(0)
-<<<<<<< HEAD:src/main/java/com/flint/flint/member/domain/Member.java
-//    @Column(name = "evaluation", columnDefinition = "FLOAT(10,2) CONSTRAINT chk_evaluation CHECK (evaluation BETWEEN 0 AND 5)")
-=======
-    @Column(name = "evaluation")
->>>>>>> develop:src/main/java/com/flint/flint/member/domain/main/Member.java
     private Float evaluation = (float) 0;
 
     //유저, 관리자

@@ -1,5 +1,6 @@
 package com.flint.flint.club.domain.comment;
 
+import com.flint.flint.common.BaseTimeEntity;
 import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
-public class ClubCommentLike {
+public class ClubCommentLike extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "club_comment_like_id")

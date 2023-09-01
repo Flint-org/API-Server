@@ -2,6 +2,7 @@ package com.flint.flint.club.domain.main;
 
 import com.flint.flint.club.domain.spec.ClubGenderRequirement;
 import com.flint.flint.club.domain.spec.ClubJoinRequirement;
+import com.flint.flint.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class ClubRequirement {
+public class ClubRequirement extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "club_Requirement_id")

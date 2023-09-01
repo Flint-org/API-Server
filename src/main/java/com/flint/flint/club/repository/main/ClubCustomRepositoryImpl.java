@@ -80,7 +80,7 @@ public class ClubCustomRepositoryImpl implements ClubCustomRepository {
         switch (property) {
             case "최신순":
                 log.info("최신 순으로 정렬");
-                return new OrderSpecifier(direction, club.createdDate);
+                return new OrderSpecifier(direction, club.createdAt);
             case "인기순":
                 log.info("인기 순으로 정렬");
                 return new OrderSpecifier(direction, memberInClub.club.count());

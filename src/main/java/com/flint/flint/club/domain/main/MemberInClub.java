@@ -1,6 +1,7 @@
 package com.flint.flint.club.domain.main;
 
 import com.flint.flint.club.domain.spec.MemberJoinStatus;
+import com.flint.flint.common.BaseTimeEntity;
 import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class MemberInClub {
+public class MemberInClub extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
