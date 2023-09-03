@@ -35,25 +35,26 @@ public class RedisUtil {
     }
 
     //이메일 APICall 관련 redis 명령어
-    public void saveAPICall(Long key, Integer apicall, Long expiration) {
+    public void saveAPICall(Long key, String apicall, Long expiration) {
         redisTemplate.opsForValue().set("APICall"+String.valueOf(key), apicall, expiration, TimeUnit.MILLISECONDS);
     }
-    public void updateAPICall(Long key, Integer apicall) {
+    public void updateAPICall(Long key, String apicall) {
         redisTemplate.opsForValue().set("APICall"+String.valueOf(key), apicall);
     }
-    public Integer findAPICallByKey(Long key) {
-        return (Integer) redisTemplate.opsForValue().get("APICall"+String.valueOf(key));
+    public Object findAPICallByKey(Long key) {
+        return redisTemplate.opsForValue().get("APICall"+String.valueOf(key));
     }
 
+
     //이메일 emailAuthNumber 관련 redis 명령어
-    public void saveAuthNumber(Long key, int emailAuthNumber, Long expiration) {
+    public void saveAuthNumber(Long key, String emailAuthNumber, Long expiration) {
         redisTemplate.opsForValue().set("AuthNumber"+String.valueOf(key), emailAuthNumber, expiration, TimeUnit.MILLISECONDS);
     }
-    public void updateAuthNumber(Long key, int emailAuthNumber) {
+    public void updateAuthNumber(Long key, String emailAuthNumber) {
         redisTemplate.opsForValue().set("AuthNumber"+String.valueOf(key), emailAuthNumber);
     }
-    public int findEmailAuthNumberByKey(Long key) {
-        return (Integer)redisTemplate.opsForValue().get("AuthNumber"+String.valueOf(key));
+    public Object findEmailAuthNumberByKey(Long key) {
+        return redisTemplate.opsForValue().get("AuthNumber"+String.valueOf(key));
     }
 
 

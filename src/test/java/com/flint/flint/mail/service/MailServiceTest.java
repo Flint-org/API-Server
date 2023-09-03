@@ -1,7 +1,6 @@
-package com.flint.flint.member.service;
+package com.flint.flint.mail.service;
 
 import com.flint.flint.config.MailConfig;
-import com.flint.flint.mail.service.MailService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

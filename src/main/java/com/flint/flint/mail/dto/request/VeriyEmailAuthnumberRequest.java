@@ -2,6 +2,7 @@ package com.flint.flint.mail.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Author 정순원
@@ -9,7 +10,8 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class VeriyEmailAuthnumberRequest {
 
-    private int AuthNumber;
+    private int authNumber;
 }

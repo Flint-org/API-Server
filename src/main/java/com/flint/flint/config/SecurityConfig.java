@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
@@ -29,9 +30,9 @@ public class SecurityConfig {
                 .formLogin(formLogin -> formLogin.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
 
-                .authorizeRequests(authorizeRequests -> authorizeRequests.requestMatchers("/api/v1/auth").permitAll())
-                .authorizeRequests(authorizeRequests -> authorizeRequests.requestMatchers("/mail").permitAll())
-
+                .authorizeRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers( new AntPathRequestMatcher("/api/v1/auth")
+                                , new AntPathRequestMatcher("/api/v1/mail")).permitAll())
 
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint)) ;
 
