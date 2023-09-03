@@ -1,35 +1,39 @@
-package com.flint.flint.community.domain;
+package com.flint.flint.community.domain.post;
 
 import com.flint.flint.common.BaseTimeEntity;
-import com.flint.flint.community.domain.Post;
+import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 게시글 좋아요 엔티티
+ * 게시글 스크랩 엔티티
+ *
  * @author 신승건
  * @since 2023-08-04
  */
 @Entity
 @Getter
 @NoArgsConstructor
-public class PostLike extends BaseTimeEntity {
+public class PostScrap extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "POST_LIKE")
+    @Column(name = "POST_SCRAP_ID")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POST_ID")
     private Post post;
 
-    // 유저
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Builder
-    public PostLike(Post post) {
+    public PostScrap(Post post, Member member) {
         this.post = post;
+        this.member = member;
     }
 }

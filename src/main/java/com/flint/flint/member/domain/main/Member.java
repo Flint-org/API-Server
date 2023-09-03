@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 
 /**
@@ -44,7 +45,6 @@ public class Member extends BaseTimeEntity {
 
     @Max(5)
     @Min(0)
-    @Column(name = "evaluation")
     private Float evaluation = (float) 0;
 
     //유저, 관리자

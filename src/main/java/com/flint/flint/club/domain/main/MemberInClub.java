@@ -1,7 +1,7 @@
 package com.flint.flint.club.domain.main;
 
 import com.flint.flint.club.domain.spec.MemberJoinStatus;
-import com.flint.flint.member.domain.main.Member;
+import com.flint.flint.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

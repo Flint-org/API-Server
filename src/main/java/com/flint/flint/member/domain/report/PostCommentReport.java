@@ -1,7 +1,7 @@
 package com.flint.flint.member.domain.report;
 
+import com.flint.flint.community.domain.post.PostComment;
 import com.flint.flint.common.BaseTimeEntity;
-import com.flint.flint.community.domain.PostComment;
 import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -31,9 +31,8 @@ public class PostCommentReport extends BaseTimeEntity {
     private PostComment postComment;
 
     @Builder
-    public PostCommentReport(Member memeber, PostComment postComment) {
-        this.member = memeber;
+    public PostCommentReport(Member member, PostComment postComment) {
+        this.member = member;
         this.postComment = postComment;
     }
-
 }

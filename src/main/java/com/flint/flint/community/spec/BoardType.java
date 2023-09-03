@@ -5,7 +5,7 @@ package com.flint.flint.community.spec;
  * @author 신승건
  * @since 2023-08-04
  */
-public enum BoardCategoryType {
-    NORMAL,
+public enum BoardType {
+    GENERAL,
     MAJOR
 }
