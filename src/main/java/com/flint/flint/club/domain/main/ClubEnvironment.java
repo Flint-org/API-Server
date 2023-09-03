@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -23,15 +24,20 @@ public class ClubEnvironment {
     @Column(name = "club_location")
     private String location;
     @Column(name = "club_date_of_week")
-    private LocalDate day;
+    private DayOfWeek day;
 
-    @OneToOne @JoinColumn(name = "club_id")
+
+    @OneToOne @PrimaryKeyJoinColumn(name = "club_id")
     private Club club;
 
     @Builder
-    public ClubEnvironment(String location, LocalDate day, Club club) {
+    public ClubEnvironment(String location, DayOfWeek day, Club club) {
         this.location = location;
         this.day = day;
+        this.club = club;
+    }
+
+    public void setClub(Club club) {
         this.club = club;
     }
 }
