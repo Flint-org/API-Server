@@ -25,9 +25,9 @@ class MailServiceTest {
     /**
      * 인터넷 연결되어 있어야 합니다
      */
-    @Test
-    @DisplayName("테스트 이메일 발송입니다")
-    public void MailsendTest() {
-        mailService.sendCodeEmail(to);
-    }
+//    @Test
+//    @DisplayName("테스트 이메일 발송입니다")
+//    public void MailsendTest() {
+//        mailService.sendCodeEmail(to);
+//    }
 }
