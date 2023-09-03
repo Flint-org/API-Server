@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 로그인, 회원가입, 토큰 재발급에 관한 API
+ *
  * @Author 정순원
  * @Since 2023-08-07
  */
@@ -19,9 +20,10 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
+    //테스트용
 
     @PostMapping("/register")
-    public ResponseForm<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken oAuth2AccessToken){
+    public ResponseForm<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken oAuth2AccessToken) {
         AuthenticationResponse authenticationResponse = authenticationService.register(registerRequest, oAuth2AccessToken);
         return new ResponseForm<>(authenticationResponse);
 
@@ -42,7 +44,7 @@ public class AuthenticationController {
 //    }
 
     @PostMapping("/renew")
-    public ResponseForm<AuthenticationResponse> newTokenByRefreshToken (@RequestHeader(HttpHeaders.AUTHORIZATION) String refreshToken) {
+    public ResponseForm<AuthenticationResponse> newTokenByRefreshToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String refreshToken) {
         AuthenticationResponse authenticationResponse = authenticationService.newTokenByRefreshToken(refreshToken);
         return new ResponseForm<>(authenticationResponse);
     }

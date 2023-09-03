@@ -30,6 +30,7 @@ public class ClubCategory extends BaseTimeEntity {
 
     @OneToOne
     @JoinColumn(name = "club_id")
+
     private Club club;
 
     @Builder
