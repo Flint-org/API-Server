@@ -1,7 +1,3 @@
-
-
-
-
 jwt:
   secretKey: ${TOKEN_SECRET}
   accessTokenExpiration: 43200000 #12시간
@@ -32,8 +28,6 @@ spring:
       host: localhost
       port: 6379
 
-
-
-
-
+  profiles:
+   active: ${profile}
 

@@ -1,7 +1,6 @@
 package com.flint.flint.club.domain.main;
 
 import com.flint.flint.club.domain.spec.ClubMeetingType;
-import com.flint.flint.club.request.ClubCreateRequest;
 import com.flint.flint.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -9,10 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 /**
  * Club Entity Class
+ *
  * @author 김기현
  * @since 2023-08-03
  */
@@ -20,7 +19,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 public class Club extends BaseTimeEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "club_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "club_id")
     private Long id;
     @Column(name = "club_name")
     private String name;
@@ -34,7 +35,8 @@ public class Club extends BaseTimeEntity {
     private LocalDate meetingStartDate;
     @Column(name = "club_end_date")
     private LocalDate meetingEndDate;
-    @Column(name = "club_meeting_type") @Enumerated(EnumType.STRING)
+    @Column(name = "club_meeting_type")
+    @Enumerated(EnumType.STRING)
     private ClubMeetingType meetingType;
 
     @Builder

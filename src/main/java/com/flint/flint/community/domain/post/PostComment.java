@@ -1,6 +1,7 @@
-package com.flint.flint.community.domain;
+package com.flint.flint.community.domain.post;
 
 import com.flint.flint.common.BaseTimeEntity;
+import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import java.util.List;
 
 /**
  * 게시글 댓글 엔티티
+ *
  * @author 신승건
  * @since 2023-08-04
  */
@@ -35,15 +37,18 @@ public class PostComment extends BaseTimeEntity {
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostComment> replies = new ArrayList<>();
 
-    // 유저
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Column(length = 300, nullable = false)
     private String contents;
 
     @Builder
-    public PostComment(Post post, PostComment parentComment, List<PostComment> replies, String contents) {
+    public PostComment(Post post, PostComment parentComment, List<PostComment> replies, Member member, String contents) {
         this.post = post;
         this.parentComment = parentComment;
+        this.member = member;
         this.replies = replies;
         this.contents = contents;
     }

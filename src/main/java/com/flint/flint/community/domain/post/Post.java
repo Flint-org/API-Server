@@ -1,6 +1,8 @@
-package com.flint.flint.community.domain;
+package com.flint.flint.community.domain.post;
 
 import com.flint.flint.common.BaseTimeEntity;
+import com.flint.flint.community.domain.board.Board;
+import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 게시글 엔티티
+ *
  * @author 신승건
  * @since 2023-08-04
  */
@@ -21,11 +24,13 @@ public class Post extends BaseTimeEntity {
     @Column(name = "POST_ID")
     private Long id;
 
-    // 유저
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BOARD_CATEGORY_ID")
-    private BoardCategory boardCategory;
+    @JoinColumn(name = "BOARD_ID")
+    private Board board;
 
     @Column(length = 30, nullable = false)
     private String title;
@@ -34,8 +39,9 @@ public class Post extends BaseTimeEntity {
     private String contents;
 
     @Builder
-    public Post(BoardCategory boardCategory, String title, String contents) {
-        this.boardCategory = boardCategory;
+    public Post(Member member, Board board, String title, String contents) {
+        this.member = member;
+        this.board = board;
         this.title = title;
         this.contents = contents;
     }

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 
 /**
  * 생성, 수정일자에 대한 공통 필드 슈퍼 클래스
+ *
  * @author 신승건
  * @since 2023-08-04
  */
@@ -22,8 +23,8 @@ public abstract class BaseTimeEntity {
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime createdDate;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime modifiedDate;
+    private LocalDateTime updatedAt;
 }

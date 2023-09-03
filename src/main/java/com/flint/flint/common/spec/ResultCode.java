@@ -24,6 +24,7 @@ public enum ResultCode {
     USER_NOT_FOUND("F300", "존재하지 않는 유저입니다."),
     USER_MANY_REQUEST("F301", "사용자의 API요청이 제한됩니다.");
     // F4xx: 커뮤니티, 게시글 예외
+    MAJOR_BOARD_NOT_FOUND("F400", "존재하지 않는 전공 게시판입니다."),
 
     // F5xx: 모임 예외
     CLUB_NOT_FOUND_ERROR("F500", "모임을 찾을 수 없습니다."),
