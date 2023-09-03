@@ -1,7 +1,7 @@
 package com.flint.flint.club.domain.comment;
 
 import com.flint.flint.club.domain.main.Club;
-import com.flint.flint.member.domain.Member;
+import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
