@@ -22,7 +22,7 @@ public enum ResultCode {
     MAIL_AUTHNUMBER_NOT("F200", "인증번호가 틀립니다."),
     // F3xx: 유저 예외
     USER_NOT_FOUND("F300", "존재하지 않는 유저입니다."),
-    USER_MANY_REQUEST("F301", "사용자의 API요청이 제한됩니다.");
+    USER_MANY_REQUEST("F301", "사용자의 API요청이 제한됩니다."),
     // F4xx: 커뮤니티, 게시글 예외
 
     // F5xx: 모임 예외
