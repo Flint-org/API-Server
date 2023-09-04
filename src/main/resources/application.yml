@@ -1,33 +1,50 @@
-jwt:
-  secretKey: ${TOKEN_SECRET}
-  accessTokenExpiration: 43200000 #12시간
-  refreshTokenExpiration: 1209600000  #2주
-
-email:
-  id: jsw5913@gmail.com
-  password: ${EMAIL_PASSWORD}
-  expiration: 300000
+server:
+  port: 8080
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/flint_local?serverTimezone=Asia/Seoul
-    username: admin
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;MODE=MySQL;
+    username: sa
     password: 1234
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
         show-sql: true
-
   data:
     redis:
       host: localhost
       port: 6379
+      password: back123
 
-  profiles:
-   active: ${profile}
+cloud:
+  aws:
+    s3:
+      bucket: test
+    credentials:
+      access-key: test
+      secret-key: test
+    region:
+      static: test
+      auto: false
+    stack:
+      auto: false
 
+logging:
+  slack:
+    webhook-uri: http://localhost:8080/log-callback
+  config: classpath:logback-spring.xml
+
+jwt:
+  secretKey: /fXT6MAEw0JIc6oWz68XGdhDBvARg5XT
+  accessTokenExpiration: 43200000 #12시간
+  refreshTokenExpiration: 1209600000  #2주
+
+email:
+  id: test
+  password: test
+  expiration: 300000
