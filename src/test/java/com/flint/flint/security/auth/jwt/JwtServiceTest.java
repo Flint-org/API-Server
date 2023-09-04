@@ -6,10 +6,12 @@ import com.flint.flint.member.domain.spec.Gender;
 import com.flint.flint.member.repository.MemberRepository;
 import com.flint.flint.security.auth.dto.ClaimsDTO;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -26,8 +28,12 @@ class JwtServiceTest {
      JwtService jwtService;
 
     String accessToken;
-    @BeforeAll
-    void setup() {
+
+    @Test
+    @DisplayName("토큰 검증")
+    @Transactional
+    void verifyToken() {
+
         Member member = Member.builder()
                 .providerId("1234")
                 .authority(Authority.ANAUTHUSER)
@@ -39,11 +45,7 @@ class JwtServiceTest {
         memberRepository.save(member);
         ClaimsDTO claimsDTO = ClaimsDTO.from(member);
         accessToken = jwtService.generateAccessToken(claimsDTO);
-    }
 
-    @Test
-    @DisplayName("토큰 검증")
-    void verifyToken() {
         System.out.println("엑세스 토큰:" + accessToken);
         Date expiration = jwtService.parseExpiration(accessToken);
         boolean isAlreadyExpired = expiration.after(new Date());
