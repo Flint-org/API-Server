@@ -15,7 +15,7 @@ env:
 # 작업 내용
 jobs:
   build:
-    runs-on: ubuntu-22.04.2
+    runs-on: ubuntu-latest
     steps:
       - name: Chekcout Main Branch
         uses: actions/checkout@v3
