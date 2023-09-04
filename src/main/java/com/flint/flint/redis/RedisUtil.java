@@ -1,14 +1,13 @@
 package com.flint.flint.redis;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
  * redis CRUD 메소드
+ *
  * @Author 정순원
  * @Since 2023-08-19
  */
@@ -17,23 +16,46 @@ public class RedisUtil {
 
     private RedisTemplate redisTemplate;
 
-    @Value("${jwt.refreshTokenExpiration}")
-    private long refreshTokenExpiration;
-
-
     public RedisUtil(final RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
-    public void save(String refreshToken, String providerId) {
-        redisTemplate.opsForValue().set(providerId, refreshToken, refreshTokenExpiration, TimeUnit.MILLISECONDS);
+    //리프레쉬토큰 관련 redis 명령어
+    public void save(String key, String value, Long expiration) {
+        redisTemplate.opsForValue().set(key, value, expiration, TimeUnit.MILLISECONDS);
+    }
+    public void update(String key, String value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+    public void deleteByKey(String key) {
+        redisTemplate.delete(String.valueOf(key));
+    }
+    public Object findByKey(String key) {
+        return redisTemplate.opsForValue().get(key).toString();
     }
 
-    public void deleteById(String providerId) {
-        redisTemplate.delete(String.valueOf(providerId));
+    //이메일 APICall 관련 redis 명령어
+    public void saveAPICall(Long key, String apicall, Long expiration) {
+        redisTemplate.opsForValue().set("APICall"+String.valueOf(key), apicall, expiration, TimeUnit.MILLISECONDS);
+    }
+    public void updateAPICall(Long key, String apicall) {
+        redisTemplate.opsForValue().set("APICall"+String.valueOf(key), apicall);
+    }
+    public Object findAPICallByKey(Long key) {
+        return redisTemplate.opsForValue().get("APICall"+String.valueOf(key));
     }
 
-    public String findByProviderId(final String providerId) {
-        return redisTemplate.opsForValue().get(providerId).toString();
+
+    //이메일 emailAuthNumber 관련 redis 명령어
+    public void saveAuthNumber(Long key, String emailAuthNumber, Long expiration) {
+        redisTemplate.opsForValue().set("AuthNumber"+String.valueOf(key), emailAuthNumber, expiration, TimeUnit.MILLISECONDS);
     }
+    public void updateAuthNumber(Long key, String emailAuthNumber) {
+        redisTemplate.opsForValue().set("AuthNumber"+String.valueOf(key), emailAuthNumber);
+    }
+    public Object findEmailAuthNumberByKey(Long key) {
+        return redisTemplate.opsForValue().get("AuthNumber"+String.valueOf(key));
+    }
+
+
 }

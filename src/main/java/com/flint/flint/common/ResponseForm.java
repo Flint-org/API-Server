@@ -1,6 +1,7 @@
 package com.flint.flint.common;
 
 import com.flint.flint.common.spec.ResultCode;
+import lombok.Data;
 
 /**
  * 응답 바디 공통 DTO 양식
@@ -10,6 +11,7 @@ import com.flint.flint.common.spec.ResultCode;
  * @author 신승건
  * @since 2023-08-08
  */
+@Data
 public class ResponseForm<T> {
 
     private StatusResponse statusResponse = new StatusResponse(ResultCode.OK); // 디폴트로 성공 처리

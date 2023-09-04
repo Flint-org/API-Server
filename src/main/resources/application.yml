@@ -34,12 +34,17 @@ cloud:
     stack:
       auto: false
 
-jwt:
-  secretKey: test
-  accessTokenExpiration: 43200000
-  refreshTokenExpiration: 1209600000
-
 logging:
   slack:
     webhook-uri: http://localhost:8080/log-callback
   config: classpath:logback-spring.xml
+
+jwt:
+  secretKey: /fXT6MAEw0JIc6oWz68XGdhDBvARg5XT
+  accessTokenExpiration: 43200000 #12시간
+  refreshTokenExpiration: 1209600000  #2주
+
+email:
+  id: test
+  password: test
+  expiration: 300000
