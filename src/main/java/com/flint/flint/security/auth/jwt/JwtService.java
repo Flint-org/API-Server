@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.security.Key;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -60,6 +61,7 @@ public class JwtService {
     private Claims claimsByClaimsDTO(ClaimsDTO claimsDTO) {
         Claims claims = Jwts.claims();
         claims.setSubject(claimsDTO.getProviderId());
+        claims.put("providerId", claimsDTO.getProviderId());
         claims.put("id", claimsDTO.getId());
         claims.put("email", claimsDTO.getEmail());
         claims.put("authority", claimsDTO.getAuthority());
@@ -82,7 +84,9 @@ public class JwtService {
     }
 
     //토큰에서 클레임추출 메소드들
-    public String parseProviderId(String token) { return (String) parseAllClaims(token).get("providerid"); }
+    public String parseProviderId(String token) {
+        return (String) parseAllClaims(token).get("providerId");
+    }
 
     public Date parseExpiration(String token) {
         return parseAllClaims(token).getExpiration();
@@ -102,33 +106,34 @@ public class JwtService {
     public boolean isTokenValid(String token) {
         String providerId = parseProviderId(token);
         Date expiration = parseExpiration(token);
-        if ( memberRepository.existsByProviderId(providerId) && expiration.before(new Date()))
-        return true;
-            return false;
+        if (memberRepository.existsByProviderId(providerId) && expiration.after(new Date()))
+            return true;
+        return false;
     }
 
-    //request 헤더에서 토큰 추출
-    public String parseTokenFrom(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(HEADER_PREFIX))
-            return authorizationHeader.replace(HEADER_PREFIX, "");
-        return null;
-    }
 
-    public Authentication getAuthentication(String accessToken) {
+        //request 헤더에서 토큰 추출
+        public String parseTokenFrom (HttpServletRequest request){
+            String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+            if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(HEADER_PREFIX))
+                return authorizationHeader.replace(HEADER_PREFIX, "");
+            return null;
+        }
 
-        Claims claims = parseAllClaims(accessToken);
-        String email = claims.getSubject();
-        Long id = (Long) (claims.get("id"));
-        String providerId = claims.get("providerId").toString();
-        String authority =  claims.get("authority").toString();
-        AuthorityMemberDTO authorityMemberDTO = AuthorityMemberDTO.builder()
-                .id(id)
-                .providerId(providerId)
-                .email(email)
-                .authority(authority)
-                .build();
-        Collection<? extends GrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority(authority));
-        return new UsernamePasswordAuthenticationToken(authorityMemberDTO, "", authorities);
+        public Authentication getAuthentication (String accessToken){
+
+            Claims claims = parseAllClaims(accessToken);
+            String providerId = claims.getSubject();
+            Long id = Long.parseLong((claims.get("id")).toString());
+            String email = claims.get("email").toString();
+            String authority = claims.get("authority").toString();
+            AuthorityMemberDTO authorityMemberDTO = AuthorityMemberDTO.builder()
+                    .id(id)
+                    .providerId(providerId)
+                    .email(email)
+                    .authority(authority)
+                    .build();
+            Collection<? extends GrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority(authority));
+            return new UsernamePasswordAuthenticationToken(authorityMemberDTO, "", authorities);
+        }
     }
-}

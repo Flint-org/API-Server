@@ -15,6 +15,7 @@ import com.flint.flint.security.oauth.dto.OAuth2AccessToken;
 import com.flint.flint.security.oauth.dto.OAuth2UserAttributeFactory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,6 +26,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+
+    @Value("${jwt.refreshTokenExpiration}")
+    private long refreshTokenExpiration;
 
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
@@ -82,12 +86,12 @@ public class AuthenticationService {
     /**
      * 엑세스 토큰 리프레쉬 토큰 생성, 레디쉬에 리프레쉬 토큰 저장
      */
-    private AuthenticationResponse generateToken(Member member) {
+    public AuthenticationResponse generateToken(Member member) {
         ClaimsDTO claimsDTO = ClaimsDTO.from(member);
         String providerId = claimsDTO.getProviderId();
         String accessToken = jwtService.generateAccessToken(claimsDTO);
         String refreshToken = jwtService.generateRefreshToken(claimsDTO);
-        redisUtil.save(refreshToken, providerId);
+        redisUtil.save(providerId, refreshToken, refreshTokenExpiration);
 
             return AuthenticationResponse.builder()
                     .accessToken(accessToken)
