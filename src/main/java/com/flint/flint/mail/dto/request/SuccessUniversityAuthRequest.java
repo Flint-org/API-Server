@@ -1,7 +1,5 @@
 package com.flint.flint.mail.dto.request;
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VeriyEmailAuthnumberRequest {
+public class SuccessUniversityAuthRequest {
 
     private int authNumber;
     private String email;
