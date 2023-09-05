@@ -13,7 +13,6 @@ import com.flint.flint.club.request.ClubCreateRequest;
 import com.flint.flint.club.request.PageRequest;
 import com.flint.flint.club.response.ClubDetailGetResponse;
 import com.flint.flint.club.service.main.ClubServiceImpl;
-import com.querydsl.core.types.OrderSpecifier;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.*;
 
@@ -23,12 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.Random.class)
 public class ClubServiceTest {
     @Autowired
     ClubRepository clubRepository;
@@ -41,18 +38,12 @@ public class ClubServiceTest {
     @Autowired
     ClubServiceImpl clubService;
 
-    @BeforeEach
-    void init() {
-        clubRepository.deleteAll();
-    }
-
     @Test
     @DisplayName("모임 생성 서비스 테스트")
     @Transactional
-    @Order(1)
     void test1() {
         // given
-        for(int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             ClubCreateRequest request = ClubCreateRequest.builder()
                     .categoryType(ClubCategoryType.RUNNING)
                     .frequencyType(ClubFrequency.REGULAR)
@@ -73,7 +64,6 @@ public class ClubServiceTest {
             // when
             clubService.createClub(request);
         }
-
 
         Club getClub = clubRepository.findAll().get(0);
         ClubEnvironment getClubEnvironment = clubEnvironmentRepository.findAll().get(0);
@@ -101,11 +91,10 @@ public class ClubServiceTest {
 
     @Test
     @DisplayName("카테고리에 맞게 Club list 가져오기")
-    @Order(2)
     @Transactional
     void test2() throws Exception {
         // given
-        for(int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             ClubCreateRequest request = ClubCreateRequest.builder()
                     .categoryType(ClubCategoryType.RUNNING)
                     .frequencyType(ClubFrequency.REGULAR)
@@ -138,7 +127,6 @@ public class ClubServiceTest {
                 .build();
         Pageable pageable = pageRequest.of(pageRequest.getSortProperties(), pageRequest.getDirection());
 
-
         // then
         assertEquals(pageable.getSort(), clubs.getSort());
         assertEquals("러닝 모임 모집 1", clubs.getContent().get(0).getName());
@@ -150,8 +138,7 @@ public class ClubServiceTest {
     @DisplayName("모임 단건 조회")
     void test3() throws RuntimeException {
         // given
-        Long id = 0L;
-        for(int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             ClubCreateRequest request = ClubCreateRequest.builder()
                     .categoryType(ClubCategoryType.RUNNING)
                     .frequencyType(ClubFrequency.REGULAR)
