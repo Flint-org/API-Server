@@ -23,19 +23,19 @@ public class ClubController {
     private final ClubServiceImpl clubService;
     private final ClubCommentServiceImpl clubCommentService;
 
-    @PostMapping(path = "/api/clubs")
+    @PostMapping(path = "/api/v1/clubs")
     public void createClub(@RequestBody ClubCreateRequest clubCreateRequest) {
         clubService.createClub(clubCreateRequest);
     }
 
-    @GetMapping(path = "/api/clubs")
+    @GetMapping(path = "/api/v1/clubs")
     public Page<Club> getClubs(@RequestParam ClubCategoryType clubCategoryType,
                                @RequestParam String sortProperties,
                                @RequestParam String direction) {
         return clubService.getClubs(clubCategoryType, sortProperties, direction);
     }
 
-    @GetMapping(path = "/api/clubs/{clubId}")
+    @GetMapping(path = "/api/v1/clubs/{clubId}")
     public ClubDetailGetResponse getClubDetail(@PathVariable("clubId") Long clubId,
                                                @RequestParam ClubCategoryType clubCategoryType) {
         return clubService.getClubDetail(clubId, clubCategoryType);
