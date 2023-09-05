@@ -44,6 +44,10 @@ cloud:
 
 jwt:
   secretKey: ${TOKEN_SECRET}
-  accessTokenExpiration: 43200000
-  refreshTokenExpiration: 1209600000
+  accessTokenExpiration: 43200000 #12시간
+  refreshTokenExpiration: 1209600000 #2주
 
+email:
+  id: jsw5913@gmail.com
+  password: ${EMAIL_PASSWORD}
+  expiration: 300000
