@@ -2,7 +2,7 @@ package com.flint.flint.mail.controller;
 
 import com.flint.flint.common.ResponseForm;
 import com.flint.flint.mail.dto.request.SendEmailAuthNumberReqeust;
-import com.flint.flint.mail.dto.request.VeriyEmailAuthnumberRequest;
+import com.flint.flint.mail.dto.request.SuccessUniversityAuthRequest;
 import com.flint.flint.mail.dto.response.EmailAuthNumberRespose;
 import com.flint.flint.mail.service.MailService;
 import com.flint.flint.security.auth.dto.AuthenticationResponse;
@@ -44,7 +44,7 @@ public class MailController {
      * 검증: 이메일 인증코드
      */
     @PostMapping("/success/auth")
-    public ResponseForm<AuthenticationResponse> successUniversityAuth(@RequestBody VeriyEmailAuthnumberRequest request, @AuthenticationPrincipal AuthorityMemberDTO authorityMemberDTO) {
+    public ResponseForm<AuthenticationResponse> successUniversityAuth(@RequestBody SuccessUniversityAuthRequest request, @AuthenticationPrincipal AuthorityMemberDTO authorityMemberDTO) {
         Long key = authorityMemberDTO.getId();
         return new ResponseForm<>(mailService.successEmailAuth(request, key));
     }

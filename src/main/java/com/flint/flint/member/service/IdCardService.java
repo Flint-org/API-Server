@@ -1,10 +1,9 @@
 package com.flint.flint.member.service;
 
-import com.flint.flint.mail.dto.request.VeriyEmailAuthnumberRequest;
+import com.flint.flint.mail.dto.request.SuccessUniversityAuthRequest;
 import com.flint.flint.member.domain.idcard.IdCard;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.repository.IdCardRepository;
-import com.flint.flint.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class IdCardService {
 
     private final IdCardRepository idCardRepository;
-    public void saveFrontIdCard(Member member, VeriyEmailAuthnumberRequest request) {
+    public void saveFrontIdCard(Member member, SuccessUniversityAuthRequest request) {
         IdCard idcard = IdCard.builder()
                 .member(member)
                 .email(request.getEmail())

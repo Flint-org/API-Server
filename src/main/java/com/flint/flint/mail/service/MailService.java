@@ -2,7 +2,7 @@ package com.flint.flint.mail.service;
 
 import com.flint.flint.common.exception.FlintCustomException;
 import com.flint.flint.common.spec.ResultCode;
-import com.flint.flint.mail.dto.request.VeriyEmailAuthnumberRequest;
+import com.flint.flint.mail.dto.request.SuccessUniversityAuthRequest;
 import com.flint.flint.mail.dto.response.EmailAuthNumberRespose;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.spec.Authority;
@@ -79,7 +79,7 @@ public class MailService {
         mailSender.send(messagePreparator);
     }
 
-    public AuthenticationResponse successEmailAuth(VeriyEmailAuthnumberRequest request, Long id) {
+    public AuthenticationResponse successEmailAuth(SuccessUniversityAuthRequest request, Long id) {
         if (!(String.valueOf(redisUtil.findEmailAuthNumberByKey(id)).equals(String.valueOf(request.getAuthNumber()))))  //레디스에 저장한 인증번호와 다르다면 에러코드 보냄
             throw new FlintCustomException(HttpStatus.BAD_REQUEST, ResultCode.MAIL_AUTHNUMBER_NOT);
         Member member = memberService.getMember(id);
