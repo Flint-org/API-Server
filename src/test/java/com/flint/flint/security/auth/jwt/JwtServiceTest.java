@@ -1,12 +1,12 @@
 package com.flint.flint.security.auth.jwt;
 
 import com.flint.flint.member.domain.main.Member;
-import com.flint.flint.member.domain.spec.Authority;
-import com.flint.flint.member.domain.spec.Gender;
+import com.flint.flint.member.spec.Authority;
+import com.flint.flint.member.spec.Gender;
 import com.flint.flint.member.repository.MemberRepository;
 import com.flint.flint.security.auth.dto.ClaimsDTO;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+
+>>>>>>> 479934d (remove: 실행 안되는 테스트 삭제)
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class JwtServiceTest {
@@ -53,5 +51,6 @@ class JwtServiceTest {
         System.out.println("new date:" + new Date());
         System.out.println("isAlreadyExpired:" + isAlreadyExpired);
     }
+
 
 }
