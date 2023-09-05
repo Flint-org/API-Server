@@ -1,12 +1,12 @@
 package com.flint.flint.mail.service;
 
-import com.flint.flint.common.ResponseForm;
 import com.flint.flint.common.exception.FlintCustomException;
 import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.mail.dto.request.VeriyEmailAuthnumberRequest;
 import com.flint.flint.mail.dto.response.EmailAuthNumberRespose;
 import com.flint.flint.member.domain.main.Member;
-import com.flint.flint.member.domain.spec.Authority;
+import com.flint.flint.member.spec.Authority;
+import com.flint.flint.member.service.IdCardService;
 import com.flint.flint.member.service.MemberService;
 import com.flint.flint.redis.RedisUtil;
 import com.flint.flint.security.auth.AuthenticationService;
@@ -20,8 +20,6 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
-
-import static com.flint.flint.common.spec.ResultCode.MAIL_AUTHNUMBER_NOT;
 
 /**
  * @Author 정순원
@@ -42,6 +40,7 @@ public class MailService {
     private final MemberService memberService;
     private final AuthenticationService authenticationService;
     private final RedisUtil redisUtil;
+    private final IdCardService idCardService;
 
     public EmailAuthNumberRespose sendCodeEmail(String email, Long key) {
         if (rateLimitService.checkAPICall(key)) { //API호출 횟수 검사
@@ -80,11 +79,12 @@ public class MailService {
         mailSender.send(messagePreparator);
     }
 
-    public AuthenticationResponse successEmailAuth(VeriyEmailAuthnumberRequest request, Long key) {
-        if (!(String.valueOf(redisUtil.findEmailAuthNumberByKey(key)).equals(String.valueOf(request.getAuthNumber()))))  //레디스에 저장한 인증번호와 다르다면 에러코드 보냄
+    public AuthenticationResponse successEmailAuth(VeriyEmailAuthnumberRequest request, Long id) {
+        if (!(String.valueOf(redisUtil.findEmailAuthNumberByKey(id)).equals(String.valueOf(request.getAuthNumber()))))  //레디스에 저장한 인증번호와 다르다면 에러코드 보냄
             throw new FlintCustomException(HttpStatus.BAD_REQUEST, ResultCode.MAIL_AUTHNUMBER_NOT);
-        Member member = memberService.getMember(key);
-        member.updateAuthority(Authority.AUTHUSER);
+        Member member = memberService.getMember(id);
+        member.updateAuthority(Authority.AUTHUSER); //인증 한 유저로 권한 변경
+        idCardService.saveFrontIdCard(member, request); //명함 자동 생성
         return authenticationService.generateToken(member); //인증 한 유저권한을 담은 토큰 발급
     }
 
