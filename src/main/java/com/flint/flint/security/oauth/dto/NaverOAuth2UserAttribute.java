@@ -1,7 +1,7 @@
 package com.flint.flint.security.oauth.dto;
 
 import com.flint.flint.member.domain.main.Member;
-import com.flint.flint.member.domain.spec.Gender;
+import com.flint.flint.member.spec.Gender;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.minidev.json.JSONObject;
