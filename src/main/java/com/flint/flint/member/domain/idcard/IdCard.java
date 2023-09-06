@@ -2,7 +2,7 @@ package com.flint.flint.member.domain.idcard;
 
 import com.flint.flint.common.BaseTimeEntity;
 import com.flint.flint.member.domain.main.Member;
-import com.flint.flint.member.spec.Interest;
+import com.flint.flint.member.spec.InterestType;
 import com.flint.flint.member.spec.InterestConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -58,7 +58,7 @@ public class IdCard extends BaseTimeEntity {
 
     @Convert(converter = InterestConverter.class)
     @Column(name ="card_back_interest_list")
-    private List<Interest> cardBackInterestList;
+    private List<InterestType> cardBackInterestListType;
 
 
     @Builder
