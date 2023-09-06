@@ -11,6 +11,7 @@ import com.flint.flint.member.service.MemberService;
 import com.flint.flint.redis.RedisUtil;
 import com.flint.flint.security.auth.AuthenticationService;
 import com.flint.flint.security.auth.dto.AuthenticationResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,7 @@ public class MailService {
     private final RedisUtil redisUtil;
     private final IdCardService idCardService;
 
+    @Transactional
     public EmailAuthNumberRespose sendCodeEmail(String email, Long key) {
         if (rateLimitService.checkAPICall(key)) { //API호출 횟수 검사
             makeRandomNumber();
@@ -79,6 +81,7 @@ public class MailService {
         mailSender.send(messagePreparator);
     }
 
+    @Transactional
     public AuthenticationResponse successEmailAuth(SuccessUniversityAuthRequest request, Long id) {
         if (!(String.valueOf(redisUtil.findEmailAuthNumberByKey(id)).equals(String.valueOf(request.getAuthNumber()))))  //레디스에 저장한 인증번호와 다르다면 에러코드 보냄
             throw new FlintCustomException(HttpStatus.BAD_REQUEST, ResultCode.MAIL_AUTHNUMBER_NOT);
