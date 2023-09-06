@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class SuccessUniversityAuthRequest {
 
     private int authNumber;
-    private String email;
     private int admissionYear;
     private String university;
     private String major;
