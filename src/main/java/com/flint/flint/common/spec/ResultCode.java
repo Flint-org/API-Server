@@ -31,7 +31,11 @@ public enum ResultCode {
     CLUB_NOT_MATCH_CATEGORY_ERROR("F501", "카테고리에 맞지 않는 모임입니다."),
     CLUB_CATEGORY_NOT_FOUND_ERROR("F502", "모임에 맞는 카테고리를 찾을 수 없습니다."),
     CLUB_ENVIRONMENT_NOT_FOUND_ERROR("F503", "모임에 맞는 환경 설정을 찾을 수 없습니다."),
-    CLUB_REQUIREMENT_NOT_FOUND_ERROR("F504", "모임에 맞는 요구조건을 찾을 수 없습니다.");
+    CLUB_REQUIREMENT_NOT_FOUND_ERROR("F504", "모임에 맞는 요구조건을 찾을 수 없습니다."),
+
+    // F7xx: asset 예외
+    NOT_FOUND_UNIVERSITY_NAME("F700", "존재하지 않는 대학 이름입니다."),
+    EMPTY_MAJOR_SEARCH("F701", "검색 결과가 없습니다.");
 
     private final String code;
     private final String message;
