@@ -1,0 +1,13 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/git-action
+
+hooks:
+  ApplicationStop:
+    - location: scripts/kill.sh
+      timeout: 3600
+  ApplicationStart:
+    - location: scripts/deploy.sh
+      timeout: 3600

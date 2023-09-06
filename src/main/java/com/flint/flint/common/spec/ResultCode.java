@@ -33,6 +33,17 @@ public enum ResultCode {
     CLUB_ENVIRONMENT_NOT_FOUND_ERROR("F503", "모임에 맞는 환경 설정을 찾을 수 없습니다."),
     CLUB_REQUIREMENT_NOT_FOUND_ERROR("F504", "모임에 맞는 요구조건을 찾을 수 없습니다."),
 
+    // F6xx: 미디어 예외
+    AWS_CREDENTIAL_FAIL("F600", "S3 접근을 위한 AWS 자격 증명에 실패했습니다."),
+    EMPTY_MEDIA_FILES("F601", "미디어 파일 저장 요청에서 파일이 비어있습니다."),
+    IMPOSSIBLE_EXTRACT_ORIGINAL_FILE_NAME("F602", "파일 이름을 추출할 수 없습니다."),
+    UNKNOWN_BUCKET_NAME("F603", "버킷 이름 식별할 수 없습니다."),
+    INVALID_IMAGE_EXTENSION_TYPE("F604", "이미지 파일의 확장자가 아닙니다."),
+    MEDIA_FILE_SAVE_ERROR("F605", "미디어 파일을 저장하는데 문제가 발생했습니다."),
+    MEDIA_FILE_DELETE_ERROR("F606", "미디어 파일을 삭제하는데 문제가 발생했습니다."),
+    UNEXPECTED_AWS_SERVICE_ERROR("F607", "AWS 서비스를 이용하는데 예상치 못한 문제가 발생했습니다."),
+    NOT_EXIST_OBJECT_GIVEN_PATH("F608", "주어진 경로에 파일이 존재하지 않습니다"),
+  
     // F7xx: asset 예외
     NOT_FOUND_UNIVERSITY_NAME("F700", "존재하지 않는 대학 이름입니다."),
     EMPTY_MAJOR_SEARCH("F701", "검색 결과가 없습니다.");
