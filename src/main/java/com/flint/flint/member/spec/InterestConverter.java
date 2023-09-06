@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * @Since 2023-09-04
  */
 @Converter
-public class InterestConverter implements AttributeConverter<List<Interest>, String> {
+public class InterestConverter implements AttributeConverter<List<InterestType>, String> {
 
     private static final String DELIMITER = ",";
 
@@ -23,7 +23,7 @@ public class InterestConverter implements AttributeConverter<List<Interest>, Str
      * ENUM -> DB
      */
     @Override
-    public String convertToDatabaseColumn(List<Interest> attribute) {
+    public String convertToDatabaseColumn(List<InterestType> attribute) {
 
         if (attribute.isEmpty() || attribute == null) {
             return null;
@@ -38,25 +38,25 @@ public class InterestConverter implements AttributeConverter<List<Interest>, Str
      * DB -> ENUM
      */
     @Override
-    public List<Interest> convertToEntityAttribute(String dbData) {
+    public List<InterestType> convertToEntityAttribute(String dbData) {
         if (Strings.isEmpty(dbData)) {
             return new ArrayList<>();
         }
 
-        List<Interest> InterestList = Arrays.stream(dbData.split(DELIMITER))
+        List<InterestType> interestTypeList = Arrays.stream(dbData.split(DELIMITER))
                 .map(name -> convertStringToInterest(name))
                 .collect(Collectors.toUnmodifiableList());
 
-        return InterestList;
+        return interestTypeList;
     }
 
-    private List<String> convertEnumToString(List<Interest> attribute) {
+    private List<String> convertEnumToString(List<InterestType> attribute) {
         return attribute.stream()
                 .map(Enum::name)
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    private Interest convertStringToInterest(String name) {
-        return Interest.valueOf(name);
+    private InterestType convertStringToInterest(String name) {
+        return InterestType.valueOf(name);
     }
 }
