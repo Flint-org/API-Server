@@ -58,7 +58,7 @@ public class IdCard extends BaseTimeEntity {
 
     @Convert(converter = InterestConverter.class)
     @Column(name ="card_back_interest_list")
-    private List<InterestType> cardBackInterestListType;
+    private List<InterestType> cardBackInterestTypeList;
 
 
     @Builder
