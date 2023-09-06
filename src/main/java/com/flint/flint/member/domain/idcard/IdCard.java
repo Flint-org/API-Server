@@ -31,10 +31,6 @@ public class IdCard extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Email
-    @NotNull
-    private String email;
-
     @Column(length = 4)
     @NotNull
     private int admissionYear;
@@ -64,7 +60,6 @@ public class IdCard extends BaseTimeEntity {
     @Builder
     public IdCard(Member member, String email, int admissionYear, String university, String major) {
         this.member = member;
-        this.email = email;
         this.admissionYear = admissionYear;
         this.university = university;
         this.major = major;

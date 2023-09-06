@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 public class IdCardService {
 
     private final IdCardRepository idCardRepository;
+
     public void saveFrontIdCard(Member member, SuccessUniversityAuthRequest request) {
         IdCard idcard = IdCard.builder()
                 .member(member)
-                .email(request.getEmail())
                 .admissionYear(request.getAdmissionYear())
                 .university(request.getUniversity())
                 .major(request.getMajor())
