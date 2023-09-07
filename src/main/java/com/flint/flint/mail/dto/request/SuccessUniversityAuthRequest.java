@@ -1,6 +1,7 @@
 package com.flint.flint.mail.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,8 +13,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SendEmailAuthNumberReqeust {
+public class SuccessUniversityAuthRequest {
 
+    @NotNull
+    private int authNumber;
+    @NotNull
+    private int admissionYear;
     @NotBlank
-    private String email;
+    private String university;
+    @NotBlank
+    private String major;
 }

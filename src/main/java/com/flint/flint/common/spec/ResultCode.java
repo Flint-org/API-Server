@@ -42,8 +42,10 @@ public enum ResultCode {
     MEDIA_FILE_SAVE_ERROR("F605", "미디어 파일을 저장하는데 문제가 발생했습니다."),
     MEDIA_FILE_DELETE_ERROR("F606", "미디어 파일을 삭제하는데 문제가 발생했습니다."),
     UNEXPECTED_AWS_SERVICE_ERROR("F607", "AWS 서비스를 이용하는데 예상치 못한 문제가 발생했습니다."),
-    NOT_EXIST_OBJECT_GIVEN_PATH("F608", "주어진 경로에 파일이 존재하지 않습니다");
+    NOT_EXIST_OBJECT_GIVEN_PATH("F608", "주어진 경로에 파일이 존재하지 않습니다"),
 
+    // F7xx: JSon 값 예외
+    NOT_VALIDATION("F700", "json 값이 올바르지 않습니다.");
     private final String code;
     private final String message;
 

@@ -1,5 +1,6 @@
 package com.flint.flint.security.auth.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,8 +12,12 @@ import lombok.Getter;
 @Builder
 public class RegisterRequest {
 
+    @NotBlank
     private String providerName;
+    @NotBlank
     private String serviceUsingAgree;
+    @NotBlank
     private String personalInformationAgree;
+    @NotBlank
     private String marketingAgree;
 }
