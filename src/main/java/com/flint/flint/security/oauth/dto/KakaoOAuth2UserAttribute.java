@@ -3,6 +3,7 @@ package com.flint.flint.security.oauth.dto;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.spec.Gender;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,6 +18,7 @@ import java.util.Map;
  */
 @NoArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class KakaoOAuth2UserAttribute extends OAuth2UserAttribute {
 
     private static final String KAKAO_PROVIDER_ID = "kakao";
