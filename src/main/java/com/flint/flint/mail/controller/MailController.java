@@ -7,6 +7,7 @@ import com.flint.flint.mail.dto.response.EmailAuthNumberRespose;
 import com.flint.flint.mail.service.MailService;
 import com.flint.flint.security.auth.dto.AuthenticationResponse;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +34,7 @@ public class MailController {
      * 검증: API호출 횟수
      */
     @PostMapping("/send")
-    public ResponseForm<EmailAuthNumberRespose> sendEmail(@RequestBody SendEmailAuthNumberReqeust request, @AuthenticationPrincipal AuthorityMemberDTO authorityMemberDTO) {
+    public ResponseForm<EmailAuthNumberRespose> sendEmail(@Valid @RequestBody SendEmailAuthNumberReqeust request, @AuthenticationPrincipal AuthorityMemberDTO authorityMemberDTO) {
         Long key = authorityMemberDTO.getId();
         return new ResponseForm<>(mailService.sendCodeEmail(request.getEmail(), key));
     }
@@ -44,7 +45,7 @@ public class MailController {
      * 검증: 이메일 인증코드
      */
     @PostMapping("/success/auth")
-    public ResponseForm<AuthenticationResponse> successUniversityAuth(@RequestBody SuccessUniversityAuthRequest request, @AuthenticationPrincipal AuthorityMemberDTO authorityMemberDTO) {
+    public ResponseForm<AuthenticationResponse> successUniversityAuth(@Valid @RequestBody SuccessUniversityAuthRequest request, @AuthenticationPrincipal AuthorityMemberDTO authorityMemberDTO) {
         Long key = authorityMemberDTO.getId();
         return new ResponseForm<>(mailService.successEmailAuth(request, key));
     }

@@ -1,5 +1,6 @@
 package com.flint.flint.mail.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +19,8 @@ public class SuccessUniversityAuthRequest {
     private int authNumber;
     @NotNull
     private int admissionYear;
-    @NotNull
+    @NotBlank
     private String university;
-    @NotNull
+    @NotBlank
     private String major;
 }
