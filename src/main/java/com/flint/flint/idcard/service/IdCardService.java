@@ -1,9 +1,9 @@
-package com.flint.flint.member.service;
+package com.flint.flint.idcard.service;
 
 import com.flint.flint.mail.dto.request.SuccessUniversityAuthRequest;
-import com.flint.flint.member.domain.idcard.IdCard;
+import com.flint.flint.idcard.domain.IdCard;
 import com.flint.flint.member.domain.main.Member;
-import com.flint.flint.member.repository.IdCardRepository;
+import com.flint.flint.idcard.repository.IdCardRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

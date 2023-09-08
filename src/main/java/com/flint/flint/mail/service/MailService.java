@@ -6,7 +6,7 @@ import com.flint.flint.mail.dto.request.SuccessUniversityAuthRequest;
 import com.flint.flint.mail.dto.response.EmailAuthNumberRespose;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.spec.Authority;
-import com.flint.flint.member.service.IdCardService;
+import com.flint.flint.idcard.service.IdCardService;
 import com.flint.flint.member.service.MemberService;
 import com.flint.flint.redis.RedisUtil;
 import com.flint.flint.security.auth.AuthenticationService;

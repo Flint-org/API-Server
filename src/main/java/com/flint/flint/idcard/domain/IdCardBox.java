@@ -1,4 +1,4 @@
-package com.flint.flint.member.domain.idcard;
+package com.flint.flint.idcard.domain;
 
 import com.flint.flint.club.domain.main.Club;
 import com.flint.flint.common.BaseTimeEntity;
