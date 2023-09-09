@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -48,6 +49,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(e.getHttpStatus()).body(
                 new ResponseForm<>(e.getResultCode())
         );
+    }
+
+    /**
+     * 클라이언트가 타당하지 않은 값을 넘겨주었을 생기는 에러를 커스터마이징하여 핸들링 (상태 코드 4xx 응답)
+     *
+     * @param e       메소드파라미터Valid 예외 클래스
+     * @param request 요청 서블릿 객체
+     * @return 커스텀 에러 코드의 내용에 따른 에러 응답 json
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<ResponseForm<Void>> hadleMethodArgumentNotValidExecption(MethodArgumentNotValidException e, HttpServletRequest request) {
+        log.error("[클라이언트 에러] from {} api", request.getRequestURI(), e);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ResponseForm<>(ResultCode.NOT_VALIDATION)
+                );
     }
 
 }

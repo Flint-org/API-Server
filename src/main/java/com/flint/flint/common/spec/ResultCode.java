@@ -46,8 +46,11 @@ public enum ResultCode {
   
     // F7xx: asset 예외
     NOT_FOUND_UNIVERSITY_NAME("F700", "존재하지 않는 대학 이름입니다."),
-    EMPTY_MAJOR_SEARCH("F701", "검색 결과가 없습니다.");
+    EMPTY_MAJOR_SEARCH("F701", "검색 결과가 없습니다."),
 
+    // F8xx: JSon 값 예외
+    NOT_VALIDATION("F800", "json 값이 올바르지 않습니다.");
+  
     private final String code;
     private final String message;
 

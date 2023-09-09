@@ -4,6 +4,7 @@ import com.flint.flint.common.ResponseForm;
 import com.flint.flint.security.auth.dto.AuthenticationResponse;
 import com.flint.flint.security.auth.dto.RegisterRequest;
 import com.flint.flint.security.oauth.dto.OAuth2AccessToken;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class AuthenticationController {
     //테스트용
 
     @PostMapping("/register")
-    public ResponseForm<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken oAuth2AccessToken) {
+    public ResponseForm<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest registerRequest, @RequestHeader(HttpHeaders.AUTHORIZATION) OAuth2AccessToken oAuth2AccessToken) {
         AuthenticationResponse authenticationResponse = authenticationService.register(registerRequest, oAuth2AccessToken);
         return new ResponseForm<>(authenticationResponse);
 
