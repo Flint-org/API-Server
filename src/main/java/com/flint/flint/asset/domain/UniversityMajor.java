@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
  * @since 2023-08-30
  */
 @Entity
+@Table(indexes = {
+        @Index(name = "idx_univ_name", columnList = "universityName"),
+        @Index(name = "idx_univ_name_large_class", columnList = "universityName, largeClass")
+})
 @Getter
 @NoArgsConstructor
 public class UniversityMajor extends BaseTimeEntity {
