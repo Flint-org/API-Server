@@ -21,7 +21,7 @@ echo "> Build 파일 복사"
 
 cp $REPOSITORY/build/libs/*.jar $REPOSITORY/
 
-JAR_NAME=$(ls $REPOSITORY/ | grep 'chord-player' | tail -n 1)
+JAR_NAME=flint-0.0.1-SNAPSHOT.jar
 
 echo "> JAR Name: $JAR_NAME"
 

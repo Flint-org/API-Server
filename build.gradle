@@ -137,3 +137,7 @@ tasks.named('asciidoctor') {
 build {
     dependsOn copyDocument
 }
+
+jar {
+    enabled = false
+}
