@@ -37,13 +37,12 @@ public class ClubCustomRepositoryImpl implements ClubCustomRepository {
 
         List<Tuple> fetch = jpaQueryFactory.select(club, clubCategory)
                 .from(club)
-                .innerJoin(clubCategory).on(club.id.eq(clubCategory.id))
+                .innerJoin(clubCategory).on(club.id.eq(clubCategory.club.id))
                 .where(clubCategory.categoryType.eq(clubCategoryType))
                 .fetch();
 
         List<Club> collect = fetch.stream().map(tuple -> tuple.get(club))
                 .toList();
-
 
         return new PageImpl<>(results, pageable, collect.size());
     }
