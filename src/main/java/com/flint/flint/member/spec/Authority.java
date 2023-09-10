@@ -1,4 +1,4 @@
-package com.flint.flint.member.domain.spec;
+package com.flint.flint.member.spec;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
