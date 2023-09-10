@@ -30,7 +30,7 @@ public class ClubEnvironment extends BaseTimeEntity {
     @Column(name = "club_date_of_week")
     private DayOfWeek day;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "club_id")
     private Club club;
 

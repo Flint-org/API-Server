@@ -26,7 +26,7 @@ public class ClubImage extends BaseTimeEntity {
     @Column(name = "club_image_url")
     private String imgUrl;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "club_id")
     private Club club;
 

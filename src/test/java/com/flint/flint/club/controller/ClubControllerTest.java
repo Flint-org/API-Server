@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -29,15 +30,11 @@ public class ClubControllerTest {
     @Autowired
     ClubRepository clubRepository;
 
-    @BeforeEach
-    void clear() {
-        clubRepository.deleteAll();
-    }
-
     private final String BASE_URL = "/api";
 
     @Test
     @DisplayName("모임 생성 컨트롤러 테스트")
+    @Transactional
     void test1() throws Exception{
 
         String requestBody = objectMapper.writeValueAsString(

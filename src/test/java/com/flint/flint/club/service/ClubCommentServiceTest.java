@@ -54,8 +54,6 @@ public class ClubCommentServiceTest {
 
     @BeforeEach
     void init() {
-        memberRepository.deleteAll();
-        clubRepository.deleteAll();
 
         Club mockClub = Club.builder()
                 .name("모임 테스트")
@@ -87,7 +85,6 @@ public class ClubCommentServiceTest {
     @Transactional
     void test1() throws Exception {
         // given
-
         ClubCommentCreateRequest request = ClubCommentCreateRequest.builder()
                 .contents("모임 댓글 테스트").build();
 

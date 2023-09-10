@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Set;
@@ -69,6 +70,7 @@ public class ClubCommentControllerTest {
 
     @Test
     @DisplayName("모임 댓글 생성 컨트롤러 테스트")
+    @Transactional
     void test1() throws Exception {
         Club club = Club.builder()
                 .name("모임 1")

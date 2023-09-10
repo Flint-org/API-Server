@@ -28,7 +28,7 @@ public class ClubCategory extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ClubFrequency frequencyType;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "club_id")
     private Club club;
 
