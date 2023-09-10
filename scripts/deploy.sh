@@ -25,7 +25,17 @@ JAR_NAME=flint-0.0.1-SNAPSHOT.jar
 
 echo "> JAR Name: $JAR_NAME"
 
-nohup java -jar -Dspring.profiles.active=$profile \
+source ~/.bashrc
+echo $DATABASE_URL
+echo $DATABASE_USERNAME
+echo $DATABASE_PASSWORD
+echo $S3_BUCKET_NAME
+echo $AWS_ACCESS_KEY
+echo $AWS_SECRET_KEY
+echo $AWS_REGION
+echo $TOKEN_SECRET
+
+nohup java -jar -Dspring.profiles.active=dev \
 -Dspring.datasource.url=$DATABASE_URL \
 -Dspring.datasource.username=$DATABASE_USERNAME \
 -Dspring.datasource.password=$DATABASE_PASSWORD \
