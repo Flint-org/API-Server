@@ -24,6 +24,7 @@ public enum ResultCode {
     // F3xx: 유저 예외
     USER_NOT_FOUND("F300", "존재하지 않는 유저입니다."),
     USER_MANY_REQUEST("F301", "사용자의 API요청이 제한됩니다."),
+    USER_UNIVERSITY_CERTIFICATION_NOT_FOUND("F302", "유저의 대학 정보가 없습니다"),
 
     // F4xx: 커뮤니티, 게시글 예외
     MAJOR_BOARD_NOT_FOUND("F400", "존재하지 않는 전공 게시판입니다."),
@@ -36,6 +37,7 @@ public enum ResultCode {
     CLUB_REQUIREMENT_NOT_FOUND_ERROR("F504", "모임에 맞는 요구조건을 찾을 수 없습니다."),
     CLUB_COMMENT_NOT_FOUND_ERROR("F505", "모임 댓글을 찾을 수 없습니다."),
     CLUB_COMMENT_PATTERN_NOT_MATCH("F506", "모임 댓글의 형식이 올바르지 않습니다."),
+    CLUB_COMMENT_USER_NOT_FOUND("F507", "모임 댓글을 작성한 유저를 찾을 수 없습니다"),
 
     // F6xx: 미디어 예외
     AWS_CREDENTIAL_FAIL("F600", "S3 접근을 위한 AWS 자격 증명에 실패했습니다."),
