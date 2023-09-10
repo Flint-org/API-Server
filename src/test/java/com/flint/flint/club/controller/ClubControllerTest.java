@@ -53,7 +53,7 @@ public class ClubControllerTest {
                         .build()
         );
 
-        mockMvc.perform(post(BASE_URL + "/clubs")
+        mockMvc.perform(post(BASE_URL + "/v1/clubs")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
