@@ -25,6 +25,7 @@ JAR_NAME=flint-0.0.1-SNAPSHOT.jar
 
 echo "> JAR Name: $JAR_NAME"
 
+source /etc/profile
 echo $DATABASE_URL
 echo $DATABASE_USERNAME
 echo $DATABASE_PASSWORD
