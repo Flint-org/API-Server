@@ -1,12 +1,15 @@
 package com.flint.flint.club.controller.comment;
 
 import com.flint.flint.club.request.ClubCommentCreateRequest;
+import com.flint.flint.club.response.ClubCommentsAndRepliesResponse;
 import com.flint.flint.club.service.comment.ClubCommentServiceImpl;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,4 +30,10 @@ public class ClubCommentController {
                                    @RequestParam long parentCommentId) {
         clubCommentService.createCommentReply(memberDTO, request, clubId, parentCommentId);
     }
+
+    @GetMapping(path = "/api/v1/club/{id}/comment")
+    public List<ClubCommentsAndRepliesResponse> getCommentsAndReplies(@PathVariable("id") Long clubId) {
+        return clubCommentService.getComments(clubId);
+    }
+
 }
