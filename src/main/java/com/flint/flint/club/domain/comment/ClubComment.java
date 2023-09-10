@@ -4,13 +4,11 @@ import com.flint.flint.club.domain.main.Club;
 import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Club Comment Entity Class
@@ -60,7 +58,7 @@ public class ClubComment {
      * 자식 comment(대댓글)을 부모의 children list에 add
      * @param commentChild: 자식 comment(대댓글)
      */
-    public void setCommentChildren(ClubComment commentChild) {
+    public void addCommentChildren(ClubComment commentChild) {
         this.commentChildren.add(commentChild);
     }
 }
