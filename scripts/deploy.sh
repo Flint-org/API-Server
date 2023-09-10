@@ -25,7 +25,6 @@ JAR_NAME=flint-0.0.1-SNAPSHOT.jar
 
 echo "> JAR Name: $JAR_NAME"
 
-source ~/.bashrc
 echo $DATABASE_URL
 echo $DATABASE_USERNAME
 echo $DATABASE_PASSWORD
@@ -34,6 +33,7 @@ echo $AWS_ACCESS_KEY
 echo $AWS_SECRET_KEY
 echo $AWS_REGION
 echo $TOKEN_SECRET
+echo $EMAIL_PASSWORD
 
 nohup java -jar -Dspring.profiles.active=dev \
 -Dspring.datasource.url=$DATABASE_URL \
@@ -44,4 +44,5 @@ nohup java -jar -Dspring.profiles.active=dev \
 -Dcloud.aws.credentials.secret-key=$AWS_SECRET_KEY \
 -Dcloud.aws.region.static=$AWS_REGION \
 -Djwt.secretKey=$TOKEN_SECRET \
+-Demail.password=$EMAIL_PASSWORD \
 $REPOSITORY/$JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
