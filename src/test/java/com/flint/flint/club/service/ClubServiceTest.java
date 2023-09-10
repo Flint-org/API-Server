@@ -38,6 +38,10 @@ public class ClubServiceTest {
     @Autowired
     ClubServiceImpl clubService;
 
+    @BeforeEach
+    void init() {
+        clubRepository.deleteAll();
+    }
     @Test
     @DisplayName("모임 생성 서비스 테스트")
     @Transactional
