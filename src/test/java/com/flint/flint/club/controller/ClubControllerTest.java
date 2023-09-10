@@ -3,10 +3,9 @@ package com.flint.flint.club.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flint.flint.club.controller.main.ClubController;
 import com.flint.flint.club.domain.spec.*;
+import com.flint.flint.club.repository.main.ClubRepository;
 import com.flint.flint.club.request.ClubCreateRequest;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +26,13 @@ public class ClubControllerTest {
     MockMvc mockMvc;
     @Autowired
     ObjectMapper objectMapper;
+    @Autowired
+    ClubRepository clubRepository;
+
+    @BeforeEach
+    void clear() {
+        clubRepository.deleteAll();
+    }
 
     private final String BASE_URL = "/api";
 

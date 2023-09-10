@@ -6,7 +6,7 @@ import com.flint.flint.club.domain.main.Club;
 import com.flint.flint.club.repository.main.ClubRepository;
 import com.flint.flint.club.request.ClubCommentCreateRequest;
 import com.flint.flint.member.domain.main.Member;
-import com.flint.flint.member.domain.spec.Authority;
+import com.flint.flint.member.spec.Authority;
 import com.flint.flint.member.repository.MemberRepository;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import org.junit.jupiter.api.BeforeEach;
