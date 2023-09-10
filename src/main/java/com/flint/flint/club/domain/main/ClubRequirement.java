@@ -40,7 +40,7 @@ public class ClubRequirement extends BaseTimeEntity {
     @Column(name = "club_etc_limit")
     private String etc;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "club_id")
     private Club club;
 
