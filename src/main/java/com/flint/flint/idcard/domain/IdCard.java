@@ -63,4 +63,11 @@ public class IdCard extends BaseTimeEntity {
         this.university = university;
         this.major = major;
     }
+
+    public void UpdateBack(String cardBackIntroduction, String cardBackMBTI, String cardBackSNSId, List<InterestType> cardBackInterestTypeList) {
+        this.cardBackIntroduction = cardBackIntroduction;
+        this.cardBackMBTI = cardBackMBTI;
+        this.cardBackSNSId = cardBackSNSId;
+        this.cardBackInterestTypeList = cardBackInterestTypeList;
+    }
 }

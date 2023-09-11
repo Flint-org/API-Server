@@ -25,7 +25,7 @@ public class InterestConverter implements AttributeConverter<List<InterestType>,
     @Override
     public String convertToDatabaseColumn(List<InterestType> attribute) {
 
-        if (attribute.isEmpty() || attribute == null) {
+        if (attribute == null || attribute.isEmpty()) {
             return null;
         }
 
