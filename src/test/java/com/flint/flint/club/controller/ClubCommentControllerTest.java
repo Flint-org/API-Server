@@ -84,7 +84,7 @@ public class ClubCommentControllerTest {
         );
         String clubId = clubRepository.findAll().get(0).getId().toString();
 
-        mockMvc.perform(post("/api/v1/club/{id}/comment", clubId)
+        mockMvc.perform(post("/api/v1/clubs/{id}/comment", clubId)
                 .content(requestBody)
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk());

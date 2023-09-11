@@ -45,7 +45,7 @@ public class ClubCommentServiceImpl {
     private static final Pattern COMMENT_REGEX = Pattern.compile(COMMENT_PATTERN);
 
     @Transactional
-    public void createComment(@AuthenticationPrincipal AuthorityMemberDTO memberDTO,
+    public void createComment(AuthorityMemberDTO memberDTO,
                               ClubCommentCreateRequest request,
                               long clubId) {
         // checkIsValidComment(request.getContents());
@@ -55,7 +55,7 @@ public class ClubCommentServiceImpl {
     }
 
     @Transactional
-    public void createCommentReply(@AuthenticationPrincipal AuthorityMemberDTO memberDTO,
+    public void createCommentReply(AuthorityMemberDTO memberDTO,
                                    @RequestBody ClubCommentCreateRequest request,
                                    @PathVariable("id") long clubId,
                                    @RequestParam long parentCommentId) {
