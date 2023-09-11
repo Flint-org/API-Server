@@ -1,4 +1,4 @@
-package com.flint.flint.member.spec;
+package com.flint.flint.idcard.spec;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
@@ -25,7 +25,7 @@ public class InterestConverter implements AttributeConverter<List<InterestType>,
     @Override
     public String convertToDatabaseColumn(List<InterestType> attribute) {
 
-        if (attribute.isEmpty() || attribute == null) {
+        if (attribute == null || attribute.isEmpty()) {
             return null;
         }
 

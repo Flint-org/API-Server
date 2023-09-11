@@ -1,11 +1,10 @@
-package com.flint.flint.member.domain.idcard;
+package com.flint.flint.idcard.domain;
 
 import com.flint.flint.common.BaseTimeEntity;
 import com.flint.flint.member.domain.main.Member;
-import com.flint.flint.member.spec.InterestType;
-import com.flint.flint.member.spec.InterestConverter;
+import com.flint.flint.idcard.spec.InterestType;
+import com.flint.flint.idcard.spec.InterestConverter;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,8 +13,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * @Author 정순원
- * @Since 2023-08-07
+ * @author 정순원
+ * @since 2023-08-07
  */
 @Entity
 @Getter
@@ -63,5 +62,12 @@ public class IdCard extends BaseTimeEntity {
         this.admissionYear = admissionYear;
         this.university = university;
         this.major = major;
+    }
+
+    public void updateBack(String cardBackIntroduction, String cardBackMBTI, String cardBackSNSId, List<InterestType> cardBackInterestTypeList) {
+        this.cardBackIntroduction = cardBackIntroduction;
+        this.cardBackMBTI = cardBackMBTI;
+        this.cardBackSNSId = cardBackSNSId;
+        this.cardBackInterestTypeList = cardBackInterestTypeList;
     }
 }

@@ -31,9 +31,9 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
 
                 .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers( new AntPathRequestMatcher("/api/v1/auth")
-                                , new AntPathRequestMatcher("/api/v1/mail")).permitAll())
-
+                        .requestMatchers("/api/v1/auth/**", "/api/v1/mail/**").permitAll()
+                        .requestMatchers("/api/v1/idcard/**").hasRole("AUTHUSER") //"ROLE_" 자동으로 붙여줘
+                )
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint)) ;
 
         http.addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
