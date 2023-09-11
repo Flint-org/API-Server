@@ -5,7 +5,7 @@ files:
     destination: /home/ubuntu/git-action
 
 permissions:
-  - object: /
+  - object: /home/ubuntu/git-action
     pattern: "**"
     owner: ubuntu
     group: ubuntu
