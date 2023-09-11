@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * @author 정순원
+ * @since 2023-09-10
+ */
 public class IdCardRequest {
 
     @Data

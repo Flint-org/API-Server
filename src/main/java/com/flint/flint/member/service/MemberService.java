@@ -11,6 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static com.flint.flint.common.spec.ResultCode.*;
 
+/**
+ * @author 정순원
+ * @since 2023-09-10
+ */
 @Service
 @RequiredArgsConstructor
 public class MemberService {

@@ -15,6 +15,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 명함 서비스
+ * @author 정순원
+ * @since 2023-09-10
+ */
 @Service
 @RequiredArgsConstructor
 public class IdCardService {
@@ -42,10 +47,9 @@ public class IdCardService {
 
         IdCard idCard = getIdCard(idCardId);
         idCard.UpdateBack(cardBackIntroduction, cardBackMBTI, cardBackSNSId, cardBackInterestTypeList);
-        idCardJPARepository.save(idCard);
     }
 
     private IdCard getIdCard(Long idCardId) {
-        return idCardJPARepository.findById(idCardId).orElseThrow(() -> new FlintCustomException(HttpStatus.BAD_REQUEST, ResultCode.IDCARD_NOT_FOUND));
+        return idCardJPARepository.findById(idCardId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.IDCARD_NOT_FOUND));
     }
 }
