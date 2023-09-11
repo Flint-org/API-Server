@@ -38,14 +38,13 @@ public class IdCardService {
     }
 
     @Transactional
-    public void updateBackIdCard(IdCardRequest.updateBackReqeust request) {
-        Long idCardId = request.getIdCardId();
+    public void updateBackIdCard(Long IdCardId, IdCardRequest.updateBackReqeust request) {
         String cardBackMBTI = request.getCardBackMBTI();
         String cardBackSNSId = request.getCardBackSNSId();
         List<InterestType> cardBackInterestTypeList = request.getCardBackInterestTypeList();
         String cardBackIntroduction = request.getCardBackIntroduction();
 
-        IdCard idCard = getIdCard(idCardId);
+        IdCard idCard = getIdCard(IdCardId);
         idCard.updateBack(cardBackIntroduction, cardBackMBTI, cardBackSNSId, cardBackInterestTypeList);
     }
 

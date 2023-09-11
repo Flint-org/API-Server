@@ -56,19 +56,23 @@ class IdCardServiceTest {
     @Test
     @DisplayName("카드 뒷면 수정 테스트")
     void updateBackIdCard() {
+        //given
         List<InterestType> list = new ArrayList<>();
         list.add(InterestType.GAME);
         list.add(InterestType.MOVIE);
         IdCardRequest.updateBackReqeust updateBackReqeust = IdCardRequest.updateBackReqeust.builder()
-                .idCardId(1L)
                 .cardBackIntroduction("안녕하세요")
                 .cardBackSNSId("io.onl")
                 .cardBackMBTI("ENTJ")
                 .cardBackInterestTypeList(list)
                 .build();
+        Long idCardId = 1L;
 
-        idCardService.updateBackIdCard(updateBackReqeust);
-        IdCard idCard = idCardJPARepository.findById(updateBackReqeust.getIdCardId()).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, IDCARD_NOT_FOUND));
+        //when
+        idCardService.updateBackIdCard(idCardId,updateBackReqeust);
+
+        //then
+        IdCard idCard = idCardJPARepository.findById(1L).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, IDCARD_NOT_FOUND));
         assertEquals(1L, idCard.getId());
         assertEquals("안녕하세요", idCard.getCardBackIntroduction());
         assertEquals("io.onl", idCard.getCardBackSNSId());

@@ -5,10 +5,7 @@ import com.flint.flint.idcard.dto.request.IdCardRequest;
 import com.flint.flint.idcard.service.IdCardService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author 정순원
@@ -21,9 +18,9 @@ public class IdCardUpdateController {
 
     private final IdCardService idCardService;
 
-    @PutMapping("/back/modify")
-    public ResponseForm updateIdCardBack(@Valid @RequestBody IdCardRequest.updateBackReqeust backReqeust) {
-        idCardService.updateBackIdCard(backReqeust);
+    @PutMapping("/back/{idCardId}")
+    public ResponseForm updateIdCardBack(@PathVariable Long idCardId, @Valid @RequestBody IdCardRequest.updateBackReqeust backReqeust) {
+        idCardService.updateBackIdCard(idCardId, backReqeust);
         return new ResponseForm<>();
     }
 }

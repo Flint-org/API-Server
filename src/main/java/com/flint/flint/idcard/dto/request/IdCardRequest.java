@@ -20,8 +20,7 @@ public class IdCardRequest {
     @AllArgsConstructor
     @Builder
     public static class  updateBackReqeust {
-        @NotBlank
-        private Long idCardId;
+
         private String cardBackIntroduction;
         private String cardBackSNSId;
         private String cardBackMBTI;
