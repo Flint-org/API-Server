@@ -38,6 +38,10 @@ public class ClubServiceTest {
     @Autowired
     ClubServiceImpl clubService;
 
+    @BeforeEach
+    void init() {
+        clubRepository.deleteAll();
+    }
     @Test
     @DisplayName("모임 생성 서비스 테스트")
     @Transactional
@@ -92,7 +96,7 @@ public class ClubServiceTest {
     @Test
     @DisplayName("카테고리에 맞게 Club list 가져오기")
     @Transactional
-    void test2() throws Exception {
+    void test2() {
         // given
         for (int i = 1; i <= 10; i++) {
             ClubCreateRequest request = ClubCreateRequest.builder()
@@ -129,7 +133,9 @@ public class ClubServiceTest {
 
         // then
         assertEquals(pageable.getSort(), clubs.getSort());
-        assertEquals("러닝 모임 모집 1", clubs.getContent().get(0).getName());
+        for(int i = 1; i <=5 ; i++) {
+            assertEquals("러닝 모임 모집 "+ i, clubs.getContent().get(i-1).getName());
+        }
         assertEquals(10, clubs.getTotalElements());
         assertEquals(2, clubs.getTotalPages());
     }
@@ -163,5 +169,6 @@ public class ClubServiceTest {
 
         // then
         assertEquals("러닝 모임 모집 1", response.getName());
+        assertEquals(10, clubRepository.findAll().size());
     }
 }

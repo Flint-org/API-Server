@@ -15,7 +15,6 @@ public class PageRequest {
     private Direction direction;
 
     @Builder
-
     public PageRequest(String sortProperties,
                        String direct) {
         this.sortProperties = sortProperties;

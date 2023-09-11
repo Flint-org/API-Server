@@ -4,12 +4,11 @@ import com.flint.flint.club.domain.main.Club;
 import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Club Comment Entity Class
@@ -20,8 +19,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 public class ClubComment {
-    @Id @GeneratedValue(strategy = GenerationType.UUID) @Column(name = "club_comment_id")
-    private UUID id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "club_comment_id")
+    private Long id;
     @Column(name = "club_comment_contents")
     private String contents;
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "club_id")
@@ -40,8 +39,26 @@ public class ClubComment {
     private Member member;
 
     @Builder
-    public ClubComment(String contents, Club club) {
+    public ClubComment(String contents, Club club, Member member) {
         this.contents = contents;
         this.club = club;
+        this.member = member;
+        this.commentChildren = new ArrayList<>();
+    }
+
+    /**
+     * 부모의 comment 를 set
+     * @param comment: 부모 Comment
+     */
+    public void setCommentParent(ClubComment comment) {
+        this.commentParent = comment;
+    }
+
+    /**
+     * 자식 comment(대댓글)을 부모의 children list에 add
+     * @param commentChild: 자식 comment(대댓글)
+     */
+    public void addCommentChildren(ClubComment commentChild) {
+        this.commentChildren.add(commentChild);
     }
 }

@@ -3,15 +3,15 @@ package com.flint.flint.club.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flint.flint.club.controller.main.ClubController;
 import com.flint.flint.club.domain.spec.*;
+import com.flint.flint.club.repository.main.ClubRepository;
 import com.flint.flint.club.request.ClubCreateRequest;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -27,11 +27,14 @@ public class ClubControllerTest {
     MockMvc mockMvc;
     @Autowired
     ObjectMapper objectMapper;
+    @Autowired
+    ClubRepository clubRepository;
 
     private final String BASE_URL = "/api";
 
     @Test
     @DisplayName("모임 생성 컨트롤러 테스트")
+    @Transactional
     void test1() throws Exception{
 
         String requestBody = objectMapper.writeValueAsString(
@@ -53,7 +56,7 @@ public class ClubControllerTest {
                         .build()
         );
 
-        mockMvc.perform(post(BASE_URL + "/clubs")
+        mockMvc.perform(post(BASE_URL + "/v1/clubs")
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
