@@ -13,26 +13,27 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/clubs")
 public class ClubCommentController {
     private final ClubCommentServiceImpl clubCommentService;
 
-    @PostMapping(path = "/api/v1/club/{id}/comment")
+    @PostMapping(path = "/{clubId}/comment")
     public void createComment(@AuthenticationPrincipal AuthorityMemberDTO memberDTO,
                               @RequestBody ClubCommentCreateRequest request,
-                              @PathVariable("id") long clubId) {
+                              @PathVariable("clubId") long clubId) {
         clubCommentService.createComment(memberDTO, request, clubId);
     }
 
-    @PostMapping(path = "/api/v1/club/{id}/reply")
+    @PostMapping(path = "/{clubId}/reply")
     public void createCommentReply(@AuthenticationPrincipal AuthorityMemberDTO memberDTO,
                                    @RequestBody ClubCommentCreateRequest request,
-                                   @PathVariable("id") long clubId,
+                                   @PathVariable("clubId") long clubId,
                                    @RequestParam long parentCommentId) {
         clubCommentService.createCommentReply(memberDTO, request, clubId, parentCommentId);
     }
 
-    @GetMapping(path = "/api/v1/club/{id}/comment")
-    public List<ClubCommentsAndRepliesResponse> getCommentsAndReplies(@PathVariable("id") Long clubId) {
+    @GetMapping(path = "/{clubId}/comment")
+    public List<ClubCommentsAndRepliesResponse> getCommentsAndReplies(@PathVariable("clubId") Long clubId) {
         return clubCommentService.getComments(clubId);
     }
 
