@@ -1,6 +1,7 @@
 package com.flint.flint.idcard.dto.request;
 
 import com.flint.flint.idcard.spec.InterestType;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class IdCardRequest {
     @AllArgsConstructor
     @Builder
     public static class  updateBackReqeust {
+        @NotBlank
         private Long idCardId;
         private String cardBackIntroduction;
         private String cardBackSNSId;

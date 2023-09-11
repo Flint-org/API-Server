@@ -52,7 +52,7 @@ public enum ResultCode {
     // F8xx: JSon 값 예외
     NOT_VALIDATION("F800", "json 값이 올바르지 않습니다."),
 
-    // F8xx: 명함 예외
+    // F9xx: 명함 예외
     IDCARD_NOT_FOUND("F900", "명함을 찾을 수 없습니다.");
 
     private final String code;

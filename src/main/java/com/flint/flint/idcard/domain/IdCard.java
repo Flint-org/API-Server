@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * @Author 정순원
- * @Since 2023-08-07
+ * @author 정순원
+ * @since 2023-08-07
  */
 @Entity
 @Getter
@@ -64,7 +64,7 @@ public class IdCard extends BaseTimeEntity {
         this.major = major;
     }
 
-    public void UpdateBack(String cardBackIntroduction, String cardBackMBTI, String cardBackSNSId, List<InterestType> cardBackInterestTypeList) {
+    public void updateBack(String cardBackIntroduction, String cardBackMBTI, String cardBackSNSId, List<InterestType> cardBackInterestTypeList) {
         this.cardBackIntroduction = cardBackIntroduction;
         this.cardBackMBTI = cardBackMBTI;
         this.cardBackSNSId = cardBackSNSId;

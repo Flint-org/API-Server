@@ -8,30 +8,21 @@ import com.flint.flint.idcard.spec.InterestType;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.repository.MemberRepository;
 import com.flint.flint.member.spec.Authority;
-import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import static com.flint.flint.common.spec.ResultCode.IDCARD_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)class IdCardServiceTest {
+@Transactional
+class IdCardServiceTest {
 
     @Autowired
     IdCardService idCardService;
@@ -40,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
     @Autowired
     IdCardJPARepository idCardJPARepository;
 
-    @BeforeAll
+    @BeforeEach
     void setUp() {
         Member member = Member.builder()
                 .providerName("kakao")
@@ -64,7 +55,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
     @Test
     @DisplayName("카드 뒷면 수정 테스트")
-    void saveOrUpdateBackIdCard() {
+    void updateBackIdCard() {
         List<InterestType> list = new ArrayList<>();
         list.add(InterestType.GAME);
         list.add(InterestType.MOVIE);
@@ -76,7 +67,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
                 .cardBackInterestTypeList(list)
                 .build();
 
-        idCardService.saveOrUpdateBackIdCard(updateBackReqeust);
+        idCardService.updateBackIdCard(updateBackReqeust);
         IdCard idCard = idCardJPARepository.findById(updateBackReqeust.getIdCardId()).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, IDCARD_NOT_FOUND));
         assertEquals(1L, idCard.getId());
         assertEquals("안녕하세요", idCard.getCardBackIntroduction());
