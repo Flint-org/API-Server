@@ -40,7 +40,7 @@ public class InterestConverter implements AttributeConverter<List<InterestType>,
     @Override
     public List<InterestType> convertToEntityAttribute(String dbData) {
         if (Strings.isEmpty(dbData)) {
-            return new ArrayList<>();
+            return null;
         }
 
         List<InterestType> interestTypeList = Arrays.stream(dbData.split(DELIMITER))

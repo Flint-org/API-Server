@@ -1,6 +1,7 @@
 package com.flint.flint.idcard.service;
 
 import com.flint.flint.common.exception.FlintCustomException;
+import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.idcard.domain.IdCard;
 import com.flint.flint.idcard.dto.request.IdCardRequest;
 import com.flint.flint.idcard.dto.response.IdCardGetResponse;
@@ -9,20 +10,22 @@ import com.flint.flint.idcard.spec.InterestType;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.repository.MemberRepository;
 import com.flint.flint.member.spec.Authority;
-import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.flint.flint.common.spec.ResultCode.IDCARD_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 class IdCardServiceTest {
 
     @Autowired
@@ -31,6 +34,7 @@ class IdCardServiceTest {
     MemberRepository memberRepository;
     @Autowired
     IdCardJPARepository idCardJPARepository;
+
 
     @BeforeEach
     void setUp() {
@@ -58,11 +62,11 @@ class IdCardServiceTest {
                 .build();
 
         idCardJPARepository.save(idCard);
-
     }
 
     @Test
     @DisplayName("카드 뒷면 수정 테스트")
+    @Transactional
     void updateBackIdCard() {
         //given
         List<InterestType> list = new ArrayList<>();
@@ -74,49 +78,49 @@ class IdCardServiceTest {
                 .cardBackMBTI("ENTJ")
                 .cardBackInterestTypeList(list)
                 .build();
-        Long idCardId = 1L;
+        Member member = memberRepository.findByEmail("test@test.com").orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.USER_NOT_FOUND));
+        IdCard idCard = idCardJPARepository.findByMember(member).orElseThrow(()-> new FlintCustomException(HttpStatus.NOT_FOUND, IDCARD_NOT_FOUND));
 
         //when
-        idCardService.updateBackIdCard(idCardId, updateBackReqeust);
+        idCardService.updateBackIdCard(idCard.getId(), updateBackReqeust);
 
         //then
-        IdCard idCard = idCardJPARepository.findById(1L).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, IDCARD_NOT_FOUND));
-        assertEquals(1L, idCard.getId());
-        assertEquals("안녕하세요", idCard.getCardBackIntroduction());
-        assertEquals("io.onl", idCard.getCardBackSNSId());
-        assertEquals("ENTJ", idCard.getCardBackMBTI());
+        assertEquals(updateBackReqeust.getCardBackIntroduction(), idCard.getCardBackIntroduction());
+        assertEquals(updateBackReqeust.getCardBackSNSId(), idCard.getCardBackSNSId());
+        assertEquals(updateBackReqeust.getCardBackMBTI(), idCard.getCardBackMBTI());
         assertEquals(list, idCard.getCardBackInterestTypeList());
     }
 
     @Test
     @DisplayName("자신 명함 조회 테스트")
+    @Transactional
     void findByMemberId() {
         //given
-        Long memberId = 1L;
+        Member member = memberRepository.findByEmail("test@test.com").orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.USER_NOT_FOUND));
+        IdCard idCard = idCardJPARepository.findByMember(member).orElseThrow(()-> new FlintCustomException(HttpStatus.NOT_FOUND, IDCARD_NOT_FOUND));
 
         //when
-        IdCardGetResponse.MyIdCard response = idCardService.findMyIdCardByMemberId(memberId);
+        IdCardGetResponse.MyIdCard response = idCardService.findMyIdCardByMemberId(member.getId());
 
         //then
-        assertEquals(response.getId(), 1L);
-        assertEquals(response.getAdmissionYear(), 2020);
-        assertEquals(response.getMajor(),"소프트웨어학부");
-        assertEquals(response.getUniversity(), "숭실대");
-        assertEquals(response.getCardBackIntroduction(), null);
-        assertEquals(response.getCardBackMBTI(), null);
-        assertEquals(response.getCardBackSNSId(), null);
-        assertEquals(response.getCardBackInterestTypeList(), null);
+        assertEquals(response.getId(), idCard.getId());
+        assertEquals(response.getAdmissionYear(), idCard.getAdmissionYear());
+        assertEquals(response.getMajor(),idCard.getMajor());
+        assertEquals(response.getUniversity(), idCard.getUniversity());
+        assertEquals(response.getCardBackIntroduction(), idCard.getCardBackIntroduction());
+        assertEquals(response.getCardBackMBTI(), idCard.getCardBackMBTI());
+        assertEquals(response.getCardBackSNSId(), idCard.getCardBackSNSId());
+        assertEquals(response.getCardBackInterestTypeList(), idCard.getCardBackInterestTypeList());
     }
 
     @Test
-    @DisplayName("인증하지 않은 유저가 조회 예외테스트")
+    @DisplayName("인증하지 않은 유저 조회 예외테스트")
+    @Transactional
     void findByMemberIdException() {
         //given
-        Long member2Id = 2L;
+        Member member2 = memberRepository.findByEmail("test2@test.com").orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.USER_NOT_FOUND));
 
         //when, Then
-        assertThrows(FlintCustomException.class, () -> idCardService.findMyIdCardByMemberId(member2Id)) ;
-
-
+        assertThrows(FlintCustomException.class, () -> idCardService.findMyIdCardByMemberId(member2.getId())) ;
     }
 }
