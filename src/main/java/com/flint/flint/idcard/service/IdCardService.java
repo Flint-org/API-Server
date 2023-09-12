@@ -3,11 +3,13 @@ package com.flint.flint.idcard.service;
 import com.flint.flint.common.exception.FlintCustomException;
 import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.idcard.dto.request.IdCardRequest;
+import com.flint.flint.idcard.dto.response.IdCardGetResponse;
 import com.flint.flint.idcard.spec.InterestType;
 import com.flint.flint.mail.dto.request.SuccessUniversityAuthRequest;
 import com.flint.flint.idcard.domain.IdCard;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.idcard.repository.IdCardJPARepository;
+import com.flint.flint.member.service.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,7 @@ import java.util.List;
 public class IdCardService {
 
     private final IdCardJPARepository idCardJPARepository;
+    private final MemberService memberService;
 
     @Transactional
     public void saveFrontIdCard(Member member, SuccessUniversityAuthRequest request) {
@@ -44,11 +47,21 @@ public class IdCardService {
         List<InterestType> cardBackInterestTypeList = request.getCardBackInterestTypeList();
         String cardBackIntroduction = request.getCardBackIntroduction();
 
-        IdCard idCard = getIdCard(IdCardId);
+        IdCard idCard = findIdCardById(IdCardId);
         idCard.updateBack(cardBackIntroduction, cardBackMBTI, cardBackSNSId, cardBackInterestTypeList);
     }
 
-    private IdCard getIdCard(Long idCardId) {
+    private IdCard findIdCardById(Long idCardId) {
         return idCardJPARepository.findById(idCardId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.IDCARD_NOT_FOUND));
+    }
+
+    /**
+     * 자신 명함 조회
+     */
+    @Transactional
+    public IdCardGetResponse.MyIdCard findMyIdCardByMemberId(Long memberId) {
+        Member member = memberService.getMember(memberId);
+        IdCard idCard = idCardJPARepository.findByMember(member).orElseThrow(() -> new FlintCustomException(HttpStatus.BAD_REQUEST, ResultCode.IDCARD_NOT_FOUND));
+        return  IdCardGetResponse.MyIdCard.of(idCard);
     }
 }
