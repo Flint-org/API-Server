@@ -1,6 +1,7 @@
 package com.flint.flint.idcard.repository;
 
 import com.flint.flint.idcard.domain.IdCard;
+import com.flint.flint.idcard.repository.custom.IdcardRepositoryCustom;
 import com.flint.flint.member.domain.main.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 

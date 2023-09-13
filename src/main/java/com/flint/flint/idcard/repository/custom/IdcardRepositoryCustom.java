@@ -1,4 +1,4 @@
-package com.flint.flint.idcard.repository;
+package com.flint.flint.idcard.repository.custom;
 
 /**
  * @author 정순원

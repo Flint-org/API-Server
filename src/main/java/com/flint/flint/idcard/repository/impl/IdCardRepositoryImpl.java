@@ -1,5 +1,6 @@
-package com.flint.flint.idcard.repository;
+package com.flint.flint.idcard.repository.impl;
 
+import com.flint.flint.idcard.repository.custom.IdcardRepositoryCustom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
