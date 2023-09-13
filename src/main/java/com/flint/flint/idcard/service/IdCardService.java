@@ -54,7 +54,7 @@ public class IdCardService {
         idCard.updateBack(cardBackIntroduction, cardBackMBTI, cardBackSNSId, cardBackInterestTypeList);
     }
 
-    private IdCard getIdCard(Long idCardId) {
+    public IdCard getIdCard(Long idCardId) {
         return idCardJPARepository.findById(idCardId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.IDCARD_NOT_FOUND));
     }
 
