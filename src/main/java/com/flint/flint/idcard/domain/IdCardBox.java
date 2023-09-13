@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.Length;
+
+import java.util.List;
 
 /**
  * @Author 정순원
@@ -22,18 +25,25 @@ public class IdCardBox extends BaseTimeEntity {
     @Column(name = "id_card_box_id")
     private Long id;
 
+    @Column(length = 100)
+    private String folder;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "club_id")
-    private Club club;
+    @JoinColumn(name = "id_card_id")
+    private IdCard idcard;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public IdCardBox(Club club, Member member) {
-        this.club = club;
+    public IdCardBox(IdCard idcard, Member member) {
+        this.idcard = idcard;
         this.member = member;
+    }
+
+    public void updateFolder(String folder) {
+        this.folder = folder;
     }
 
 }
