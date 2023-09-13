@@ -1,5 +1,7 @@
 package com.flint.flint.idcard.service;
 
+import com.flint.flint.asset.domain.UniversityAsset;
+import com.flint.flint.asset.repository.UniversityAssetRepository;
 import com.flint.flint.common.exception.FlintCustomException;
 import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.idcard.domain.IdCard;
@@ -20,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.flint.flint.common.spec.ResultCode.IDCARD_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,6 +35,8 @@ class IdCardServiceTest {
     MemberRepository memberRepository;
     @Autowired
     IdCardJPARepository idCardJPARepository;
+    @Autowired
+    private UniversityAssetRepository assetRepository;
 
 
     @BeforeEach
@@ -58,10 +61,22 @@ class IdCardServiceTest {
                 .member(member)
                 .admissionYear(2020)
                 .major("소프트웨어학부")
-                .university("숭실대")
+                .university("가천대학교")
                 .build();
 
         idCardJPARepository.save(idCard);
+
+        UniversityAsset asset = UniversityAsset.builder()
+                .universityName("가천대학교")
+                .emailSuffix("gachon.ac.kr")
+                .red(8)
+                .green(56)
+                .blue(136)
+                .logoUrl("/가천")
+                .build();
+
+        assetRepository.save(asset);
+
     }
 
     @Test
@@ -98,11 +113,17 @@ class IdCardServiceTest {
         //given
         Member member = memberRepository.findByEmail("test@test.com").orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.USER_NOT_FOUND));
         IdCard idCard = idCardJPARepository.findByMember(member).orElseThrow(()-> new FlintCustomException(HttpStatus.NOT_FOUND, IDCARD_NOT_FOUND));
+        UniversityAsset univInfo = assetRepository.findUniversityAssetByUniversityName(idCard.getUniversity()).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.NOT_FOUND_UNIVERSITY_NAME));
 
         //when
-        IdCardGetResponse.MyIdCard response = idCardService.findMyIdCardByMemberId(member.getId());
+        IdCardGetResponse.MyIdCard response = idCardService.getMyIdCardByMemberId(member.getId());
 
         //then
+        assertEquals(response.getUnivInfo().getBlue(), univInfo.getBlue());
+        assertEquals(response.getUnivInfo().getRed(), univInfo.getRed());
+        assertEquals(response.getUnivInfo().getGreen(), univInfo.getGreen());
+        assertEquals(response.getUnivInfo().getLogoUrl(), univInfo.getLogoUrl());
+        assertEquals(response.getUnivInfo().getUniversityName(), univInfo.getUniversityName());
         assertEquals(response.getId(), idCard.getId());
         assertEquals(response.getAdmissionYear(), idCard.getAdmissionYear());
         assertEquals(response.getMajor(),idCard.getMajor());
@@ -121,6 +142,6 @@ class IdCardServiceTest {
         Member member2 = memberRepository.findByEmail("test2@test.com").orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.USER_NOT_FOUND));
 
         //when, Then
-        assertThrows(FlintCustomException.class, () -> idCardService.findMyIdCardByMemberId(member2.getId())) ;
+        assertThrows(FlintCustomException.class, () -> idCardService.getMyIdCardByMemberId(member2.getId())) ;
     }
 }

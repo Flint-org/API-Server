@@ -22,9 +22,9 @@ public class IdCardGetController {
 
     private final IdCardService idCardService;
 
-    @PostMapping("/my")
+    @PostMapping("/mine")
     public ResponseForm<IdCardGetResponse.MyIdCard> getMyIdCard(@AuthenticationPrincipal AuthorityMemberDTO authorityMemberDTO) {
         Long id = authorityMemberDTO.getId();
-        return new ResponseForm<>(idCardService.findMyIdCardByMemberId(id));
+        return new ResponseForm<>(idCardService.getMyIdCardByMemberId(id));
     }
 }
