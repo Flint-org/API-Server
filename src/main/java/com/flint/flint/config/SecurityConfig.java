@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .formLogin(formLogin -> formLogin.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
 
-                .authorizeRequests(authorizeRequests -> authorizeRequests
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/api/v1/auth/**", "/api/v1/mail/**").permitAll()
                         .requestMatchers("/api/v1/idcard/**").hasRole("AUTHUSER") //"ROLE_" 자동으로 붙여줘
                 )
