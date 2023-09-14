@@ -3,7 +3,6 @@ package com.flint.flint.idcard.service;
 import com.flint.flint.idcard.domain.IdCard;
 import com.flint.flint.idcard.domain.IdCardBox;
 import com.flint.flint.idcard.repository.IdCardBoxJPARepository;
-import com.flint.flint.idcard.repository.IdCardJPARepository;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.service.MemberService;
 import jakarta.transaction.Transactional;
@@ -29,5 +28,14 @@ public class IdCardBoxService {
                 .build();
 
         idCardBoxJPARepository.save(idCardBox);
+    }
+
+    @Transactional
+    public void removeIdCardBox(Long idCardId, Long memberId) {
+        IdCard idCard = idCardService.getIdCard(idCardId);
+        Member member = memberService.getMember(memberId);
+
+
+        idCardBoxJPARepository.deleteByMemberAndIdCard(member, idCard);
     }
 }

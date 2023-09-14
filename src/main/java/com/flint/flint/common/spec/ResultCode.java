@@ -59,7 +59,8 @@ public enum ResultCode {
     NOT_VALIDATION("F800", "json 값이 올바르지 않습니다."),
 
     // F9xx: 명함 예외
-    IDCARD_NOT_FOUND("F900", "명함을 찾을 수 없습니다.");
+    IDCARD_NOT_FOUND("F900", "명함을 찾을 수 없습니다."),
+    IDCARDBOX_NOT_FOUND("F901","유저가 이 명함을 가지고 있지 않습니다.");
 
     private final String code;
     private final String message;

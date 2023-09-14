@@ -20,4 +20,11 @@ public class IdCardBoxUpdateController {
         idCardBoxService.createIdCardBox(idCardId, memberId);
         return new ResponseForm<>();
     }
+
+    @DeleteMapping("/{idCardId}")
+    public ResponseForm removeIdCardBox (@PathVariable Long idCardId, @AuthenticationPrincipal AuthorityMemberDTO memberDTO) {
+        Long memberId = memberDTO.getId();
+        idCardBoxService.removeIdCardBox(idCardId, memberId);
+        return new ResponseForm<>();
+    }
 }
