@@ -22,7 +22,7 @@ public class IdCardGetController {
 
     private final IdCardService idCardService;
 
-    @GetMapping("/mine")
+    @GetMapping
     public ResponseForm<IdCardGetResponse.MyIdCard> getMyIdCard(@AuthenticationPrincipal AuthorityMemberDTO authorityMemberDTO) {
         Long id = authorityMemberDTO.getId();
         return new ResponseForm<>(idCardService.getMyIdCardByMemberId(id));

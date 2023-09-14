@@ -50,17 +50,14 @@ public class IdCardService {
         List<InterestType> cardBackInterestTypeList = request.getCardBackInterestTypeList();
         String cardBackIntroduction = request.getCardBackIntroduction();
 
-        IdCard idCard = getIdCardById(IdCardId);
+        IdCard idCard = getIdCard(IdCardId);
         idCard.updateBack(cardBackIntroduction, cardBackMBTI, cardBackSNSId, cardBackInterestTypeList);
     }
 
-    private IdCard getIdCardById(Long idCardId) {
+    private IdCard getIdCard(Long idCardId) {
         return idCardJPARepository.findById(idCardId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.IDCARD_NOT_FOUND));
     }
 
-    /**
-     * 자신 명함 조회
-     */
     @Transactional
     public IdCardGetResponse.MyIdCard getMyIdCardByMemberId(Long memberId) {
         Member member = memberService.getMember(memberId);
