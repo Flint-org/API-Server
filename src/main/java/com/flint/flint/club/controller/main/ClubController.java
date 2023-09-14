@@ -8,6 +8,7 @@ import com.flint.flint.club.response.ClubDetailGetResponse;
 import com.flint.flint.club.response.ClubsGetResponse;
 import com.flint.flint.club.service.comment.ClubCommentServiceImpl;
 import com.flint.flint.club.service.main.ClubServiceImpl;
+import com.flint.flint.common.ResponseForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -30,15 +31,15 @@ public class ClubController {
     }
 
     @GetMapping(path = "")
-    public Page<Club> getClubs(@RequestParam ClubCategoryType clubCategoryType,
-                               @RequestParam String sortProperties,
-                               @RequestParam String direction) {
-        return clubService.getClubs(clubCategoryType, sortProperties, direction);
+    public ResponseForm<Page<Club>> getClubs(@RequestParam ClubCategoryType clubCategoryType,
+                                            @RequestParam String sortProperties,
+                                            @RequestParam String direction) {
+        return new ResponseForm<>(clubService.getClubs(clubCategoryType, sortProperties, direction));
     }
 
     @GetMapping(path = "{clubId}")
-    public ClubDetailGetResponse getClubDetail(@PathVariable("clubId") Long clubId,
+    public ResponseForm<ClubDetailGetResponse> getClubDetail(@PathVariable("clubId") Long clubId,
                                                @RequestParam ClubCategoryType clubCategoryType) {
-        return clubService.getClubDetail(clubId, clubCategoryType);
+        return new ResponseForm<>(clubService.getClubDetail(clubId, clubCategoryType));
     }
 }
