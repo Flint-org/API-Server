@@ -6,7 +6,7 @@ import com.flint.flint.idcard.service.IdCardService;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +22,7 @@ public class IdCardGetController {
 
     private final IdCardService idCardService;
 
-    @PostMapping("/mine")
+    @GetMapping("/mine")
     public ResponseForm<IdCardGetResponse.MyIdCard> getMyIdCard(@AuthenticationPrincipal AuthorityMemberDTO authorityMemberDTO) {
         Long id = authorityMemberDTO.getId();
         return new ResponseForm<>(idCardService.getMyIdCardByMemberId(id));
