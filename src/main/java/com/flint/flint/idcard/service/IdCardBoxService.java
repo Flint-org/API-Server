@@ -35,7 +35,6 @@ public class IdCardBoxService {
         IdCard idCard = idCardService.getIdCard(idCardId);
         Member member = memberService.getMember(memberId);
 
-
         idCardBoxJPARepository.deleteByMemberAndIdCard(member, idCard);
     }
 }
