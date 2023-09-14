@@ -23,7 +23,7 @@ public class IdCardBoxService {
         Member member = memberService.getMember(memberId);
 
         IdCardBox idCardBox = IdCardBox.builder()
-                .idcard(idCard)
+                .idCard(idCard)
                 .member(member)
                 .build();
 

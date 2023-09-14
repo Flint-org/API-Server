@@ -26,16 +26,16 @@ public class IdCardFolder extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_card_id")
-    private IdCard idcard;
+    private IdCard idCard;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public IdCardFolder(String title, IdCard idcard, Member member) {
+    public IdCardFolder(String title, IdCard idCard, Member member) {
         this.title = title;
-        this.idcard = idcard;
+        this.idCard = idCard;
         this.member = member;
     }
 }

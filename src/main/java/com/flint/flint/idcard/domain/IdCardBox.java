@@ -27,15 +27,15 @@ public class IdCardBox extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_card_id")
-    private IdCard idcard;
+    private IdCard idCard;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public IdCardBox(IdCard idcard, Member member) {
-        this.idcard = idcard;
+    public IdCardBox(IdCard idCard, Member member) {
+        this.idCard = idCard;
         this.member = member;
     }
 }

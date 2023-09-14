@@ -21,7 +21,7 @@ public class IdCardFolderService {
 
         IdCardFolder idcardFolder = IdCardFolder.builder()
                 .title(title)
-                .idcard(null)     //폴더 종류만 조회할 때 idcard가 null 조회
+                .idCard(null)     //폴더 종류만 조회할 때 idcard가 null 조회
                 .member(memberService.getMember(memberId))
                 .build();
 
