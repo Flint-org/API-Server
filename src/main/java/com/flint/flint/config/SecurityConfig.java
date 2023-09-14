@@ -30,15 +30,15 @@ public class SecurityConfig {
                 .formLogin(formLogin -> formLogin.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
 
-                .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(
-                                "/api/v1/auth/**",
-                                "/api/v1/mail/**",
-                                "/api/v1/assets",
-                                "/api/v1/boards").permitAll()
-                        .requestMatchers(
-                                "/api/v1/idcard/**").hasRole("AUTHUSER") //"ROLE_" 자동으로 붙여줘
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers("/api/v1/auth/**",
+                                         "/api/v1/mail/**",
+                                         "/api/v1/assets",
+                                         "/api/v1/boards"
+                                        ).permitAll()
+                        .requestMatchers("/api/v1/idcard/**").hasRole("AUTHUSER") //"ROLE_"  PREFIX 자동으로 붙여줍니다
                 )
+          
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint));
 
         http.addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
