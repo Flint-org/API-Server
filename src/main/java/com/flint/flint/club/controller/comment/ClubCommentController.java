@@ -3,6 +3,7 @@ package com.flint.flint.club.controller.comment;
 import com.flint.flint.club.request.ClubCommentCreateRequest;
 import com.flint.flint.club.response.ClubCommentsAndRepliesResponse;
 import com.flint.flint.club.service.comment.ClubCommentServiceImpl;
+import com.flint.flint.common.ResponseForm;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +34,8 @@ public class ClubCommentController {
     }
 
     @GetMapping(path = "/{clubId}/comment")
-    public List<ClubCommentsAndRepliesResponse> getCommentsAndReplies(@PathVariable("clubId") Long clubId) {
-        return clubCommentService.getComments(clubId);
+    public ResponseForm<List<ClubCommentsAndRepliesResponse>> getCommentsAndReplies(@PathVariable("clubId") Long clubId) {
+        return new ResponseForm<>(clubCommentService.getComments(clubId));
     }
 
 }
