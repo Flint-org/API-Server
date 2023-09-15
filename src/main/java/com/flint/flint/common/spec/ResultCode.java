@@ -20,6 +20,7 @@ public enum ResultCode {
 
     // F2xx: 인증, 권한에 대한 예외
     MAIL_AUTHNUMBER_NOT("F200", "인증번호가 틀립니다."),
+    AUTH_USER_NOT("F201", "현재 권한으로 접근 불가능합니다."),
 
     // F3xx: 유저 예외
     USER_NOT_FOUND("F300", "존재하지 않는 유저입니다."),

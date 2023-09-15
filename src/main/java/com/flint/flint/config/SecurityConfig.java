@@ -1,5 +1,6 @@
 package com.flint.flint.config;
 
+import com.flint.flint.security.auth.CustomAccessDeniedHandler;
 import com.flint.flint.security.auth.jwt.JwtAuthenticationEntryPoint;
 import com.flint.flint.security.auth.jwt.JwtAuthenticationFilter;
 import com.flint.flint.security.auth.jwt.JwtService;
@@ -22,6 +23,7 @@ public class SecurityConfig {
 
     private final JwtService jwtService;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -42,7 +44,10 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-                .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint));
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
+                );
 
         http.addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
