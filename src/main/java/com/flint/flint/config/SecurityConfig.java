@@ -6,6 +6,7 @@ import com.flint.flint.security.auth.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -32,11 +33,13 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/api/v1/auth/**",
-                                         "/api/v1/mail/**",
-                                         "/api/v1/assets",
-                                         "/api/v1/boards"
-                                        ).permitAll()
+                                "/api/v1/mail/**",
+                                "/api/v1/assets/**",
+                                "/api/v1/boards/**").permitAll()
                         .requestMatchers("/api/v1/idcard/**").hasRole("AUTHUSER") //"ROLE_"  PREFIX 자동으로 붙여줍니다
+                        .requestMatchers(HttpMethod.POST, "/api/v1/clubs/**" ).hasRole("AUTHUSER")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/clubs/**").permitAll()
+                        .anyRequest().authenticated()
                 )
 
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint));
