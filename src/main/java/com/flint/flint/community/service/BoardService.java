@@ -112,6 +112,10 @@ public class BoardService {
                                 .build())
                         .toList())
                 .build();
+    }
 
+    public Board getBoard(Long boardId) {
+        return boardRepository.findById(boardId)
+                .orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, BOARD_NOT_FOUND));
     }
 }
