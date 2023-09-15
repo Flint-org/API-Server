@@ -3,12 +3,14 @@ os: linux
 files:
   - source: /
     destination: /home/ubuntu/git-action
+    overwrite: yes
+file_exists_behavior: OVERWRITE
 
 permissions:
-  - object: /
+  - object: /home/ubuntu/git-action
     pattern: "**"
-    owner: root
-    group: root
+    owner: ubuntu
+    group: ubuntu
 
 hooks:
   ApplicationStop:

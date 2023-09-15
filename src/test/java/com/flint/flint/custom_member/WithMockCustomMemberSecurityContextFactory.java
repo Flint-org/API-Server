@@ -1,10 +1,6 @@
 package com.flint.flint.custom_member;
 
-import com.flint.flint.member.domain.main.Member;
-import com.flint.flint.member.repository.MemberRepository;
-import com.flint.flint.member.spec.Authority;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +11,12 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * Security Context 에 임의의 principal 객체 주입
+ *
+ * @author 신승건
+ * @since 2023-09-15
+ */
 public class WithMockCustomMemberSecurityContextFactory implements WithSecurityContextFactory<WithMockCustomMember> {
 
     @Override
@@ -25,8 +27,7 @@ public class WithMockCustomMemberSecurityContextFactory implements WithSecurityC
         AuthorityMemberDTO authMember = AuthorityMemberDTO.builder()
                 .id(1L)
                 .email("test@test.com")
-                .providerId("kakao")
-                .providerId("test")
+                .providerId("kakao test")
                 .build();
         context.setAuthentication(new UsernamePasswordAuthenticationToken(authMember, "", authorities));
         return context;

@@ -1,7 +1,6 @@
 package com.flint.flint.community.service;
 
 import com.flint.flint.common.exception.FlintCustomException;
-import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.community.domain.board.Board;
 import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.domain.post.PostImage;
@@ -12,7 +11,6 @@ import com.flint.flint.media.dto.response.PreSignedUrlResponse;
 import com.flint.flint.media.service.MediaService;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.repository.MemberRepository;
-import com.flint.flint.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.flint.flint.common.spec.ResultCode.*;
+
 /**
+ * 게시글 서비스
+ *
  * @author 신승건
  * @since 2023-09-13
  */
@@ -29,16 +31,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
-    private final MemberService memberService;
     private final BoardService boardService;
     private final MediaService mediaService;
     private final MemberRepository memberRepository;
     private static final String POST_IMAGE_FOLDER_NAME = "static";
+    private static final int MAX_IMAGE_LIMIT = 20;
 
     @Transactional
     public List<PostPreSignedUrlResponse> createPost(String email, PostRequest postRequest) {
         Member member = memberRepository.findByEmail(email).
-                orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.USER_NOT_FOUND));
+                orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, USER_NOT_FOUND));
+
+        // 이미지 개수 제한 검증
+        if (isExceedMaxImage(postRequest.getFileNames().size()))
+            throw new FlintCustomException(HttpStatus.BAD_REQUEST, EXCESS_POST_IMAGE_LIMIT);
 
         Board board = boardService.getBoard(postRequest.getBoardId());
 
@@ -75,5 +81,9 @@ public class PostService {
         }
         postRepository.save(post);
         return preSignedUrls;
+    }
+
+    private boolean isExceedMaxImage(int requestSize) {
+        return requestSize > MAX_IMAGE_LIMIT;
     }
 }
