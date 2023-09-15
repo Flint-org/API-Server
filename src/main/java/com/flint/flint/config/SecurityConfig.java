@@ -38,7 +38,7 @@ public class SecurityConfig {
                                         ).permitAll()
                         .requestMatchers("/api/v1/idcard/**").hasRole("AUTHUSER") //"ROLE_"  PREFIX 자동으로 붙여줍니다
                 )
-          
+
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint));
 
         http.addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
