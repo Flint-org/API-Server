@@ -1,6 +1,8 @@
 package com.flint.flint.security.auth.jwt;
 
 
+import com.flint.flint.common.exception.FlintCustomException;
+import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.member.repository.MemberRepository;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import com.flint.flint.security.auth.dto.ClaimsDTO;
@@ -13,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -106,9 +109,13 @@ public class JwtService {
     public boolean isTokenValid(String token) {
         String providerId = parseProviderId(token);
         Date expiration = parseExpiration(token);
-        if (memberRepository.existsByProviderId(providerId) && expiration.after(new Date()))
-            return true;
-        return false;
+        if(expiration.after(new Date())) {
+            throw new FlintCustomException(HttpStatus.BAD_REQUEST, ResultCode.JWT_DATE_NOT);
+        }
+        if(memberRepository.existsByProviderId(providerId)) {
+            throw new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.USER_NOT_FOUND);
+        }
+        return true;
     }
 
 
