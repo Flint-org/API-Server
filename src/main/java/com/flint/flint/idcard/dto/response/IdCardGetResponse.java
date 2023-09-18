@@ -3,7 +3,9 @@ package com.flint.flint.idcard.dto.response;
 import com.flint.flint.asset.dto.LogoInfoResponse;
 import com.flint.flint.idcard.domain.IdCard;
 import com.flint.flint.idcard.spec.InterestType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 

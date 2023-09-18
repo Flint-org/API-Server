@@ -1,29 +1,28 @@
 package com.flint.flint.idcard.domain;
 
-import com.flint.flint.club.domain.main.Club;
 import com.flint.flint.common.BaseTimeEntity;
 import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.Length;
-
-import java.util.List;
 
 /**
- * @Author 정순원
- * @Since 2023-08-07
+ * @author 정순원
+ * @since 2023-09-14
  */
 @Entity
 @Getter
 @NoArgsConstructor
-public class IdCardBox extends BaseTimeEntity {
+public class IdCardFolder extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_card_box_id")
+    @Column(name = "id_card_folder_id")
     private Long id;
+
+    @Column(length = 50)
+    private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_card_id")
@@ -34,7 +33,8 @@ public class IdCardBox extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    public IdCardBox(IdCard idCard, Member member) {
+    public IdCardFolder(String title, IdCard idCard, Member member) {
+        this.title = title;
         this.idCard = idCard;
         this.member = member;
     }
