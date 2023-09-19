@@ -53,7 +53,7 @@ class IdCardBoxServiceTest {
     }
 
     @Test
-    @DisplayName("명함박스 생성 서비스 테스트")
+    @DisplayName("명함박스 삭제 서비스 테스트")
     void removeIdCardBox() {
         //given
         Long idCardId = 1L;
