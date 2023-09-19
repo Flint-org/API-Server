@@ -31,7 +31,7 @@ public class KakaoOAuth2UserAttribute extends OAuth2UserAttribute {
     public Member toEntity() {
         return Member.builder()
                 .providerName(KAKAO_PROVIDER_ID)
-                .providerId(getProviderId())
+                .providerId(KAKAO_PROVIDER_ID+" "+getProviderId())//띄어쓰기 포함
                 .email(getEmail())
                 .name(getName())
                 .gender(Gender.valueOf(getGender().toUpperCase())) //대소문자 구별하니 바꿔줘야 함
