@@ -11,6 +11,7 @@ import com.flint.flint.media.dto.response.PreSignedUrlResponse;
 import com.flint.flint.media.service.MediaService;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.repository.MemberRepository;
+import com.flint.flint.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -34,13 +35,13 @@ public class PostService {
     private final BoardService boardService;
     private final MediaService mediaService;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private static final String POST_IMAGE_FOLDER_NAME = "static";
     private static final int MAX_IMAGE_LIMIT = 20;
 
     @Transactional
-    public List<PostPreSignedUrlResponse> createPost(String email, PostRequest postRequest) {
-        Member member = memberRepository.findByEmail(email).
-                orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, USER_NOT_FOUND));
+    public List<PostPreSignedUrlResponse> createPost(String providerId, PostRequest postRequest) {
+        Member member = memberService.getMemberByProviderId(providerId);
 
         // 이미지 개수 제한 검증
         if (isExceedMaxImage(postRequest.getFileNames().size()))

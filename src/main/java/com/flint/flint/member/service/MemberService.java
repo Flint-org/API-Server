@@ -26,4 +26,10 @@ public class MemberService {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, USER_NOT_FOUND));
     }
+
+    @Transactional(readOnly = true)
+    public Member getMemberByProviderId(String providerId) {
+        return memberRepository.findByProviderId(providerId)
+                .orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, USER_NOT_FOUND));
+    }
 }

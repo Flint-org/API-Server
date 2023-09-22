@@ -49,7 +49,7 @@ public class Member extends BaseTimeEntity {
 
     //유저, 관리자
     @Enumerated(EnumType.STRING)
-    private Authority authority = Authority.ANAUTHUSER;
+    private Authority authority = Authority.UNAUTHUSER;
 
     @NotNull
     private String providerName;
