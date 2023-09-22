@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 게시글 엔티티
  *
@@ -38,11 +41,19 @@ public class Post extends BaseTimeEntity {
     @Column(length = 1000, nullable = false)
     private String contents;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<PostImage> postImages = new ArrayList<>();
+
     @Builder
     public Post(Member member, Board board, String title, String contents) {
         this.member = member;
         this.board = board;
         this.title = title;
         this.contents = contents;
+    }
+
+    public void addImageUrl(PostImage postImage){
+        this.postImages.add(postImage);
+        postImage.changePost(this);
     }
 }

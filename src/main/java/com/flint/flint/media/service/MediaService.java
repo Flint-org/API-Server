@@ -125,6 +125,9 @@ public class MediaService {
      * @return Pre-Signed URL
      */
     public PreSignedUrlResponse getPreSignedURL(String folderName, String fileName) {
+        if (!isValidImageExtension(fileName))
+            throw new FlintCustomException(HttpStatus.BAD_REQUEST, INVALID_IMAGE_EXTENSION_TYPE);
+
         String path = folderName + "/" + fileName;
 
         URL url = s3Client.generatePresignedUrl(getGeneratePreSignedUrlRequest(path));
