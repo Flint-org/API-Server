@@ -59,12 +59,12 @@ public class IdCardService {
     }
 
     @Transactional
-    public IdCardGetResponse.MyIdCard getMyIdCardByMemberId(Long memberId) {
+    public IdCardGetResponse.GetIdCard getMyIdCardByMemberId(Long memberId) {
         Member member = memberService.getMember(memberId);
         IdCard idCard = idCardJPARepository.findByMember(member).orElseThrow(() -> new FlintCustomException(HttpStatus.BAD_REQUEST, ResultCode.IDCARD_NOT_FOUND));
         String university = idCard.getUniversity();
         LogoInfoResponse univInfo = assetService.getUniversityLogoInfoByName(university);
 
-        return  IdCardGetResponse.MyIdCard.of(univInfo, idCard);
+        return  IdCardGetResponse.GetIdCard.of(univInfo, idCard);
     }
 }
