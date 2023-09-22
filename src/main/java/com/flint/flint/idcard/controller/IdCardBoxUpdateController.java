@@ -7,9 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author 정순원
+ * @since 2023-09-22
+ */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/idcard/box")
+@RequestMapping("/api/v1/idcard/box")
 public class IdCardBoxUpdateController {
 
     private final IdCardBoxService idCardBoxService;

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2023-09-10
  */
 @RestController
-@RequestMapping("api/v1/idcard")
+@RequestMapping("/api/v1/idcard")
 @RequiredArgsConstructor
 public class IdCardUpdateController {
 

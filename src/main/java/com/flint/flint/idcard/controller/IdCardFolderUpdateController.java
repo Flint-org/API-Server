@@ -12,16 +12,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author 정순원
+ * @since 2023-09-22
+ */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/idcard/box/folder")
+@RequestMapping("/api/v1/idcard/box/folder")
 public class IdCardFolderUpdateController {
 
     private final IdCardFolderService idCardFolderService;
 
     @PostMapping
-    public ResponseForm createIdCardFolder (@Valid @RequestBody IdCardFolderUpdateRequest.CreateFolderRequest requestBody,
-                                            @AuthenticationPrincipal AuthorityMemberDTO memberDTO) {
+    public ResponseForm createIdCardFolder(@Valid @RequestBody IdCardFolderUpdateRequest.CreateFolderRequest requestBody,
+                                           @AuthenticationPrincipal AuthorityMemberDTO memberDTO) {
         return new ResponseForm<>(idCardFolderService.createIdCardFolder(requestBody.getTitle(), memberDTO.getId()));
     }
 }
