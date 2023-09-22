@@ -8,9 +8,13 @@ import com.flint.flint.community.dto.response.GeneralBoardResponse;
 import com.flint.flint.community.dto.response.MajorBoardResponse;
 import com.flint.flint.community.dto.response.UpperMajorInfoResponse;
 import com.flint.flint.community.dto.response.UpperMajorListResponse;
+import com.flint.flint.community.repository.BoardBookmarkRepository;
 import com.flint.flint.community.repository.BoardRepository;
 import com.flint.flint.community.repository.MajorBoardRepository;
 import com.flint.flint.community.spec.BoardType;
+import com.flint.flint.member.domain.main.Member;
+import com.flint.flint.member.repository.MemberRepository;
+import com.flint.flint.member.spec.Authority;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,7 +38,11 @@ class BoardServiceTest {
     @Autowired
     private BoardRepository boardRepository;
     @Autowired
+    private BoardBookmarkRepository bookmarkRepository;
+    @Autowired
     private MajorBoardRepository majorBoardRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Autowired
     private EntityManager em;
@@ -222,5 +230,56 @@ class BoardServiceTest {
         assertThatThrownBy(() -> boardService.getLowerMajorListByUpperMajor(upperMajorID))
                 .isInstanceOf(FlintCustomException.class)
                 .hasMessage(ResultCode.MAJOR_BOARD_NOT_FOUND.getMessage());
+    }
+
+    @DisplayName("유저가 게시판을 즐겨찾기에 등록하면, 성공적으로 처리된다.")
+    @Test
+    void bookmarkBoard() {
+        // given
+        Member member = Member.builder()
+                .name("테스터")
+                .providerId("kakao 12345")
+                .email("test@test.com")
+                .providerName("kakao")
+                .authority(Authority.AUTHUSER)
+                .build();
+
+        Member save = memberRepository.save(member);
+
+        // when
+        Board board = boardRepository.findBoardByGeneralBoardName("자유게시판").get();
+        MajorBoard majorBoard = majorBoardRepository.findMajorBoardByName("공학계열").get();
+
+        boardService.bookmarkBoard(save.getProviderId(), board.getId());
+        boardService.bookmarkBoard(save.getProviderId(), majorBoard.getBoard().getId());
+
+        // then
+        assertThat(bookmarkRepository.existsByMemberAndBoard(save, board)).isTrue();
+        assertThat(bookmarkRepository.existsByMemberAndBoard(save, majorBoard.getBoard())).isTrue();
+    }
+
+    @DisplayName("유저가 이미 즐겨찾기한 게시판을 즐겨찾기 등록에 시도할 시 예외가 발생한다.")
+    @Test
+    void bookmarkBoardWithAlreadyBookmarked() {
+        // given
+        Member member = Member.builder()
+                .name("테스터")
+                .providerId("kakao 12345")
+                .email("test@test.com")
+                .providerName("kakao")
+                .authority(Authority.AUTHUSER)
+                .build();
+
+        Member save = memberRepository.save(member);
+
+        // when
+        Board board = boardRepository.findBoardByGeneralBoardName("자유게시판").get();
+
+        boardService.bookmarkBoard(save.getProviderId(), board.getId());
+
+        // then
+        assertThatThrownBy(() -> boardService.bookmarkBoard(save.getProviderId(), board.getId()))
+                .isInstanceOf(FlintCustomException.class)
+                .hasMessage(ResultCode.ALREADY_BOOKMARKED_BOARD.getMessage());
     }
 }
