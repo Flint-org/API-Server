@@ -9,6 +9,7 @@ import com.flint.flint.security.auth.dto.AuthenticationResponse;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +34,7 @@ public class MailController {
      * 인증번호 보내기
      * 검증: API호출 횟수
      */
+    @PreAuthorize("hasRole('ROLE_UNAUTHUSER')")
     @PostMapping("/send")
     public ResponseForm<EmailAuthNumberRespose> sendEmail(@Valid @RequestBody SendEmailAuthNumberReqeust request, @AuthenticationPrincipal AuthorityMemberDTO authorityMemberDTO) {
         Long key = authorityMemberDTO.getId();
@@ -44,6 +46,7 @@ public class MailController {
      * 인증 한 유저 권한으로 새로운 액세스 토큰, 리프레쉬 토큰 발급해주기
      * 검증: 이메일 인증코드
      */
+    @PreAuthorize("hasRole('ROLE_UNAUTHUSER')")
     @PostMapping("/success/auth")
     public ResponseForm<AuthenticationResponse> successUniversityAuth(@Valid @RequestBody SuccessUniversityAuthRequest request, @AuthenticationPrincipal AuthorityMemberDTO authorityMemberDTO) {
         Long key = authorityMemberDTO.getId();

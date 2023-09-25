@@ -5,6 +5,7 @@ import com.flint.flint.idcard.dto.response.IdCardBoxGetResponse;
 import com.flint.flint.idcard.service.IdCardBoxService;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class IdCardBoxGetController {
 
     private final IdCardBoxService idCardBoxService;
 
+    @PreAuthorize("hasRole('ROLE_AUTHUSER')")
     @GetMapping
     public ResponseForm<IdCardBoxGetResponse> getIdCardBox(@AuthenticationPrincipal AuthorityMemberDTO memberDTO) {
         return new ResponseForm<>(idCardBoxService.getIdCardBox(memberDTO));
