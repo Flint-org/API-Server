@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/idcard/box")
 public class IdCardBoxGetController {
 
-    private IdCardBoxService idCardBoxService;
+    private final IdCardBoxService idCardBoxService;
 
     @GetMapping
     public ResponseForm<IdCardBoxGetResponse> getIdCardBox(@AuthenticationPrincipal AuthorityMemberDTO memberDTO) {

@@ -1,7 +1,7 @@
 package com.flint.flint.idcard.repository.impl;
 
 import com.flint.flint.idcard.domain.IdCard;
-import com.flint.flint.idcard.repository.custom.IdCardRepositoryCustom;
+import com.flint.flint.idcard.repository.custom.IdCardFolderRepositoryCustom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -17,7 +17,7 @@ import static com.flint.flint.idcard.domain.QIdCardFolder.idCardFolder;
  */
 @Repository
 @RequiredArgsConstructor
-public class IdCardFolderRepositoryImpl implements IdCardRepositoryCustom {
+public class IdCardFolderRepositoryImpl implements IdCardFolderRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
