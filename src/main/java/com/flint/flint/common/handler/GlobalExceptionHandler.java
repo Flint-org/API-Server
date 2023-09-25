@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -63,7 +64,22 @@ public class GlobalExceptionHandler {
         log.error("[클라이언트 에러] from {} api", request.getRequestURI(), e);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 new ResponseForm<>(ResultCode.NOT_VALIDATION)
-                );
+        );
+    }
+
+    /**
+     * 클라이언트가 인가되지 않은 사용사로 요청 보냈을 때 생기는 에러를 커스터마이징하여 핸들링 (상태 코드 4xx 응답)
+     *
+     * @param e       인가 에러 AccessDeniedException 예외 클래스
+     * @param request 요청 서블릿 객체
+     * @return 커스텀 에러 코드의 내용에 따른 에러 응답 json
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ResponseForm<Void>> handleAccessDeniedException(AccessDeniedException e, HttpServletRequest request) {
+        log.error("[클라이언트 에러] from {} api", request.getRequestURI(), e);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                new ResponseForm<>(ResultCode.AUTH_USER_NOT)
+        );
     }
 
 }

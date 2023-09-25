@@ -35,7 +35,7 @@ class IdCardBoxGetControllerTest {
     @Autowired
     IdCardBoxJPARepository idCardBoxJPARepository;
     @Autowired
-    private UniversityAssetRepository assetRepository;
+    UniversityAssetRepository assetRepository;
 
     @BeforeEach
     void init() {
@@ -123,10 +123,10 @@ class IdCardBoxGetControllerTest {
     @Test
     @DisplayName("명함 박스 전체 조회 컨트롤러 테스트")
     @Transactional
-    @WithMockCustomMember
+    @WithMockCustomMember(role = "ROLE_AUTHUSER")
     void test1() throws Exception {
-       mockMvc.perform(get("/api/v1/idcard/box")
-                        .contentType(MediaType.APPLICATION_JSON)
-                ).andExpect(status().isOk());
+        mockMvc.perform(get("/api/v1/idcard/box")
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk());
     }
 }
