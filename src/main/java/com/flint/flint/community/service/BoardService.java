@@ -2,11 +2,15 @@ package com.flint.flint.community.service;
 
 import com.flint.flint.common.exception.FlintCustomException;
 import com.flint.flint.community.domain.board.Board;
+import com.flint.flint.community.domain.board.BoardBookmark;
 import com.flint.flint.community.domain.board.MajorBoard;
 import com.flint.flint.community.dto.response.*;
+import com.flint.flint.community.repository.BoardBookmarkRepository;
 import com.flint.flint.community.repository.BoardRepository;
 import com.flint.flint.community.repository.MajorBoardRepository;
 import com.flint.flint.community.spec.BoardType;
+import com.flint.flint.member.domain.main.Member;
+import com.flint.flint.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,6 +32,8 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MajorBoardRepository majorBoardRepository;
+    private final BoardBookmarkRepository bookmarkRepository;
+    private final MemberService memberService;
 
     /**
      * 일반 게시판 목록 조회
@@ -114,8 +120,49 @@ public class BoardService {
                 .build();
     }
 
+    /**
+     * id로 게시판 엔티티 가져오는 메소드
+     *
+     * @param boardId 게시판 id
+     * @return 게시판 엔티티 객체
+     */
+    @Transactional(readOnly = true)
     public Board getBoard(Long boardId) {
         return boardRepository.findById(boardId)
                 .orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, BOARD_NOT_FOUND));
+    }
+
+    /**
+     * 유저가 해당 게시판을 즐겨찾기 했는지 여부
+     *
+     * @param member 대상 유저
+     * @param board  검색할 대상 게시판
+     * @return 즐겨찾기 되어있으면 true, 아니면 false
+     */
+    public boolean isBookmarkedBoard(Member member, Board board) {
+        return bookmarkRepository.existsByMemberAndBoard(member, board);
+    }
+
+    /**
+     * 게시판 즐겨찾기 등록 메소드
+     *
+     * @param providerId 유저의 provider id
+     * @param boardId    즐겨찾기할 게시판 id
+     */
+    @Transactional
+    public void bookmarkBoard(String providerId, Long boardId) {
+        Member member = memberService.getMemberByProviderId(providerId);
+        Board board = this.getBoard(boardId);
+
+        // 해당 유저가 대상 게시판을 즐겨찾기 했는지 검증
+        if (isBookmarkedBoard(member, board))
+            throw new FlintCustomException(HttpStatus.BAD_REQUEST, ALREADY_BOOKMARKED_BOARD);
+
+
+        BoardBookmark bookmark = BoardBookmark.builder()
+                .member(member)
+                .board(board)
+                .build();
+        bookmarkRepository.save(bookmark);
     }
 }

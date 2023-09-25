@@ -44,7 +44,7 @@ class PostServiceTest {
                 .name("홍길동")
                 .authority(Authority.AUTHUSER)
                 .email("test@test.com")
-                .providerId("test")
+                .providerId("kakao test")
                 .providerName("kakao")
                 .build();
 
@@ -70,7 +70,7 @@ class PostServiceTest {
                 .build();
 
         // when
-        List<PostPreSignedUrlResponse> responses = postService.createPost(savedMember.getEmail(), postRequest);
+        List<PostPreSignedUrlResponse> responses = postService.createPost(savedMember.getProviderId(), postRequest);
 
         List<Post> postList = postRepository.findAll();
 
@@ -92,7 +92,7 @@ class PostServiceTest {
                 .name("홍길동")
                 .authority(Authority.AUTHUSER)
                 .email("test@test.com")
-                .providerId("test")
+                .providerId("kakao test")
                 .providerName("kakao")
                 .build();
 
@@ -117,7 +117,7 @@ class PostServiceTest {
                 .build();
 
         // then, when
-        assertThatThrownBy(() -> postService.createPost(savedMember.getEmail(), postRequest))
+        assertThatThrownBy(() -> postService.createPost(savedMember.getProviderId(), postRequest))
                 .isInstanceOf(FlintCustomException.class)
                 .hasMessage(ResultCode.INVALID_IMAGE_EXTENSION_TYPE.getMessage());
     }

@@ -6,7 +6,10 @@ import com.flint.flint.community.dto.response.MajorBoardResponse;
 import com.flint.flint.community.dto.response.UpperMajorInfoResponse;
 import com.flint.flint.community.dto.response.UpperMajorListResponse;
 import com.flint.flint.community.service.BoardService;
+import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +26,23 @@ import java.util.List;
 public class BoardApiController {
 
     private final BoardService boardService;
+
+    /**
+     * 게시판 즐겨찾기 등록
+     *
+     * @param memberDTO 유저
+     * @param boardId   즐겨찾기할 게시판 ID
+     * @return x
+     */
+    @PreAuthorize("hasRole('ROLE_AUTHUSER')")
+    @PostMapping("/{boardId}/bookmark")
+    public ResponseForm<Void> bookmarkBoard(
+            @AuthenticationPrincipal AuthorityMemberDTO memberDTO,
+            @PathVariable("boardId") Long boardId
+    ) {
+        boardService.bookmarkBoard(memberDTO.getProviderId(), boardId);
+        return new ResponseForm<>();
+    }
 
     /**
      * 일반 게시판 목록 조회 API
@@ -66,5 +86,4 @@ public class BoardApiController {
     ) {
         return new ResponseForm<>(boardService.getLowerMajorListByUpperMajor(upperMajorId));
     }
-
 }

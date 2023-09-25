@@ -5,6 +5,9 @@ import com.flint.flint.club.controller.main.ClubController;
 import com.flint.flint.club.domain.spec.*;
 import com.flint.flint.club.repository.main.ClubRepository;
 import com.flint.flint.club.request.ClubCreateRequest;
+import com.flint.flint.custom_member.WithMockCustomMember;
+import com.flint.flint.member.domain.main.Member;
+import com.flint.flint.member.repository.MemberRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,6 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ClubControllerTest {
+
+    @Autowired
+    MemberRepository memberRepository;
     @Autowired
     ClubController clubController;
     @Autowired
@@ -35,7 +41,16 @@ public class ClubControllerTest {
     @Test
     @DisplayName("모임 생성 컨트롤러 테스트")
     @Transactional
-    void test1() throws Exception{
+    @WithMockCustomMember
+    void test1() throws Exception {
+        Member member = Member.builder()
+                .name("테스터")
+                .email("test@test.com")
+                .providerName("kakao")
+                .providerId("kakao test")
+                .build();
+
+        memberRepository.save(member);
 
         String requestBody = objectMapper.writeValueAsString(
                 ClubCreateRequest.builder()

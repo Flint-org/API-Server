@@ -32,6 +32,6 @@ public class PostApiController {
             @AuthenticationPrincipal AuthorityMemberDTO memberDTO,
             @Valid @RequestBody PostRequest postRequest
     ) {
-        return new ResponseForm<>(postService.createPost(memberDTO.getEmail(), postRequest));
+        return new ResponseForm<>(postService.createPost(memberDTO.getProviderId(), postRequest));
     }
 }

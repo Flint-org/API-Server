@@ -51,7 +51,7 @@ class IdCardServiceTest {
                 .providerName("kakao")
                 .email("test2@test.com")
                 .providerId("test2")
-                .authority(Authority.ANAUTHUSER)
+                .authority(Authority.UNAUTHUSER)
                 .build();
 
         memberRepository.save(member);

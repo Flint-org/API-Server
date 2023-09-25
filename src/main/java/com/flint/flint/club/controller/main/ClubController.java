@@ -3,14 +3,13 @@ package com.flint.flint.club.controller.main;
 import com.flint.flint.club.domain.main.Club;
 import com.flint.flint.club.domain.spec.ClubCategoryType;
 import com.flint.flint.club.request.ClubCreateRequest;
-import com.flint.flint.club.request.PageRequest;
 import com.flint.flint.club.response.ClubDetailGetResponse;
-import com.flint.flint.club.response.ClubsGetResponse;
 import com.flint.flint.club.service.comment.ClubCommentServiceImpl;
 import com.flint.flint.club.service.main.ClubServiceImpl;
 import com.flint.flint.common.ResponseForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -25,6 +24,7 @@ public class ClubController {
     private final ClubServiceImpl clubService;
     private final ClubCommentServiceImpl clubCommentService;
 
+    @PreAuthorize("hasRole('ROLE_AUTHUSER')")
     @PostMapping(path = "")
     public void createClub(@RequestBody ClubCreateRequest clubCreateRequest) {
         clubService.createClub(clubCreateRequest);

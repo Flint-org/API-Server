@@ -44,7 +44,6 @@ class PostApiControllerTest {
 
     @Test
     @DisplayName("학교 인증을 받지 않은 회원은 게시글 생성 시 예외가 발생한다.")
-    @WithMockCustomMember(role = "ROLE_UNAUTHUSER")
     void createPostWithoutCredential() throws Exception {
         Board board = Board.builder()
                 .boardType(BoardType.GENERAL)
@@ -69,7 +68,7 @@ class PostApiControllerTest {
         this.mockMvc.perform(post(BASE_URL)
                         .content(json)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -87,7 +86,7 @@ class PostApiControllerTest {
                 .name("테스터")
                 .email("test@test.com")
                 .providerName("kakao")
-                .providerId("test")
+                .providerId("kakao test")
                 .build();
 
         memberRepository.save(member);
