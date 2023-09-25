@@ -4,7 +4,6 @@ import com.flint.flint.asset.dto.LogoInfoResponse;
 import com.flint.flint.asset.service.AssetService;
 import com.flint.flint.idcard.domain.IdCard;
 import com.flint.flint.idcard.domain.IdCardFolder;
-import com.flint.flint.idcard.dto.response.IdCardFolderGetResPonse;
 import com.flint.flint.idcard.dto.response.IdCardFolderGetResponse;
 import com.flint.flint.idcard.dto.response.IdCardFolderUpdateResponse;
 import com.flint.flint.idcard.dto.response.IdCardGetResponse;
@@ -16,6 +15,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,7 +30,6 @@ public class IdCardFolderService {
 
     private final IdCardFolderJPARepository folderJPARepository;
     private final MemberService memberService;
-    private final IdCardService idCardService;
     private final IdCardFolderRepositoryCustom idCardFolderRepositoryCustom;
     private final AssetService assetService;
 
@@ -51,7 +50,7 @@ public class IdCardFolderService {
     @Transactional
     public IdCardFolderGetResponse getIdCardFolder(String folderName, AuthorityMemberDTO memberDTO) {
         List<IdCard> idCardList = idCardFolderRepositoryCustom.findIdCardByTitleAndMember(folderName, memberDTO.getId());
-        IdCardFolderGetResponse idCardFolderGetResponse = new IdCardFolderGetResponse();
+        IdCardFolderGetResponse idCardFolderGetResponse =  new IdCardFolderGetResponse(new ArrayList<IdCardGetResponse.GetIdCard>());
 
         idCardList.stream()
                 .map(idCard -> {

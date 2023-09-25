@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/idcard/box")
+@RequestMapping("/api/v1/idcard/box/folder")
 public class IdCardFolderGetController {
 
     private final IdCardFolderService idCardFolderService;

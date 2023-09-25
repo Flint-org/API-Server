@@ -15,6 +15,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -51,7 +52,7 @@ public class IdCardBoxService {
     @Transactional
     public IdCardBoxGetResponse getIdCardBox(AuthorityMemberDTO memberDTO) {
         List<IdCard> idCardList = idCardBoxRepositoryCustom.findIdCardListByMemberId(memberDTO.getId());
-        IdCardBoxGetResponse idCardBoxGetResponse = new IdCardBoxGetResponse();
+        IdCardBoxGetResponse idCardBoxGetResponse =  new IdCardBoxGetResponse(new ArrayList<IdCardGetResponse.GetIdCard>());
 
         idCardList.stream()
                 .map(idCard -> {
