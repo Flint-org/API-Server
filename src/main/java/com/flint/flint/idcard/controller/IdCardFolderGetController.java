@@ -22,7 +22,7 @@ public class IdCardFolderGetController {
     private final IdCardFolderService idCardFolderService;
 
     @GetMapping("/{folderName}")
-    public ResponseForm<> getIdCardFolder(@PathVariable String folderName,
+    public ResponseForm getIdCardFolder(@PathVariable String folderName,
                                           @AuthenticationPrincipal AuthorityMemberDTO memberDTO) {
         return new ResponseForm<>(idCardFolderService.getIdCardFolder(folderName, memberDTO));
     }
