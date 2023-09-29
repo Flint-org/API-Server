@@ -6,8 +6,8 @@ import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/idcard/box/folder")
-public class IdCardFolderUpdateController {
+public class IdCardFolderGetController {
 
     private final IdCardFolderService idCardFolderService;
 
     @PreAuthorize("hasRole('ROLE_AUTHUSER')")
-    @PostMapping("/{folderName}")
-    public ResponseForm createIdCardFolder(@PathVariable String folderName,
-                                           @AuthenticationPrincipal AuthorityMemberDTO memberDTO) {
-        return new ResponseForm<>(idCardFolderService.createIdCardFolder(folderName, memberDTO.getId()));
+    @GetMapping("/{folderName}")
+    public ResponseForm getIdCardFolder(@PathVariable String folderName,
+                                          @AuthenticationPrincipal AuthorityMemberDTO memberDTO) {
+        return new ResponseForm<>(idCardFolderService.getIdCardFolder(folderName, memberDTO));
     }
 }

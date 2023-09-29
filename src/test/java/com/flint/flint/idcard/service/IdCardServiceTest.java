@@ -116,7 +116,7 @@ class IdCardServiceTest {
         UniversityAsset univInfo = assetRepository.findUniversityAssetByUniversityName(idCard.getUniversity()).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.NOT_FOUND_UNIVERSITY_NAME));
 
         //when
-        IdCardGetResponse.MyIdCard response = idCardService.getMyIdCardByMemberId(member.getId());
+        IdCardGetResponse.GetIdCard response = idCardService.getMyIdCardByMemberId(member.getId());
 
         //then
         assertEquals(response.getUnivInfo().getBlue(), univInfo.getBlue());

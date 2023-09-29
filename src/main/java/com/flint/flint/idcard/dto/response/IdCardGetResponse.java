@@ -18,7 +18,7 @@ public class IdCardGetResponse {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class MyIdCard {
+    public static class GetIdCard {
         private LogoInfoResponse univInfo; // 대학 로고, 이름, 전공
         private Long id;
         private int admissionYear;
@@ -29,8 +29,8 @@ public class IdCardGetResponse {
         private String cardBackMBTI;
         private List<InterestType> cardBackInterestTypeList;
 
-        public static MyIdCard of(LogoInfoResponse univInfo, IdCard idCard) {
-            return new MyIdCard(
+        public static GetIdCard of(LogoInfoResponse univInfo, IdCard idCard) {
+            return new GetIdCard(
                     univInfo,
                     idCard.getId(),
                     idCard.getAdmissionYear(),
