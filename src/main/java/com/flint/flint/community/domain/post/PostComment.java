@@ -1,6 +1,7 @@
 package com.flint.flint.community.domain.post;
 
 import com.flint.flint.common.BaseTimeEntity;
+import com.flint.flint.community.dto.request.PostCommentUpdateRequest;
 import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -35,7 +36,7 @@ public class PostComment extends BaseTimeEntity {
     private PostComment parentComment;
 
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PostComment> replies = new ArrayList<>();
+    private List<PostComment> replies;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -49,7 +50,19 @@ public class PostComment extends BaseTimeEntity {
         this.post = post;
         this.parentComment = parentComment;
         this.member = member;
-        this.replies = replies;
+        this.replies = new ArrayList<>();
+        this.contents = contents;
+    }
+
+    public void setParentComment(PostComment parentComment) {
+        this.parentComment = parentComment;
+    }
+    public void addCommentReply(PostComment reply) {
+        this.replies.add(reply);
+        reply.setParentComment(this);
+    }
+
+    public void updateContent(String contents) {
         this.contents = contents;
     }
 }
