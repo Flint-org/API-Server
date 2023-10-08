@@ -133,17 +133,6 @@ public class BoardService {
     }
 
     /**
-     * 유저가 해당 게시판을 즐겨찾기 했는지 여부
-     *
-     * @param member 대상 유저
-     * @param board  검색할 대상 게시판
-     * @return 즐겨찾기 되어있으면 true, 아니면 false
-     */
-    public boolean isBookmarkedBoard(Member member, Board board) {
-        return bookmarkRepository.existsByMemberAndBoard(member, board);
-    }
-
-    /**
      * 게시판 즐겨찾기 등록 메소드
      *
      * @param providerId 유저의 provider id
@@ -155,14 +144,30 @@ public class BoardService {
         Board board = this.getBoard(boardId);
 
         // 해당 유저가 대상 게시판을 즐겨찾기 했는지 검증
-        if (isBookmarkedBoard(member, board))
+        if (bookmarkRepository.findBoardBookmarkByMemberAndBoard(member, board).isPresent())
             throw new FlintCustomException(HttpStatus.BAD_REQUEST, ALREADY_BOOKMARKED_BOARD);
-
 
         BoardBookmark bookmark = BoardBookmark.builder()
                 .member(member)
                 .board(board)
                 .build();
         bookmarkRepository.save(bookmark);
+    }
+
+    /**
+     * 게시판 즐겨찾기 해제 메소드
+     *
+     * @param providerId 유저의 provider id
+     * @param boardId    즐겨찾기 해제할 게시판 id
+     */
+    @Transactional
+    public void deleteBookmarkBoard(String providerId, Long boardId) {
+        Member member = memberService.getMemberByProviderId(providerId);
+        Board board = this.getBoard(boardId);
+
+        BoardBookmark bookmark = bookmarkRepository.findBoardBookmarkByMemberAndBoard(member, board)
+                .orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, UNKNOWN_BOOKMARK_BOARD));
+
+        bookmarkRepository.delete(bookmark);
     }
 }
