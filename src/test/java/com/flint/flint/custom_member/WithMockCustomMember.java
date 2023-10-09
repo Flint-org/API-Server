@@ -16,3 +16,4 @@ import java.lang.annotation.RetentionPolicy;
 public @interface WithMockCustomMember {
     String role() default "ROLE_AUTHUSER";
 }
+    
