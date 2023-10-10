@@ -5,7 +5,7 @@ import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.domain.post.PostComment;
 import com.flint.flint.community.dto.request.PostCommentUpdateRequest;
-import com.flint.flint.community.dto.response.PostCommentCreateResponse;
+import com.flint.flint.community.dto.response.PostCommentUpdateResponse;
 import com.flint.flint.community.repository.PostCommentRepository;
 import com.flint.flint.community.repository.PostRepository;
 import com.flint.flint.member.domain.main.Member;
@@ -30,17 +30,17 @@ public class PostCommentUpdateService {
     private final PostRepository postRepository;
 
     @Transactional
-    public PostCommentCreateResponse createPostComment(String providerId, long postId, PostCommentUpdateRequest createDTO) {
+    public PostCommentUpdateResponse createPostComment(String providerId, long postId, PostCommentUpdateRequest createDTO) {
         PostComment postComment = buildPostComment(providerId, postId, createDTO);
-        PostComment parentComment = postCommentRepository.findPostCommentById(createDTO.getParentCommentId());
 
-        if (parentComment == null) { // 댓글일시
+        if (createDTO.getParentCommentId() == null) { // 댓글일시
             postComment.setParentComment(null);
-        } else{                      //대댓글일시
+        } else {                                    //대댓글일시
+            PostComment parentComment = postCommentRepository.findById(createDTO.getParentCommentId()).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.POST_COMMENT_NOT_FOUND));
             parentComment.addCommentReply(postComment);
         }
         postCommentRepository.save(postComment);
-        return new PostCommentCreateResponse(postComment.getId());
+        return new PostCommentUpdateResponse(postComment.getId());
     }
 
     @Transactional

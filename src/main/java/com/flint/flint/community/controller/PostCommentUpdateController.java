@@ -2,7 +2,7 @@ package com.flint.flint.community.controller;
 
 import com.flint.flint.common.ResponseForm;
 import com.flint.flint.community.dto.request.PostCommentUpdateRequest;
-import com.flint.flint.community.dto.response.PostCommentCreateResponse;
+import com.flint.flint.community.dto.response.PostCommentUpdateResponse;
 import com.flint.flint.community.service.PostCommentUpdateService;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import jakarta.validation.Valid;
@@ -23,8 +23,8 @@ public class PostCommentUpdateController {
 
     private final PostCommentUpdateService postService;
 
-    @PostMapping("/{postId}/reply")
-    public ResponseForm<PostCommentCreateResponse> createPostComment(
+    @PostMapping("/{postId}")
+    public ResponseForm<PostCommentUpdateResponse> createPostComment(
             @AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId,
             @Valid @RequestBody PostCommentUpdateRequest requestDTO) {
         return new ResponseForm<>(postService.createPostComment(memberDTO.getProviderId(), postId, requestDTO));
