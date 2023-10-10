@@ -5,7 +5,7 @@ import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.domain.post.PostComment;
 import com.flint.flint.community.dto.request.PostCommentUpdateRequest;
-import com.flint.flint.community.dto.response.PostCommentCreateResponse;
+import com.flint.flint.community.dto.response.PostCommentUpdateResponse;
 import com.flint.flint.community.repository.PostCommentRepository;
 import com.flint.flint.community.repository.PostRepository;
 import com.flint.flint.member.domain.main.Member;
@@ -42,8 +42,7 @@ class PostCommentUpdateServiceTest {
     @BeforeEach
     void setUp() {
         Member member = Member.builder()
-                .name("정순원")
-                .authority(Authority.AUTHUSER)
+                        .name("정순원").authority(Authority.AUTHUSER)
                 .email("test@test.com")
                 .providerName("kakao")
                 .providerId("kakao test")
@@ -58,7 +57,8 @@ class PostCommentUpdateServiceTest {
 
         postRepository.save(post);
 
-        parentComment = PostComment.builder()
+        parentComment = PostComment
+                .builder()
                 .contents("부모댓글 테스트내용")
                 .post(post)
                 .member(member)
@@ -76,7 +76,7 @@ class PostCommentUpdateServiceTest {
                 .contents("댓글 테스트내용입니다.")
                 .build();
         //when
-        PostCommentCreateResponse responseDTO = postCommentUpdateService.createPostComment("kakao test", post.getId(), requestDTO);
+        PostCommentUpdateResponse responseDTO = postCommentUpdateService.createPostComment("kakao test", post.getId(), requestDTO);
         //then
         PostComment postComment = postCommentRepository.findById(responseDTO.getPostCommentId()).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.POST_COMMENT_NOT_FOUND));
         assertEquals(requestDTO.getContents(), postComment.getContents());
@@ -89,7 +89,7 @@ class PostCommentUpdateServiceTest {
         //given
         PostCommentUpdateRequest requestDTO = new PostCommentUpdateRequest("대댓글 테스트내용입니다.", parentComment.getId());
         //when
-        PostCommentCreateResponse responseDTO = postCommentUpdateService.createPostComment("kakao test", post.getId(), requestDTO);
+        PostCommentUpdateResponse responseDTO = postCommentUpdateService.createPostComment("kakao test", post.getId(), requestDTO);
         //then
         PostComment reply = postCommentRepository.findById(responseDTO.getPostCommentId()).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.POST_COMMENT_NOT_FOUND));
         assertEquals(requestDTO.getContents(), reply.getContents());
