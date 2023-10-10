@@ -254,8 +254,8 @@ class BoardServiceTest {
         boardService.bookmarkBoard(save.getProviderId(), majorBoard.getBoard().getId());
 
         // then
-        assertThat(bookmarkRepository.existsByMemberAndBoard(save, board)).isTrue();
-        assertThat(bookmarkRepository.existsByMemberAndBoard(save, majorBoard.getBoard())).isTrue();
+        assertThat(bookmarkRepository.findBoardBookmarkByMemberAndBoard(save, board).isPresent()).isTrue();
+        assertThat(bookmarkRepository.findBoardBookmarkByMemberAndBoard(save, majorBoard.getBoard()).isPresent()).isTrue();
     }
 
     @DisplayName("유저가 이미 즐겨찾기한 게시판을 즐겨찾기 등록에 시도할 시 예외가 발생한다.")
@@ -281,5 +281,52 @@ class BoardServiceTest {
         assertThatThrownBy(() -> boardService.bookmarkBoard(save.getProviderId(), board.getId()))
                 .isInstanceOf(FlintCustomException.class)
                 .hasMessage(ResultCode.ALREADY_BOOKMARKED_BOARD.getMessage());
+    }
+
+    @DisplayName("유저가 즐겨찾기되지 않은 게시판을 해제에 시도할 시 예외가 발생한다.")
+    @Test
+    void deleteBookmarkBoardWithNoBookmarked() {
+        // given
+        Member member = Member.builder()
+                .name("테스터")
+                .providerId("kakao 12345")
+                .email("test@test.com")
+                .providerName("kakao")
+                .authority(Authority.AUTHUSER)
+                .build();
+
+        Member save = memberRepository.save(member);
+
+        // when
+        Board board = boardRepository.findBoardByGeneralBoardName("자유게시판").get();
+
+        // then
+        assertThatThrownBy(() -> boardService.deleteBookmarkBoard(save.getProviderId(), board.getId()))
+                .isInstanceOf(FlintCustomException.class)
+                .hasMessage(ResultCode.UNKNOWN_BOOKMARK_BOARD.getMessage());
+    }
+
+    @DisplayName("유저가 즐겨찾기된 게시판에 대해 즐겨찾기 해제 시, 해제에 성공한다.")
+    @Test
+    void deleteBookmarkBoard() {
+        // given
+        Member member = Member.builder()
+                .name("테스터")
+                .providerId("kakao 12345")
+                .email("test@test.com")
+                .providerName("kakao")
+                .authority(Authority.AUTHUSER)
+                .build();
+
+        Member save = memberRepository.save(member);
+
+        Board board = boardRepository.findBoardByGeneralBoardName("자유게시판").get();
+        boardService.bookmarkBoard(save.getProviderId(), board.getId());
+
+        // when
+        boardService.deleteBookmarkBoard(save.getProviderId(), board.getId());
+
+        // then
+        assertThat(bookmarkRepository.findBoardBookmarkByMemberAndBoard(member, board).isEmpty()).isTrue();
     }
 }

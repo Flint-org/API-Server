@@ -14,6 +14,5 @@ public class PostCommentUpdateRequest {
 
         @NotBlank
         private String contents;
-
         private Long parentCommentId;
 }

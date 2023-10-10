@@ -41,7 +41,6 @@ public class PostCommentUpdateService {
         }
         postCommentRepository.save(postComment);
         return new PostCommentUpdateResponse(postComment.getId());
-    }
 
     @Transactional
     public void deletePostComment(String providerId, long postCommentId) {

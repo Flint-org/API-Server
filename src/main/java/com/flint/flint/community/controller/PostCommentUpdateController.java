@@ -23,6 +23,7 @@ public class PostCommentUpdateController {
 
     private final PostCommentUpdateService postService;
 
+
     @PostMapping("/{postId}")
     public ResponseForm<PostCommentUpdateResponse> createPostComment(
             @AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId,

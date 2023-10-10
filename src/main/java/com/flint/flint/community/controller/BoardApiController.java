@@ -34,13 +34,30 @@ public class BoardApiController {
      * @param boardId   즐겨찾기할 게시판 ID
      * @return x
      */
-    @PreAuthorize("hasRole('ROLE_AUTHUSER')")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/{boardId}/bookmark")
     public ResponseForm<Void> bookmarkBoard(
             @AuthenticationPrincipal AuthorityMemberDTO memberDTO,
             @PathVariable("boardId") Long boardId
     ) {
         boardService.bookmarkBoard(memberDTO.getProviderId(), boardId);
+        return new ResponseForm<>();
+    }
+
+    /**
+     * 게시판 즐겨찾기 해제
+     *
+     * @param memberDTO 유저
+     * @param boardId   즐겨찾기 해제할 게시판 ID
+     * @return x
+     */
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/{boardId}/bookmark")
+    public ResponseForm<Void> deleteBookmarkBoard(
+            @AuthenticationPrincipal AuthorityMemberDTO memberDTO,
+            @PathVariable("boardId") Long boardId
+    ) {
+        boardService.deleteBookmarkBoard(memberDTO.getProviderId(), boardId);
         return new ResponseForm<>();
     }
 
