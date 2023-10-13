@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostCommentCreateResponse {
+public class PostCommentUpdateResponse {
 
     private long postCommentId;
 }
