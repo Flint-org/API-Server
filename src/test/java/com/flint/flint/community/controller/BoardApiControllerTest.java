@@ -129,7 +129,7 @@ class BoardApiControllerTest {
     }
 
     @Test
-    @DisplayName("학교 인증을 받은 회원이 즐겨찾기된 게시판을 즐겨찾기 해제하면 성공한다.")
+    @DisplayName("학교 인증을 받은 회원이 즐겨찾기된 게시판 목록을 조회하면 조회에 성공한다.")
     @WithMockCustomMember
     void getBoardBookmarkList() throws Exception {
         Member member = Member.builder()
