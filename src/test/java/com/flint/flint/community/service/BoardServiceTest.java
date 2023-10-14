@@ -379,7 +379,14 @@ class BoardServiceTest {
 
         // then
         assertEquals(3, bookmarkList.size());
-        assertEquals("건축(공학계열)", bookmarkList.get(0).getBoardName());
-        assertEquals("자유게시판", bookmarkList.get(1).getBoardName());
+        assertEquals("자유게시판", bookmarkList.get(0).getBoardName());
+        assertEquals("건축(공학계열)", bookmarkList.get(1).getBoardName());
+        assertEquals("경영 경제(사회계열)", bookmarkList.get(2).getBoardName());
+        /*
+            자유게시판
+            건축(공학계열)
+            경영 경제(사회계열)
+            순으로 정렬
+         */
     }
 }
