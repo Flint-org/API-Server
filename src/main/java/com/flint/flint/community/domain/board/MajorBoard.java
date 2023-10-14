@@ -27,7 +27,7 @@ public class MajorBoard extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_ID")
-    private Board board; // child 의 경우 null
+    private Board board; // child도 가지도록 변경 (2023-10-13)
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UPPER_BOARD_ID")

@@ -68,7 +68,7 @@ public class BoardService {
                         .upperMajorName(major.getName())
                         .lowerMajors(major.getLowerMajorBoards().stream().map( // parent로부터 소분류 전공 게시판 가져오기
                                         lower -> LowerMajorBoardResponse.builder()
-                                                .lowerMajorId(lower.getId())
+                                                .boardId(lower.getBoard().getId())
                                                 .lowerMajorName(lower.getName())
                                                 .build()
                                 ).toList()
@@ -113,7 +113,7 @@ public class BoardService {
                 .upperMajorId(upperMajor.getId())
                 .upperMajorName(upperMajor.getName())
                 .lowerMajors(lowerMajors.stream().map(lower -> LowerMajorBoardResponse.builder()
-                                .lowerMajorId(lower.getId())
+                                .boardId(lower.getBoard().getId())
                                 .lowerMajorName(lower.getName())
                                 .build())
                         .toList())

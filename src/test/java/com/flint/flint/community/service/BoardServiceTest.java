@@ -74,9 +74,34 @@ class BoardServiceTest {
                 .generalBoardName(null)
                 .build();
 
+        Board majorBoard4 = Board.builder().boardType(BoardType.MAJOR)
+                .generalBoardName(null)
+                .build();
+
+        Board majorBoard5 = Board.builder().boardType(BoardType.MAJOR)
+                .generalBoardName(null)
+                .build();
+
+        Board majorBoard6 = Board.builder().boardType(BoardType.MAJOR)
+                .generalBoardName(null)
+                .build();
+
+        Board majorBoard7 = Board.builder().boardType(BoardType.MAJOR)
+                .generalBoardName(null)
+                .build();
+
+        Board majorBoard8 = Board.builder().boardType(BoardType.MAJOR)
+                .generalBoardName(null)
+                .build();
+
         boardRepository.save(majorBoard1);
         boardRepository.save(majorBoard2);
         boardRepository.save(majorBoard3);
+        boardRepository.save(majorBoard4);
+        boardRepository.save(majorBoard5);
+        boardRepository.save(majorBoard6);
+        boardRepository.save(majorBoard7);
+        boardRepository.save(majorBoard8);
 
         MajorBoard major1 = MajorBoard.builder()
                 .board(majorBoard1)
@@ -101,34 +126,34 @@ class BoardServiceTest {
         MajorBoard savedMajor3 = majorBoardRepository.save(major3);
 
         MajorBoard lower11 = MajorBoard.builder()
-                .board(null)
+                .board(majorBoard4)
                 .name("건축")
                 .upperMajorBoard(savedMajor1)
                 .lowerMajorBoards(null)
                 .build();
         MajorBoard lower12 = MajorBoard.builder()
-                .board(null)
+                .board(majorBoard5)
                 .name("기계 금속")
                 .upperMajorBoard(savedMajor1)
                 .lowerMajorBoards(null)
                 .build();
 
         MajorBoard lower21 = MajorBoard.builder()
-                .board(null)
+                .board(majorBoard6)
                 .name("경영 경제")
                 .upperMajorBoard(savedMajor2)
                 .lowerMajorBoards(null)
                 .build();
 
         MajorBoard lower22 = MajorBoard.builder()
-                .board(null)
+                .board(majorBoard7)
                 .name("법률")
                 .upperMajorBoard(savedMajor2)
                 .lowerMajorBoards(null)
                 .build();
 
         MajorBoard lower31 = MajorBoard.builder()
-                .board(null)
+                .board(majorBoard8)
                 .name("교육일반")
                 .upperMajorBoard(savedMajor3)
                 .lowerMajorBoards(null)
@@ -224,7 +249,7 @@ class BoardServiceTest {
     @Test
     void checkNotExistUpperMajor() {
         // given
-        Long upperMajorID = 1000000L;
+        Long upperMajorID = -1L;
 
         // when, then
         assertThatThrownBy(() -> boardService.getLowerMajorListByUpperMajor(upperMajorID))
