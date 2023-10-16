@@ -4,6 +4,7 @@ import com.flint.flint.common.exception.FlintCustomException;
 import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.community.domain.post.PostComment;
 import com.flint.flint.community.domain.post.PostCommentLike;
+import com.flint.flint.community.dto.response.PostCommentLikeResponse;
 import com.flint.flint.community.repository.PostCommentLikeRepository;
 import com.flint.flint.community.repository.PostCommentRepository;
 import com.flint.flint.member.domain.main.Member;
@@ -26,7 +27,7 @@ public class PostCommentLikeUpdateService {
     private final MemberService memberService;
     private final PostCommentRepository postCommentRepository;
 
-    public void createPostCommentLike(String providerId, long postCommentId) {
+    public PostCommentLikeResponse createPostCommentLike(String providerId, long postCommentId) {
         Optional<PostCommentLike> OptionalCommentLike = postCommentLikeRepository.findByProviderIdAndPostCommentId(providerId, postCommentId);
         if(!OptionalCommentLike.isPresent()) {  //이전에 좋아요를 안했을 때
             Member member = memberService.getMemberByProviderId(providerId);
@@ -38,5 +39,8 @@ public class PostCommentLikeUpdateService {
             postCommentLikeRepository.save(build);
         }
         else postCommentLikeRepository.delete(OptionalCommentLike.get()); // 이전에 좋아요를 했을 때
+
+        int likeCount = postCommentLikeRepository.countByPostCommentId(postCommentId);
+        return new PostCommentLikeResponse(likeCount);
     }
 }

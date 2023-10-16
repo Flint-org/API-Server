@@ -15,4 +15,7 @@ public interface PostCommentLikeRepository extends JpaRepository<PostCommentLike
 
     @Query("SELECT pcl FROM PostCommentLike pcl JOIN pcl.member m WHERE m.providerId = :providerId AND pcl.postComment.id = :postCommentId")
     Optional<PostCommentLike> findByProviderIdAndPostCommentId(@Param("providerId") String providerId, @Param("postCommentId") Long postCommentId);
+
+    @Query("SELECT COUNT(pcl) FROM PostCommentLike pcl WHERE pcl.postComment.id = :postCommentId")
+    int countByPostCommentId(@Param("postCommentId") long postCommentId);
 }
