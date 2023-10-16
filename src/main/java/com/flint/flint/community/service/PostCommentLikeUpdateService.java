@@ -26,10 +26,10 @@ public class PostCommentLikeUpdateService {
     private final MemberService memberService;
     private final PostCommentRepository postCommentRepository;
 
-    public void createPostCommentLike(String provierId, long postCommentId) {
-        Optional<PostCommentLike> OptionalCommentLike = postCommentLikeRepository.findByProviderIdAndPostCommentId(provierId, postCommentId);
+    public void createPostCommentLike(String providerId, long postCommentId) {
+        Optional<PostCommentLike> OptionalCommentLike = postCommentLikeRepository.findByProviderIdAndPostCommentId(providerId, postCommentId);
         if(!OptionalCommentLike.isPresent()) {  //이전에 좋아요를 안했을 때
-            Member member = memberService.getMemberByProviderId(provierId);
+            Member member = memberService.getMemberByProviderId(providerId);
             PostComment postComment = postCommentRepository.findById(postCommentId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.POST_COMMENT_NOT_FOUND));
             PostCommentLike build = PostCommentLike.builder()
                     .member(member)
