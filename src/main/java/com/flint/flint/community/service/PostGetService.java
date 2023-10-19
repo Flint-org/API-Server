@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author 정순원
+ * @since 2023-10-19
+ */
 @Service
 @RequiredArgsConstructor
 public class PostGetService {
