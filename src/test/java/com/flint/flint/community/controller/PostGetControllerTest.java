@@ -1,8 +1,11 @@
 package com.flint.flint.community.controller;
 
+import com.flint.flint.community.domain.board.Board;
 import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.domain.post.PostImage;
+import com.flint.flint.community.repository.BoardRepository;
 import com.flint.flint.community.repository.PostRepository;
+import com.flint.flint.community.spec.BoardType;
 import com.flint.flint.custom_member.WithMockCustomMember;
 import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,21 +33,38 @@ class PostGetControllerTest {
     PostRepository postRepository;
 
     @Autowired
-    EntityManagerFactory emf;
+    BoardRepository boardRepository;
 
     @BeforeEach
     void setUp() {
+
+        Board board1 = Board.builder()
+                .boardType(BoardType.GENERAL)
+                .generalBoardName("자유게시판")
+                .build();
+
+        Board board2 = Board.builder()
+                .boardType(BoardType.MAJOR)
+                .generalBoardName("소프트웨어학부 게시판")
+                .build();
+
+        boardRepository.save(board1);
+        boardRepository.save(board2);
+
         Post post1 = Post.builder()
+                .board(board1)
                 .title("제목1")
                 .contents("내용1")
                 .build();
 
         Post post2 = Post.builder()
+                .board(board2)
                 .title("제목2")
                 .contents("내용2")
                 .build();
 
         Post post3 = Post.builder()
+                .board(board2)
                 .title("제목3")
                 .contents("내용3")
                 .build();
@@ -81,7 +101,7 @@ class PostGetControllerTest {
     @WithMockCustomMember(role = "ROLE_UNAUTHUSER")
     void test1() throws Exception {
 
-        mockMvc.perform(get("/api/v1/posts/search")
+        mockMvc.perform(get("/api/v1/posts/search/all/board")
                         .param("keyword", "내용"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
@@ -91,5 +111,22 @@ class PostGetControllerTest {
                 .andExpect(jsonPath("$.data[1].imageURL").value("url3"))
                 .andExpect(jsonPath("$.data[2].title").value("제목1"))
                 .andExpect(jsonPath("$.data[2].imageURL").value("url1"));
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("키워드 포함한 게시글 조회")
+    @WithMockCustomMember(role = "ROLE_UNAUTHUSER")
+    void test2() throws Exception {
+
+        mockMvc.perform(get("/api/v1/posts/search/specific/board")
+                        .param("boardName", "소프트웨어학부 게시판")
+                        .param("keyword", "내용"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(jsonPath("$.data[0].title").value("제목3"))
+                .andExpect(jsonPath("$.data[0].imageURL").value(""))
+                .andExpect(jsonPath("$.data[1].title").value("제목2"))
+                .andExpect(jsonPath("$.data[1].imageURL").value("url3"));
     }
 }
