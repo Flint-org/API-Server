@@ -12,4 +12,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> findBoardsByBoardType(BoardType type);
 
     Optional<Board> findBoardByGeneralBoardName(String name);
+
+    Optional<Board> findByGeneralBoardName(String boardName);
 }
