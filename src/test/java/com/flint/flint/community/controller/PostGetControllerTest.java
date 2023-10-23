@@ -115,7 +115,7 @@ class PostGetControllerTest {
 
     @Test
     @Transactional
-    @DisplayName("키워드 포함한 게시글 조회")
+    @DisplayName("특정 게시판에서 키워드 포함한 게시글 조회")
     @WithMockCustomMember(role = "ROLE_UNAUTHUSER")
     void test2() throws Exception {
 
