@@ -1,6 +1,5 @@
 package com.flint.flint.community.repository;
 
-import com.flint.flint.community.domain.board.Board;
 import com.flint.flint.community.domain.post.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
