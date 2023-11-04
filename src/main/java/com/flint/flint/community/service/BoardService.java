@@ -103,9 +103,9 @@ public class BoardService {
      */
     @Transactional(readOnly = true)
     public UpperMajorInfoResponse getLowerMajorListByUpperMajor(Long upperMajorId) {
-        // 해당 전공 게시판이 존재하는지 검증
-        MajorBoard upperMajor = majorBoardRepository.findById(upperMajorId)
-                .orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, MAJOR_BOARD_NOT_FOUND));
+        // 주어진 대분류에 해당하는 전공 게시판이 존재하는지 검증
+        MajorBoard upperMajor = majorBoardRepository.findMajorBoardByUpperMajorBoardIsNullAndId(upperMajorId)
+                .orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, MAJOR_UPPER_BOARD_NOT_FOUND));
 
         List<MajorBoard> lowerMajors = majorBoardRepository.findMajorBoardsByUpperMajorBoard(upperMajor);
 

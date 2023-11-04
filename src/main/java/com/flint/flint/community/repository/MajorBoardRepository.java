@@ -13,4 +13,6 @@ public interface MajorBoardRepository extends JpaRepository<MajorBoard, Long> {
     List<MajorBoard> findMajorBoardsByUpperMajorBoard(MajorBoard upperMajor);
 
     Optional<MajorBoard> findMajorBoardByName(String majorName);
+
+    Optional<MajorBoard> findMajorBoardByUpperMajorBoardIsNullAndId(Long upperMajorId);
 }
