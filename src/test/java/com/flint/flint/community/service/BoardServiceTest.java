@@ -254,7 +254,7 @@ class BoardServiceTest {
         // when, then
         assertThatThrownBy(() -> boardService.getLowerMajorListByUpperMajor(upperMajorID))
                 .isInstanceOf(FlintCustomException.class)
-                .hasMessage(ResultCode.MAJOR_BOARD_NOT_FOUND.getMessage());
+                .hasMessage(ResultCode.MAJOR_UPPER_BOARD_NOT_FOUND.getMessage());
     }
 
     @DisplayName("유저가 게시판을 즐겨찾기에 등록하면, 성공적으로 처리된다.")
