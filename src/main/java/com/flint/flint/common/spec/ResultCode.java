@@ -34,9 +34,11 @@ public enum ResultCode {
     EXCESS_POST_IMAGE_LIMIT("F402", "게시글의 최대 이미지 개수는 20장입니다."),
     ALREADY_BOOKMARKED_BOARD("F403", "이미 즐겨찾기된 게시판입니다."),
     UNKNOWN_BOOKMARK_BOARD("F404", "해당 게시판은 즐겨찾기가 되어있지 않습니다."),
-    POST_NOT_FOUND("405", "존재하지 않는 게시글입니다."),
-    POST_COMMENT_NOT_FOUND("406", "존재하지 않는 게시글 댓글입니다."),
-    POST_COMMENT_NOT_WRITER("407", "글쓴이가 아닙니다."),
+    POST_NOT_FOUND("F405", "존재하지 않는 게시글입니다."),
+    POST_COMMENT_NOT_FOUND("F406", "존재하지 않는 게시글 댓글입니다."),
+    POST_COMMENT_NOT_WRITER("F407", "글쓴이가 아닙니다."),
+    MAJOR_UPPER_BOARD_NOT_FOUND("F400", "존재하지 않는 전공 대분류입니다."),
+
 
     // F5xx: 모임 예외
     CLUB_NOT_FOUND_ERROR("F500", "모임을 찾을 수 없습니다."),
@@ -69,7 +71,7 @@ public enum ResultCode {
 
     // F9xx: 명함 예외
     IDCARD_NOT_FOUND("F900", "명함을 찾을 수 없습니다."),
-    IDCARDBOX_NOT_FOUND("F901","유저가 이 명함을 가지고 있지 않습니다.");
+    IDCARDBOX_NOT_FOUND("F901", "유저가 이 명함을 가지고 있지 않습니다.");
 
     private final String code;
     private final String message;
