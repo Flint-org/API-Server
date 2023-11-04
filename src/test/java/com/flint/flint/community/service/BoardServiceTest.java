@@ -354,4 +354,16 @@ class BoardServiceTest {
         // then
         assertThat(bookmarkRepository.findBoardBookmarkByMemberAndBoard(member, board).isEmpty()).isTrue();
     }
+
+    @DisplayName("유효하지 않은 전공 게시판 대분류 ID로 조회 시 예외 발생 테스트")
+    @Test
+    void getMajorBoardByInvalidUpperId() {
+        // given
+        Long upperMajorId = 1000L;
+
+        // when, then
+        assertThatThrownBy(() -> boardService.getLowerMajorListByUpperMajor(upperMajorId))
+                .isInstanceOf(FlintCustomException.class)
+                .hasMessage(ResultCode.MAJOR_UPPER_BOARD_NOT_FOUND.getMessage());
+    }
 }
