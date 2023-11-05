@@ -1,5 +1,6 @@
 package com.flint.flint.community.repository;
 
+import com.flint.flint.community.domain.board.Board;
 import com.flint.flint.community.domain.board.MajorBoard;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,4 +14,6 @@ public interface MajorBoardRepository extends JpaRepository<MajorBoard, Long> {
     List<MajorBoard> findMajorBoardsByUpperMajorBoard(MajorBoard upperMajor);
 
     Optional<MajorBoard> findMajorBoardByName(String majorName);
+
+    Optional<MajorBoard> findMajorBoardByBoard(Board board);
 }

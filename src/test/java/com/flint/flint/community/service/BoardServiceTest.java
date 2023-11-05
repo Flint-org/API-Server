@@ -4,10 +4,7 @@ import com.flint.flint.common.exception.FlintCustomException;
 import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.community.domain.board.Board;
 import com.flint.flint.community.domain.board.MajorBoard;
-import com.flint.flint.community.dto.response.GeneralBoardResponse;
-import com.flint.flint.community.dto.response.MajorBoardResponse;
-import com.flint.flint.community.dto.response.UpperMajorInfoResponse;
-import com.flint.flint.community.dto.response.UpperMajorListResponse;
+import com.flint.flint.community.dto.response.*;
 import com.flint.flint.community.repository.BoardBookmarkRepository;
 import com.flint.flint.community.repository.BoardRepository;
 import com.flint.flint.community.repository.MajorBoardRepository;
@@ -353,5 +350,43 @@ class BoardServiceTest {
 
         // then
         assertThat(bookmarkRepository.findBoardBookmarkByMemberAndBoard(member, board).isEmpty()).isTrue();
+    }
+
+    @DisplayName("유저가 즐겨찾기 게시판 목록을 조회하면 게시판 구분 없이 전부 게시판 유형에 따라 정렬되서 조회에 성공한다.")
+    @Test
+    void getBookmarkBoardList() {
+        // given
+        Member member = Member.builder()
+                .name("테스터")
+                .providerId("kakao 12345")
+                .email("test@test.com")
+                .providerName("kakao")
+                .authority(Authority.AUTHUSER)
+                .build();
+
+        Member save = memberRepository.save(member);
+
+        Board board1 = boardRepository.findBoardByMajorName("건축").get();
+        Board board2 = boardRepository.findBoardByGeneralBoardName("자유게시판").get();
+        Board board3 = boardRepository.findBoardByMajorName("경영 경제").get();
+
+        boardService.bookmarkBoard(save.getProviderId(), board1.getId());
+        boardService.bookmarkBoard(save.getProviderId(), board2.getId());
+        boardService.bookmarkBoard(save.getProviderId(), board3.getId());
+
+        // when
+        List<BookmarkBoardResponse> bookmarkList = boardService.getBookmarkList(save.getProviderId());
+
+        // then
+        assertEquals(3, bookmarkList.size());
+        assertEquals("자유게시판", bookmarkList.get(0).getBoardName());
+        assertEquals("건축(공학계열)", bookmarkList.get(1).getBoardName());
+        assertEquals("경영 경제(사회계열)", bookmarkList.get(2).getBoardName());
+        /*
+            자유게시판
+            건축(공학계열)
+            경영 경제(사회계열)
+            순으로 정렬
+         */
     }
 }

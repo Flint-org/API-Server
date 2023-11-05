@@ -170,4 +170,37 @@ public class BoardService {
 
         bookmarkRepository.delete(bookmark);
     }
+
+    /**
+     * 즐겨찾기한 게시판 목록 조회
+     * @param providerId 유저 provider id
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<BookmarkBoardResponse> getBookmarkList(String providerId) {
+        Member member = memberService.getMemberByProviderId(providerId);
+
+        List<BoardBookmark> bookmarks = bookmarkRepository.findBoardBookmarksByMember(member);
+
+        return bookmarks.stream().map(b -> {
+            Board board = b.getBoard();
+            // 일반 게시판
+            if (board.getBoardType() == BoardType.GENERAL) {
+                return BookmarkBoardResponse.builder()
+                        .boardId(board.getId())
+                        .boardName(board.getGeneralBoardName())
+                        .build();
+            } else { // 전공 게시판
+                MajorBoard majorBoard = majorBoardRepository.findMajorBoardByBoard(board)
+                        .orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, MAJOR_BOARD_NOT_FOUND));
+
+                // 대분류만 딱 즐겨찾기는 하는 경우는 우선 배제
+                // 소분류(대분류) 형태로 전달
+                return BookmarkBoardResponse.builder()
+                        .boardId(board.getId())
+                        .boardName(majorBoard.getName() + "(" + majorBoard.getUpperMajorBoard().getName() + ")")
+                        .build();
+            }
+        }).toList();
+    }
 }
