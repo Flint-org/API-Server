@@ -23,10 +23,20 @@ public class PostGetController {
     private final PostGetService postGetService;
 
     /**
-     * 전체 게시판 검색
+     * 전체 게시판 내에
+     * 게시물 검색
      */
-    @GetMapping("/search")
-    public ResponseForm<List<AllPostGetResponse>> getAllPost(@RequestParam String keyword) {
-        return new ResponseForm<>(postGetService.getAllPost(keyword));
+    @GetMapping("/search/all/board")
+    public ResponseForm<List<AllPostGetResponse>> searchInAllBoard(@RequestParam String keyword) {
+        return new ResponseForm<>(postGetService.searchInAllBoard(keyword));
+    }
+
+    /**
+     * 해당하는 게시판 내에
+     * 게시물 검색
+     */
+    @GetMapping("/search/specific/board")
+    public ResponseForm<List<AllPostGetResponse>> searchInSpecificBoard(@RequestParam String boardName, @RequestParam String keyword) {
+        return new ResponseForm<>(postGetService.searchInSpecificBoard(boardName, keyword));
     }
 }

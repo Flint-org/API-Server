@@ -11,12 +11,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
 
 /**
  * 첫 생성시 별점 0점, 인증 안한 유저로 초기화
+ *
  * @Author 정순원
  * @Since 2023-08-07
  */
@@ -40,8 +38,8 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @DateTimeFormat(pattern = "YYYY")
-    private LocalDate birthday;
+    @Column(length = 4)
+    private String birthday;
 
     @Max(5)
     @Min(0)
@@ -61,7 +59,7 @@ public class Member extends BaseTimeEntity {
     public Member(String email,
                   String name,
                   Gender gender,
-                  LocalDate birthday,
+                  String birthday,
                   Authority authority,
                   String providerName,
                   String providerId) {

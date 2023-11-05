@@ -7,6 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class AllPostGetResponse {
 
+    private long postId;
     private String title;
     private String imageURL;
 }
