@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.flint.flint.community.domain.board.Board;
+import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.dto.request.PostRequest;
 import com.flint.flint.community.repository.BoardRepository;
+import com.flint.flint.community.repository.PostRepository;
 import com.flint.flint.community.spec.BoardType;
 import com.flint.flint.custom_member.WithMockCustomMember;
 import com.flint.flint.member.domain.main.Member;
@@ -18,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -39,6 +42,8 @@ class PostApiControllerTest {
     private MemberRepository memberRepository;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    PostRepository postRepository;
 
     private static final String BASE_URL = "/api/v1/posts";
 
@@ -115,5 +120,33 @@ class PostApiControllerTest {
         objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
         return objectWriter.writeValueAsString(obj);
+    }
+
+
+    @Test
+    @DisplayName("게시글 좋아요 생성 테스트")
+    @Transactional
+    @WithMockCustomMember(role = "ROLE_AUTHUSER")
+    void test3() throws Exception {
+        //given
+        Member member = Member.builder()
+                .name("테스터")
+                .email("test@test.com")
+                .providerName("kakao")
+                .providerId("kakao test")
+                .build();
+
+        memberRepository.save(member);
+
+        Post post = Post.builder().title("테스트 제목입니다.").contents("테스트 내용입니다.").build();
+
+        postRepository.save(post);
+
+        Long postId = post.getId();
+
+        //when,then
+        mockMvc.perform(post(BASE_URL+"/heart/" + postId))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data.postLikeCount").value(1)); // 응답 JSON에서 likeCount 값 확인
     }
 }

@@ -99,6 +99,8 @@ public class AuthenticationService {
             return AuthenticationResponse.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
+                    .accessTokenExpiration(jwtService.parseExpiration(accessToken))
+                    .refreshTokenExpiration(jwtService.parseExpiration(refreshToken))
                     .build();
         }
 
