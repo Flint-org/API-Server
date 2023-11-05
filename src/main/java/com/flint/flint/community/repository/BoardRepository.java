@@ -17,4 +17,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     @Query("SELECT mb.board FROM MajorBoard mb WHERE mb.name = :name")
     Optional<Board> findBoardByMajorName(@Param("name") String name);
+    
+    Optional<Board> findByGeneralBoardName(String boardName);
 }

@@ -1,15 +1,16 @@
 package com.flint.flint.security.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 /**
  * @Author 정순원
  * @Since 2023-08-23
  */
 @Getter
-@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegisterRequest {
 
     @NotBlank
