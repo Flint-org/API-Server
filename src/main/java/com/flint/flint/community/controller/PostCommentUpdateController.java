@@ -2,6 +2,7 @@ package com.flint.flint.community.controller;
 
 import com.flint.flint.common.ResponseForm;
 import com.flint.flint.community.dto.request.PostCommentUpdateRequest;
+import com.flint.flint.community.dto.response.PostCommentLikeResponse;
 import com.flint.flint.community.dto.response.PostCommentUpdateResponse;
 import com.flint.flint.community.service.PostCommentLikeUpdateService;
 import com.flint.flint.community.service.PostCommentUpdateService;
@@ -31,6 +32,7 @@ public class PostCommentUpdateController {
             @Valid @RequestBody PostCommentUpdateRequest requestDTO) {
         return new ResponseForm<>(postCommentUpdateService.createPostComment(memberDTO.getProviderId(), postId, requestDTO));
     }
+
     @DeleteMapping("/{postCommentId}")
     public ResponseForm deletePostComment(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postCommentId) {
         postCommentUpdateService.deletePostComment(memberDTO.getProviderId(), postCommentId);
@@ -44,10 +46,9 @@ public class PostCommentUpdateController {
         return new ResponseForm<>();
     }
 
-    @PostMapping("/{postCommentId}")
-    public ResponseForm createPostCommentLike (@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postCommentId) {
-        postCommentLikeUpdateService.createPostCommentLike(memberDTO.getProviderId(), postCommentId);
-        return new ResponseForm<>();
+    @PostMapping("/heart/{postCommentId}")
+    public ResponseForm<PostCommentLikeResponse> createPostCommentLike(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postCommentId) {
+        return new ResponseForm<>(postCommentLikeUpdateService.createPostCommentLike(memberDTO.getProviderId(), postCommentId));
     }
 }
 
