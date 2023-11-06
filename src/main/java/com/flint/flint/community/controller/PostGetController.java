@@ -1,9 +1,11 @@
 package com.flint.flint.community.controller;
 
 import com.flint.flint.common.ResponseForm;
-import com.flint.flint.community.dto.response.AllPostGetResponse;
+import com.flint.flint.community.dto.response.PostResponse;
 import com.flint.flint.community.service.PostGetService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,8 +29,9 @@ public class PostGetController {
      * 게시물 검색
      */
     @GetMapping("/search/all/board")
-    public ResponseForm<List<AllPostGetResponse>> searchInAllBoard(@RequestParam String keyword) {
-        return new ResponseForm<>(postGetService.searchInAllBoard(keyword));
+    public ResponseForm<List<PostResponse>> searchInAllBoard(@RequestParam String keyword,
+                                                             @PageableDefault(size = 10) Pageable pageable) {
+        return new ResponseForm<>(postGetService.searchInAllBoard(keyword, pageable));
     }
 
     /**
@@ -36,7 +39,8 @@ public class PostGetController {
      * 게시물 검색
      */
     @GetMapping("/search/specific/board")
-    public ResponseForm<List<AllPostGetResponse>> searchInSpecificBoard(@RequestParam String boardName, @RequestParam String keyword) {
-        return new ResponseForm<>(postGetService.searchInSpecificBoard(boardName, keyword));
+    public ResponseForm<List<PostResponse>> searchInSpecificBoard(@RequestParam String boardName, @RequestParam String keyword,
+                                                                  @PageableDefault(size = 10) Pageable pageable) {
+        return new ResponseForm<>(postGetService.searchInSpecificBoard(boardName, keyword, pageable));
     }
 }

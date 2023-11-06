@@ -71,7 +71,5 @@ class PostCommentGetControllerTest {
 
         mockMvc.perform(get("/api/v1/posts/comment/" + postId))
                 .andExpect(status().isOk());
-
-
     }
 }
