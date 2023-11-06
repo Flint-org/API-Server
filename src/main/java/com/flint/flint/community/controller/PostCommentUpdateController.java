@@ -46,7 +46,7 @@ public class PostCommentUpdateController {
         return new ResponseForm<>();
     }
 
-    @PostMapping("/heart/{postCommentId}")
+    @PostMapping("/like/{postCommentId}")
     public ResponseForm<PostCommentLikeResponse> createPostCommentLike(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postCommentId) {
         return new ResponseForm<>(postCommentLikeUpdateService.createPostCommentLike(memberDTO.getProviderId(), postCommentId));
     }
