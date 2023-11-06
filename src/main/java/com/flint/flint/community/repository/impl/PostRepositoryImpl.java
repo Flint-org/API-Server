@@ -2,6 +2,7 @@ package com.flint.flint.community.repository.impl;
 
 import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.repository.custom.PostRepositoryCustom;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Page<Post> findByTitleOrContentsContaining(String keyword, Pageable pageable) {
         List<Post> posts = queryFactory.selectFrom(post)
-                .where(post.title.contains(keyword).or(post.contents.contains(keyword)))
+                .where(containsTitleOrContent(keyword))
                 .orderBy(post.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -46,7 +47,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     public Page<Post> findByTitleOrContentsContainingAndBoard(long boardId, String keyword, Pageable pageable) {
 
         List<Post> posts = queryFactory.selectFrom(post)
-                .where(post.title.contains(keyword).or(post.contents.contains(keyword)).and(post.board.id.eq(boardId)))
+                .where(containsTitleOrContent(keyword).and(isBoard(boardId)))
                 .orderBy(post.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -55,4 +56,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return new PageImpl<>(posts, pageable, posts.size());
     }
 
-}
+    private BooleanExpression containsTitleOrContent(String keyword) {
+        return post.title.contains(keyword).or(post.contents.contains(keyword));
+    }
+
+    private BooleanExpression isBoard(Long boardId) {
+        return post.board.id.eq(boardId);
+    }}
