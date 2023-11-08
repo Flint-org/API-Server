@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/posts")
-@PreAuthorize("hasRole('ROLE_AUTHUSER')")
+@PreAuthorize("isAuthenticated()")
 public class PostApiController {
 
     private final PostService postService;
