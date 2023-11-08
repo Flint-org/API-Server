@@ -11,6 +11,7 @@ import com.flint.flint.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ public class PostScrapUpdateService {
     private final MemberService memberService;
     private final PostRepository postRepository;
 
+    @Transactional
     public void touchPostScrap(String providerId, long postId) {
         Optional<PostScrap> optinalScrap = postScrapRepository.findByProviderIdAndPostId(providerId, postId);
         if (optinalScrap.isPresent())
