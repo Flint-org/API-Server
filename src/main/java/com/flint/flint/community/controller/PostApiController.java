@@ -5,6 +5,7 @@ import com.flint.flint.community.dto.request.PostRequest;
 import com.flint.flint.community.dto.response.PostLikeResponse;
 import com.flint.flint.community.dto.response.PostPreSignedUrlResponse;
 import com.flint.flint.community.service.PostLikeUpdateService;
+import com.flint.flint.community.service.PostReportService;
 import com.flint.flint.community.service.PostService;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import jakarta.validation.Valid;
@@ -25,7 +26,7 @@ import java.util.List;
 public class PostApiController {
     private final PostService postService;
     private final PostLikeUpdateService postLikeUpdateService;
-
+    private final PostReportService postReportService;
 
     @PreAuthorize("hasRole('ROLE_AUTHUSER')")
     @PostMapping("")
@@ -39,5 +40,11 @@ public class PostApiController {
     @PostMapping("/heart/{postId}")
     public ResponseForm<PostLikeResponse> createPostLike(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
         return new ResponseForm<>(postLikeUpdateService.createPostLike(memberDTO.getProviderId(), postId));
+    }
+
+    @PostMapping("report/{postId}")
+    public ResponseForm reportPost(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
+        postReportService.reportPost(memberDTO.getProviderId(), postId);
+        return new ResponseForm<>();
     }
 }
