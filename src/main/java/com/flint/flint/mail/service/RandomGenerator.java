@@ -4,7 +4,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
-
+/**
+ * @Author 정순원
+ * @Since 2023-11-08
+ */
 @Service
 public class RandomGenerator {
 
