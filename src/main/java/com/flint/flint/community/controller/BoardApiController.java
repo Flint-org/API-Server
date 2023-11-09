@@ -1,10 +1,7 @@
 package com.flint.flint.community.controller;
 
 import com.flint.flint.common.ResponseForm;
-import com.flint.flint.community.dto.response.GeneralBoardResponse;
-import com.flint.flint.community.dto.response.MajorBoardResponse;
-import com.flint.flint.community.dto.response.UpperMajorInfoResponse;
-import com.flint.flint.community.dto.response.UpperMajorListResponse;
+import com.flint.flint.community.dto.response.*;
 import com.flint.flint.community.service.BoardService;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import lombok.RequiredArgsConstructor;
@@ -59,6 +56,20 @@ public class BoardApiController {
     ) {
         boardService.deleteBookmarkBoard(memberDTO.getProviderId(), boardId);
         return new ResponseForm<>();
+    }
+
+    /**
+     * 즐겨찾기한 게시판 목록 조회
+     *
+     * @param memberDTO 유저
+     * @return 즐겨찾기 게시판 목록
+     */
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/bookmark")
+    public ResponseForm<List<BookmarkBoardResponse>> getBookmarkBoardList(
+            @AuthenticationPrincipal AuthorityMemberDTO memberDTO
+    ) {
+        return new ResponseForm<>(boardService.getBookmarkList(memberDTO.getProviderId()));
     }
 
     /**

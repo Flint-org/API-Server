@@ -1,6 +1,7 @@
 package com.flint.flint.security.oauth.dto;
 
 import com.flint.flint.member.domain.main.Member;
+import com.flint.flint.member.spec.Authority;
 import com.flint.flint.member.spec.Gender;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.time.LocalDate;
 import java.util.Map;
 
 /**
@@ -30,11 +30,12 @@ public class NaverOAuth2UserAttribute extends OAuth2UserAttribute {
     public Member toEntity() {
         return Member.builder()
                 .providerName(NAVER_PROVIDER_ID)
-                .providerId(NAVER_PROVIDER_ID+" "+getProviderId())
+                .providerId(NAVER_PROVIDER_ID + " " + getProviderId())
                 .email(getEmail())
                 .name(getName())
                 .gender(Gender.valueOf(getGender().toUpperCase())) //대소문자 구별하니 바꿔줘야 함
-                .birthday(LocalDate.parse(getBirthday()))
+                .authority(Authority.AUTHUSER)
+                .birthday(getBirthday())
                 .build();
     }
 
@@ -64,18 +65,16 @@ public class NaverOAuth2UserAttribute extends OAuth2UserAttribute {
     }
 
     @Override
-    public void UserAttributesByOAuthToken(OAuth2AccessToken oauth2AccessToken) {
+    public void setUserAttributesByOauthToken(String authorizionRequestHeader) {
 
 
-        JSONObject response = WebClient.create()
+        JSONObject naverResponse = WebClient.create()
                 .get()
                 .uri("https://openapi.naver.com/v1/nid/me")
-                .headers(httpHeaders -> httpHeaders.setBearerAuth(oauth2AccessToken.getAccessToken()))
+                .headers(httpHeaders -> httpHeaders.setBearerAuth(authorizionRequestHeader))
                 .retrieve()
                 .bodyToMono(JSONObject.class)
                 .block();
-
-        Map<String, Object> kakaoAccount = (Map<String, Object>)response.get("response");
-
+        this.response = (Map<String, Object>)naverResponse.get("response");
     }
 }

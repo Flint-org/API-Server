@@ -11,7 +11,7 @@ import com.flint.flint.security.auth.dto.AuthenticationResponse;
 import com.flint.flint.security.auth.dto.ClaimsDTO;
 import com.flint.flint.security.auth.dto.RegisterRequest;
 import com.flint.flint.security.oauth.dto.OAuth2UserAttribute;
-import com.flint.flint.security.oauth.dto.OAuth2AccessToken;
+import com.flint.flint.security.oauth.dto.AuthorizionRequestHeader;
 import com.flint.flint.security.oauth.dto.OAuth2UserAttributeFactory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -41,11 +41,12 @@ public class AuthenticationService {
      * member 저장, 수신동의 저장, 엑세스,리프레쉬토큰 생성, redis에 리프레쉬 토큰 저장
      */
     @Transactional
-    public AuthenticationResponse register(RegisterRequest registerRequest, OAuth2AccessToken oAuth2AccessToken) {
+    public AuthenticationResponse register(RegisterRequest registerRequest, AuthorizionRequestHeader authorizionRequestHeader) {
         //카카오인지 네이버인지 선택
         OAuth2UserAttribute oAuth2UserAttribute = OAuth2UserAttributeFactory.of(registerRequest.getProviderName());
+        String oauth2AccessToekn = authorizionRequestHeader.getAccessToken().replace("Bearer ", "");
         //정보 추출
-        oAuth2UserAttribute.UserAttributesByOAuthToken(oAuth2AccessToken);
+        oAuth2UserAttribute.setUserAttributesByOauthToken(oauth2AccessToekn);
         Member member = oAuth2UserAttribute.toEntity();
         Policy policy = Policy.builder().
                 member(member).
@@ -62,9 +63,11 @@ public class AuthenticationService {
      * 엑세스,리프레쉬토큰 생성, redis에 리프레쉬 토큰 저장
      */
     @Transactional
-    public AuthenticationResponse login(String providerName, OAuth2AccessToken oAuth2AccessToken) {
+    public AuthenticationResponse login(String providerName, AuthorizionRequestHeader authorizionRequestHeader) {
         OAuth2UserAttribute oAuth2UserAttribute = OAuth2UserAttributeFactory.of(providerName);
-        oAuth2UserAttribute.UserAttributesByOAuthToken(oAuth2AccessToken);
+        String oauth2AccessToekn = authorizionRequestHeader.getAccessToken().replace("Bearer", "");
+        //정보 추출
+        oAuth2UserAttribute.setUserAttributesByOauthToken(oauth2AccessToekn);
         String providerId = oAuth2UserAttribute.getProviderId();
         Member member = memberRepository.findByProviderId(providerId).orElseThrow();
         return generateToken(member);
@@ -96,6 +99,8 @@ public class AuthenticationService {
             return AuthenticationResponse.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)
+                    .accessTokenExpiration(jwtService.parseExpiration(accessToken))
+                    .refreshTokenExpiration(jwtService.parseExpiration(refreshToken))
                     .build();
         }
 
