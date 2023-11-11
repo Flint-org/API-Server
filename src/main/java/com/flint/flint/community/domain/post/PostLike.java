@@ -36,4 +36,8 @@ public class PostLike extends BaseTimeEntity {
         this.post = post;
         this.member = member;
     }
+
+    public void changePost(Post post) {
+        this.post = post;
+    }
 }
