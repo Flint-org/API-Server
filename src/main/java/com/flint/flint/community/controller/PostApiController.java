@@ -3,9 +3,11 @@ package com.flint.flint.community.controller;
 import com.flint.flint.common.ResponseForm;
 import com.flint.flint.community.dto.request.PostRequest;
 import com.flint.flint.community.dto.response.PostLikeResponse;
+import com.flint.flint.community.dto.response.PostListResponse;
 import com.flint.flint.community.dto.response.PostPreSignedUrlResponse;
 import com.flint.flint.community.service.PostLikeUpdateService;
 import com.flint.flint.community.service.PostService;
+import com.flint.flint.community.spec.SortStrategy;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,5 +41,20 @@ public class PostApiController {
     @PostMapping("/heart/{postId}")
     public ResponseForm<PostLikeResponse> createPostLike(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
         return new ResponseForm<>(postLikeUpdateService.createPostLike(memberDTO.getProviderId(), postId));
+    }
+
+    @GetMapping("")
+    public ResponseForm<List<PostListResponse>> getPostsByPaging(
+            @RequestParam Long boardId,
+            @RequestParam Long cursorId,
+            @RequestParam Long size,
+            @RequestParam String sortStrategy
+    ) {
+        return new ResponseForm<>(postService.getPostsByPaging(
+                boardId,
+                cursorId,
+                size,
+                SortStrategy.findMatchedEnum(sortStrategy)
+        ));
     }
 }

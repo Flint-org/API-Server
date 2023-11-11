@@ -38,7 +38,8 @@ public enum ResultCode {
     POST_COMMENT_NOT_FOUND("F406", "존재하지 않는 게시글 댓글입니다."),
     POST_COMMENT_NOT_WRITER("F407", "글쓴이가 아닙니다."),
     MAJOR_UPPER_BOARD_NOT_FOUND("F408", "존재하지 않는 전공 대분류입니다."),
-
+    INVALID_PAGE_SIZE("F409", "유효하지 않은 페이지 크기입니다."),
+    INVALID_POST_PAGE_CURSOR("F410", "유효하지 않은 커서 게시글입니다."),
 
     // F5xx: 모임 예외
     CLUB_NOT_FOUND_ERROR("F500", "모임을 찾을 수 없습니다."),
