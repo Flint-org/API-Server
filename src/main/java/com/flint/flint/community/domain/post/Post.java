@@ -44,6 +44,15 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<PostImage> postImages = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<PostComment> postComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<PostLike> postLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<PostScrap> postScraps = new ArrayList<>();
+
     @Builder
     public Post(Member member, Board board, String title, String contents) {
         this.member = member;
@@ -52,8 +61,13 @@ public class Post extends BaseTimeEntity {
         this.contents = contents;
     }
 
-    public void addImageUrl(PostImage postImage){
+    public void addImageUrl(PostImage postImage) {
         this.postImages.add(postImage);
         postImage.changePost(this);
+    }
+
+    public void addPostLike(PostLike postLike) {
+        this.postLikes.add(postLike);
+        postLike.changePost(this);
     }
 }
