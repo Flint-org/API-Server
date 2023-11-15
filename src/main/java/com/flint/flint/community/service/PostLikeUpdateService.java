@@ -12,8 +12,7 @@ import com.flint.flint.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author 정순원
@@ -27,20 +26,23 @@ public class PostLikeUpdateService {
     private final MemberService memberService;
     private final PostRepository postRepository;
 
-
+    @Transactional
     public PostLikeResponse createPostLike(String providerId, long postId) {
-        Optional<PostLike> OptionalPostLike = postLikeRepository.findByProviderIdAndPostCommentId(providerId, postId);
-        if (!OptionalPostLike.isPresent()) {  //이전에 좋아요를 안했을 때
-            Member member = memberService.getMemberByProviderId(providerId);
-            Post post = postRepository.findById(postId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.POST_NOT_FOUND));
-            PostLike postLike = PostLike.builder()
-                    .member(member)
-                    .post(post)
-                    .build();
-            postLikeRepository.save(postLike);
-        } else postLikeRepository.delete(OptionalPostLike.get()); // 이전에 좋아요를 했을 때
+        Member member = memberService.getMemberByProviderId(providerId);
+        Post post = postRepository.findById(postId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.POST_NOT_FOUND));
+        PostLike postLike = PostLike.builder()
+                .member(member)
+                .post(post)
+                .build();
+        postLikeRepository.save(postLike);
 
         int likeCount = postLikeRepository.countByPostId(postId);
         return new PostLikeResponse(likeCount);
+    }
+
+    @Transactional
+    public void deletePostLike(String providerId, long postId) {
+        PostLike postLike = postLikeRepository.findByProviderIdAndPostCommentId(providerId, postId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.POST_LIKE_NOT_FOUND));
+        postLikeRepository.delete(postLike);
     }
 }

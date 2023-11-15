@@ -36,8 +36,14 @@ public class PostApiController {
         return new ResponseForm<>(postService.createPost(memberDTO.getProviderId(), postRequest));
     }
 
-    @PostMapping("/heart/{postId}")
+    @PostMapping("/like/{postId}")
     public ResponseForm<PostLikeResponse> createPostLike(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
         return new ResponseForm<>(postLikeUpdateService.createPostLike(memberDTO.getProviderId(), postId));
+    }
+
+    @DeleteMapping("/like/{postId}")
+    public ResponseForm<PostLikeResponse> deletePostLike(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
+        postLikeUpdateService.deletePostLike(memberDTO.getProviderId(), postId);
+        return new ResponseForm<>();
     }
 }
