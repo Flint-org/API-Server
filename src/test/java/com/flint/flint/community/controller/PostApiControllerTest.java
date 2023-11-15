@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -202,7 +203,7 @@ class PostApiControllerTest {
         postScrapRepository.save(postScrap);
 
         //when,then
-        mockMvc.perform(post(BASE_URL+"/scrap/" + post.getId()))
+        mockMvc.perform(delete(BASE_URL+"/scrap/" + post.getId()))
                 .andExpect(status().isOk());
     }
 }

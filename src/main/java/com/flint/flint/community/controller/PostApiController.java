@@ -40,7 +40,7 @@ public class PostApiController {
     }
 
     /**
-     * 좋아요 생성 취소 API
+     * 좋아요 생성 취소
      */
     @PostMapping("/like/{postId}")
     public ResponseForm<PostLikeResponse> createPostLike(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
@@ -48,11 +48,20 @@ public class PostApiController {
     }
 
     /**
-     * 스크랩 생성 취소 API
+     * 스크랩 생성
      */
     @PostMapping("/scrap/{postId}")
-    public ResponseForm touchPostScrap(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
-        postScrapUpdateService.touchPostScrap(memberDTO.getProviderId(), postId);
+    public ResponseForm createScrap (@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
+        postScrapUpdateService.createScrap(memberDTO.getProviderId(), postId);
+        return new ResponseForm<>();
+    }
+
+    /**
+     * 스크랩 삭제
+     */
+    @DeleteMapping("/scrap/{postId}")
+    public ResponseForm deleteScrap (@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
+        postScrapUpdateService.deleteScrap(memberDTO.getProviderId(), postId);
         return new ResponseForm<>();
     }
 }

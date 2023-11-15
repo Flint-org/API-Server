@@ -37,6 +37,7 @@ public enum ResultCode {
     POST_NOT_FOUND("405", "존재하지 않는 게시글입니다."),
     POST_COMMENT_NOT_FOUND("406", "존재하지 않는 게시글 댓글입니다."),
     POST_COMMENT_NOT_WRITER("407", "글쓴이가 아닙니다."),
+    POST_SCRAP_NOT_FOUND("408", "존재하지 않는 게시물 스크랩입니다."),
 
     // F5xx: 모임 예외
     CLUB_NOT_FOUND_ERROR("F500", "모임을 찾을 수 없습니다."),
