@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.flint.flint.community.domain.board.Board;
 import com.flint.flint.community.domain.post.Post;
+import com.flint.flint.community.domain.post.PostLike;
 import com.flint.flint.community.dto.request.PostRequest;
 import com.flint.flint.community.repository.BoardRepository;
+import com.flint.flint.community.repository.PostLikeRepository;
 import com.flint.flint.community.repository.PostRepository;
 import com.flint.flint.community.spec.BoardType;
 import com.flint.flint.custom_member.WithMockCustomMember;
@@ -26,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,6 +37,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class PostApiControllerTest {
 
+    private static final String BASE_URL = "/api/v1/posts";
+    @Autowired
+    PostRepository postRepository;
+    @Autowired
+    PostLikeRepository postLikeRepository;
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -42,10 +50,6 @@ class PostApiControllerTest {
     private MemberRepository memberRepository;
     @Autowired
     private ObjectMapper objectMapper;
-    @Autowired
-    PostRepository postRepository;
-
-    private static final String BASE_URL = "/api/v1/posts";
 
     @Test
     @DisplayName("학교 인증을 받지 않은 회원은 게시글 생성 시 예외가 발생한다.")
@@ -145,8 +149,40 @@ class PostApiControllerTest {
         Long postId = post.getId();
 
         //when,then
-        mockMvc.perform(post(BASE_URL+"/heart/" + postId))
+        mockMvc.perform(post(BASE_URL + "/like/" + postId))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.postLikeCount").value(1)); // 응답 JSON에서 likeCount 값 확인
+    }
+
+    @Test
+    @DisplayName("게시글 좋아요 취소 테스트")
+    @Transactional
+    @WithMockCustomMember(role = "ROLE_AUTHUSER")
+    void test4() throws Exception {
+        //given
+        Member member = Member.builder()
+                .name("테스터")
+                .email("test@test.com")
+                .providerName("kakao")
+                .providerId("kakao test")
+                .build();
+
+        memberRepository.save(member);
+
+        Post post = Post.builder().title("테스트 제목입니다.").contents("테스트 내용입니다.").build();
+
+        postRepository.save(post);
+
+        PostLike postLike = PostLike.builder()
+                .post(post)
+                .member(member)
+                .build();
+
+        postLikeRepository.save(postLike);
+
+
+        //when,then
+        mockMvc.perform(delete(BASE_URL + "/like/" + post.getId()))
+                .andExpect(status().isOk());
     }
 }
