@@ -12,6 +12,7 @@ import com.flint.flint.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class PostReportService {
     private final MemberService memberService;
     private final PostRepository postRepository;
 
+    @Transactional
     public void reportPost(String providerId, long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.POST_NOT_FOUND));
         Member member = memberService.getMemberByProviderId(providerId);
@@ -33,7 +35,7 @@ public class PostReportService {
 
     private void hasReportedPost(Member member, Post post) {
         if (postReportRepository.existsByMemberAndPost(member, post))
-            throw new FlintCustomException(HttpStatus.TOO_MANY_REQUESTS, ResultCode.USER_HAS_REPORT);
+            throw new FlintCustomException(HttpStatus.TOO_MANY_REQUESTS, ResultCode.USER_ALREADY_REPORTED);
     }
 
 }
