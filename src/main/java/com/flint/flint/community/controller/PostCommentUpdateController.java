@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/posts/comment")
-@PreAuthorize("hasRole('ROLE_AUTHUSER')")
+@PreAuthorize("isAuthenticated()")
 public class PostCommentUpdateController {
 
     private final PostCommentUpdateService postCommentUpdateService;
@@ -46,7 +46,7 @@ public class PostCommentUpdateController {
         return new ResponseForm<>();
     }
 
-    @PostMapping("/heart/{postCommentId}")
+    @PostMapping("/like/{postCommentId}")
     public ResponseForm<PostCommentLikeResponse> createPostCommentLike(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postCommentId) {
         return new ResponseForm<>(postCommentLikeUpdateService.createPostCommentLike(memberDTO.getProviderId(), postCommentId));
     }

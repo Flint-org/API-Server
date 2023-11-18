@@ -59,7 +59,7 @@ class PostCommentUpdateControllerTest {
         Long postCommentId = postComment.getId();
 
         //when,then
-        mockMvc.perform(post("/api/v1/posts/comment/heart/" + postCommentId))
+        mockMvc.perform(post("/api/v1/posts/comment/like/" + postCommentId))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.postCommentLikeCount").value(1));
 

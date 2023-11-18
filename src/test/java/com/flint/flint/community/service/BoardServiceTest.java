@@ -251,7 +251,7 @@ class BoardServiceTest {
         // when, then
         assertThatThrownBy(() -> boardService.getLowerMajorListByUpperMajor(upperMajorID))
                 .isInstanceOf(FlintCustomException.class)
-                .hasMessage(ResultCode.MAJOR_BOARD_NOT_FOUND.getMessage());
+                .hasMessage(ResultCode.MAJOR_UPPER_BOARD_NOT_FOUND.getMessage());
     }
 
     @DisplayName("유저가 게시판을 즐겨찾기에 등록하면, 성공적으로 처리된다.")
@@ -352,6 +352,18 @@ class BoardServiceTest {
         assertThat(bookmarkRepository.findBoardBookmarkByMemberAndBoard(member, board).isEmpty()).isTrue();
     }
 
+    @DisplayName("유효하지 않은 전공 게시판 대분류 ID로 조회 시 예외 발생 테스트")
+    @Test
+    void getMajorBoardByInvalidUpperId() {
+        // given
+        Long upperMajorId = 1000L;
+
+        // when, then
+        assertThatThrownBy(() -> boardService.getLowerMajorListByUpperMajor(upperMajorId))
+                .isInstanceOf(FlintCustomException.class)
+                .hasMessage(ResultCode.MAJOR_UPPER_BOARD_NOT_FOUND.getMessage());
+    }
+  
     @DisplayName("유저가 즐겨찾기 게시판 목록을 조회하면 게시판 구분 없이 전부 게시판 유형에 따라 정렬되서 조회에 성공한다.")
     @Test
     void getBookmarkBoardList() {
