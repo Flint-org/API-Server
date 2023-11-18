@@ -43,12 +43,19 @@ public class PostApiController {
     }
 
     /**
-     * 좋아요 생성 취소
+     * 좋아요 생성
      */
     @PostMapping("/like/{postId}")
     public ResponseForm<PostLikeResponse> createPostLike(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
         return new ResponseForm<>(postLikeUpdateService.createPostLike(memberDTO.getProviderId(), postId));
     }
+
+    /**
+     * 좋아요 취소
+     */
+    @DeleteMapping("/like/{postId}")
+    public ResponseForm<PostLikeResponse> deletePostLike(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
+        postLikeUpdateService.deletePostLike(memberDTO.getProviderId(), postId);
 
      /**
      * 게시물 신고
@@ -56,7 +63,8 @@ public class PostApiController {
     @PostMapping("report/{postId}")
     public ResponseForm reportPost(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
         postReportService.reportPost(memberDTO.getProviderId(), postId);
-    /**
+   
+     /**
      * 스크랩 생성
      */
     @PostMapping("/scrap/{postId}")

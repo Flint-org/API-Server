@@ -38,13 +38,14 @@ public enum ResultCode {
     POST_NOT_FOUND("405", "존재하지 않는 게시글입니다."),
     POST_COMMENT_NOT_FOUND("406", "존재하지 않는 게시글 댓글입니다."),
     POST_COMMENT_NOT_WRITER("407", "글쓴이가 아닙니다."),
-    USER_ALREADY_REPORTED("408", "이미 게시글을 신고하였습니다."),
-
     POST_NOT_FOUND("F405", "존재하지 않는 게시글입니다."),
     POST_COMMENT_NOT_FOUND("F406", "존재하지 않는 게시글 댓글입니다."),
     POST_COMMENT_NOT_WRITER("F407", "글쓴이가 아닙니다."),
     MAJOR_UPPER_BOARD_NOT_FOUND("F408", "존재하지 않는 전공 대분류입니다."),
     POST_SCRAP_NOT_FOUND("409", "존재하지 않는 게시물 스크랩입니다."),
+    POST_COMMENT_LIKE_NOT_FOUND("410", "존재하지 않는 게시물 댓글 좋아요입니다."),
+    POST_LIKE_NOT_FOUND("411", "존재하지 않는 게시물 좋아요입니다."),
+    USER_ALREADY_REPORTED("412", "이미 게시글을 신고하였습니다."),
 
     // F5xx: 모임 예외
     CLUB_NOT_FOUND_ERROR("F500", "모임을 찾을 수 없습니다."),

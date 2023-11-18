@@ -50,5 +50,11 @@ public class PostCommentUpdateController {
     public ResponseForm<PostCommentLikeResponse> createPostCommentLike(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postCommentId) {
         return new ResponseForm<>(postCommentLikeUpdateService.createPostCommentLike(memberDTO.getProviderId(), postCommentId));
     }
+
+    @DeleteMapping("/like/{postCommentId}")
+    public ResponseForm deletePostCommentLike(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postCommentId) {
+        postCommentLikeUpdateService.deletePostCommentLike(memberDTO.getProviderId(), postCommentId);
+        return new ResponseForm<>();
+    }
 }
 

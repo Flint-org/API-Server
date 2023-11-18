@@ -46,9 +46,11 @@ class PostApiControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    PostRepository postRepository;
+    private PostRepository postRepository;
     @Autowired
-    PostScrapRepository postScrapRepository;
+    private PostScrapRepository postScrapRepository;
+    @Autowired
+    private PostLikeRepository postLikeRepository;
 
     private static final String BASE_URL = "/api/v1/posts";
 
@@ -128,7 +130,7 @@ class PostApiControllerTest {
     }
 
 
-    @Test
+  @Test
     @DisplayName("게시글 좋아요 생성 테스트")
     @Transactional
     @WithMockCustomMember(role = "ROLE_AUTHUSER")
@@ -153,6 +155,38 @@ class PostApiControllerTest {
         mockMvc.perform(post(BASE_URL + "/like/" + postId))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data.postLikeCount").value(1)); // 응답 JSON에서 likeCount 값 확인
+    }
+
+    @Test
+    @DisplayName("게시글 좋아요 취소 테스트")
+    @Transactional
+    @WithMockCustomMember(role = "ROLE_AUTHUSER")
+    void test4() throws Exception {
+        //given
+        Member member = Member.builder()
+                .name("테스터")
+                .email("test@test.com")
+                .providerName("kakao")
+                .providerId("kakao test")
+                .build();
+
+        memberRepository.save(member);
+
+        Post post = Post.builder().title("테스트 제목입니다.").contents("테스트 내용입니다.").build();
+
+        postRepository.save(post);
+
+        PostLike postLike = PostLike.builder()
+                .post(post)
+                .member(member)
+                .build();
+
+        postLikeRepository.save(postLike);
+
+
+        //when,then
+        mockMvc.perform(delete(BASE_URL + "/like/" + post.getId()))
+                .andExpect(status().isOk());
     }
 
     @Test
