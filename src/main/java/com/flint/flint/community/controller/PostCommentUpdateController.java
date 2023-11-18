@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/posts/comment")
-@PreAuthorize("hasRole('ROLE_AUTHUSER')")
+@PreAuthorize("isAuthenticated()")
 public class PostCommentUpdateController {
 
     private final PostCommentUpdateService postCommentUpdateService;

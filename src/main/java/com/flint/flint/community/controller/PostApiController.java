@@ -5,6 +5,7 @@ import com.flint.flint.community.dto.request.PostRequest;
 import com.flint.flint.community.dto.response.PostLikeResponse;
 import com.flint.flint.community.dto.response.PostPreSignedUrlResponse;
 import com.flint.flint.community.service.PostLikeUpdateService;
+import com.flint.flint.community.service.PostScrapUpdateService;
 import com.flint.flint.community.service.PostService;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import jakarta.validation.Valid;
@@ -22,12 +23,14 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/posts")
+@PreAuthorize("isAuthenticated()")
 public class PostApiController {
+
     private final PostService postService;
     private final PostLikeUpdateService postLikeUpdateService;
+    private final PostScrapUpdateService postScrapUpdateService;
 
 
-    @PreAuthorize("hasRole('ROLE_AUTHUSER')")
     @PostMapping("")
     public ResponseForm<List<PostPreSignedUrlResponse>> createPost(
             @AuthenticationPrincipal AuthorityMemberDTO memberDTO,
@@ -36,8 +39,29 @@ public class PostApiController {
         return new ResponseForm<>(postService.createPost(memberDTO.getProviderId(), postRequest));
     }
 
-    @PostMapping("/heart/{postId}")
+    /**
+     * 좋아요 생성 취소
+     */
+    @PostMapping("/like/{postId}")
     public ResponseForm<PostLikeResponse> createPostLike(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
         return new ResponseForm<>(postLikeUpdateService.createPostLike(memberDTO.getProviderId(), postId));
+    }
+
+    /**
+     * 스크랩 생성
+     */
+    @PostMapping("/scrap/{postId}")
+    public ResponseForm createScrap (@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
+        postScrapUpdateService.createScrap(memberDTO.getProviderId(), postId);
+        return new ResponseForm<>();
+    }
+
+    /**
+     * 스크랩 삭제
+     */
+    @DeleteMapping("/scrap/{postId}")
+    public ResponseForm deleteScrap (@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
+        postScrapUpdateService.deleteScrap(memberDTO.getProviderId(), postId);
+        return new ResponseForm<>();
     }
 }
