@@ -5,6 +5,7 @@ import com.flint.flint.community.dto.request.PostRequest;
 import com.flint.flint.community.dto.response.PostLikeResponse;
 import com.flint.flint.community.dto.response.PostPreSignedUrlResponse;
 import com.flint.flint.community.service.PostLikeUpdateService;
+import com.flint.flint.community.service.PostReportService;
 import com.flint.flint.community.service.PostScrapUpdateService;
 import com.flint.flint.community.service.PostService;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
@@ -28,7 +29,9 @@ public class PostApiController {
 
     private final PostService postService;
     private final PostLikeUpdateService postLikeUpdateService;
+    private final PostReportService postReportService;
     private final PostScrapUpdateService postScrapUpdateService;
+
 
 
     @PostMapping("")
@@ -47,6 +50,12 @@ public class PostApiController {
         return new ResponseForm<>(postLikeUpdateService.createPostLike(memberDTO.getProviderId(), postId));
     }
 
+     /**
+     * 게시물 신고
+     */
+    @PostMapping("report/{postId}")
+    public ResponseForm reportPost(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId) {
+        postReportService.reportPost(memberDTO.getProviderId(), postId);
     /**
      * 스크랩 생성
      */

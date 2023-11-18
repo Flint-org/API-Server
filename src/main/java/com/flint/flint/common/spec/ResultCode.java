@@ -38,6 +38,7 @@ public enum ResultCode {
     POST_NOT_FOUND("405", "존재하지 않는 게시글입니다."),
     POST_COMMENT_NOT_FOUND("406", "존재하지 않는 게시글 댓글입니다."),
     POST_COMMENT_NOT_WRITER("407", "글쓴이가 아닙니다."),
+    USER_ALREADY_REPORTED("408", "이미 게시글을 신고하였습니다."),
 
     POST_NOT_FOUND("F405", "존재하지 않는 게시글입니다."),
     POST_COMMENT_NOT_FOUND("F406", "존재하지 않는 게시글 댓글입니다."),

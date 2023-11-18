@@ -1,6 +1,5 @@
-package com.flint.flint.member.domain.report;
+package com.flint.flint.community.domain.post;
 
-import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.common.BaseTimeEntity;
 import com.flint.flint.member.domain.main.Member;
 import jakarta.persistence.*;
