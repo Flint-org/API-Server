@@ -6,11 +6,11 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.flint.flint.community.domain.board.Board;
 import com.flint.flint.community.domain.post.Post;
-import com.flint.flint.community.domain.post.PostLike;
+import com.flint.flint.community.domain.post.PostScrap;
 import com.flint.flint.community.dto.request.PostRequest;
 import com.flint.flint.community.repository.BoardRepository;
-import com.flint.flint.community.repository.PostLikeRepository;
 import com.flint.flint.community.repository.PostRepository;
+import com.flint.flint.community.repository.PostScrapRepository;
 import com.flint.flint.community.spec.BoardType;
 import com.flint.flint.custom_member.WithMockCustomMember;
 import com.flint.flint.member.domain.main.Member;
@@ -37,11 +37,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class PostApiControllerTest {
 
-    private static final String BASE_URL = "/api/v1/posts";
-    @Autowired
-    PostRepository postRepository;
-    @Autowired
-    PostLikeRepository postLikeRepository;
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -50,6 +45,14 @@ class PostApiControllerTest {
     private MemberRepository memberRepository;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private PostRepository postRepository;
+    @Autowired
+    private PostScrapRepository postScrapRepository;
+    @Autowired
+    private PostLikeRepository postLikeRepository;
+
+    private static final String BASE_URL = "/api/v1/posts";
 
     @Test
     @DisplayName("학교 인증을 받지 않은 회원은 게시글 생성 시 예외가 발생한다.")
@@ -127,7 +130,7 @@ class PostApiControllerTest {
     }
 
 
-    @Test
+  @Test
     @DisplayName("게시글 좋아요 생성 테스트")
     @Transactional
     @WithMockCustomMember(role = "ROLE_AUTHUSER")
@@ -183,6 +186,58 @@ class PostApiControllerTest {
 
         //when,then
         mockMvc.perform(delete(BASE_URL + "/like/" + post.getId()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("게시글 스크랩 생성 테스트")
+    @Transactional
+    @WithMockCustomMember(role = "ROLE_AUTHUSER")
+    void test4() throws Exception {
+        //given
+        Member member = Member.builder()
+                .name("테스터")
+                .email("test@test.com")
+                .providerName("kakao")
+                .providerId("kakao test")
+                .build();
+
+        memberRepository.save(member);
+
+        Post post = Post.builder().title("테스트 제목입니다.").contents("테스트 내용입니다.").build();
+
+        postRepository.save(post);
+
+
+        Long postId = post.getId();
+
+        //when,then
+        mockMvc.perform(post(BASE_URL + "/scrap/" + postId))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("게시글 스크랩 취소 테스트")
+    @Transactional
+    @WithMockCustomMember(role = "ROLE_AUTHUSER")
+    void test5() throws Exception {
+        //given
+        Member member = Member.builder()
+                .name("테스터")
+                .email("test@test.com")
+                .providerName("kakao")
+                .providerId("kakao test")
+                .build();
+
+        Post post = Post.builder().title("테스트 제목입니다.").contents("테스트 내용입니다.").build();
+
+        PostScrap postScrap = PostScrap.builder().post(post).member(member).build();
+        memberRepository.save(member);
+        postRepository.save(post);
+        postScrapRepository.save(postScrap);
+
+        //when,then
+        mockMvc.perform(delete(BASE_URL+"/scrap/" + post.getId()))
                 .andExpect(status().isOk());
     }
 }
