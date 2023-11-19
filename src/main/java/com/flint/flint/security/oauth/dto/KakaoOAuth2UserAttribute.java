@@ -62,7 +62,7 @@ public class KakaoOAuth2UserAttribute extends OAuth2UserAttribute {
 
     @Override
     public String getBirthday() {
-        return kakaoAccount.get("birthyear").toString();
+        return "kakao " + kakaoAccount.get("birthyear").toString();
     }
 
     @Override
