@@ -43,7 +43,7 @@ public class KakaoOAuth2UserAttribute extends OAuth2UserAttribute {
 
     //TODO
     @Override
-    public String getProviderId() { return this.id;}
+    public String getProviderId() { return "kakao " + this.id;}
 
     @Override
     public String getEmail() {
