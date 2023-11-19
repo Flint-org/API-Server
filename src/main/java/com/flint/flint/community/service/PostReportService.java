@@ -29,7 +29,10 @@ public class PostReportService {
         Member member = memberService.getMemberByProviderId(providerId);
         hasReportedPost(member, post); //신고한 이력이 있는지 검사
         reportEmailService.sendToAdmin(post.getTitle(), post.getContents());
-        PostReport postReport = PostReport.builder().member(member).post(post).build();
+        PostReport postReport = PostReport.builder()
+                .post(post)
+                .member(member)
+                .build();
         postReportRepository.save(postReport);
     }
 

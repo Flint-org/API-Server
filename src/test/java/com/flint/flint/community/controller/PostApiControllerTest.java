@@ -6,9 +6,11 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.flint.flint.community.domain.board.Board;
 import com.flint.flint.community.domain.post.Post;
+import com.flint.flint.community.domain.post.PostLike;
 import com.flint.flint.community.domain.post.PostScrap;
 import com.flint.flint.community.dto.request.PostRequest;
 import com.flint.flint.community.repository.BoardRepository;
+import com.flint.flint.community.repository.PostLikeRepository;
 import com.flint.flint.community.repository.PostRepository;
 import com.flint.flint.community.repository.PostScrapRepository;
 import com.flint.flint.community.spec.BoardType;
@@ -129,8 +131,7 @@ class PostApiControllerTest {
         return objectWriter.writeValueAsString(obj);
     }
 
-
-  @Test
+    @Test
     @DisplayName("게시글 좋아요 생성 테스트")
     @Transactional
     @WithMockCustomMember(role = "ROLE_AUTHUSER")
@@ -193,7 +194,7 @@ class PostApiControllerTest {
     @DisplayName("게시글 스크랩 생성 테스트")
     @Transactional
     @WithMockCustomMember(role = "ROLE_AUTHUSER")
-    void test4() throws Exception {
+    void test5() throws Exception {
         //given
         Member member = Member.builder()
                 .name("테스터")
@@ -220,7 +221,7 @@ class PostApiControllerTest {
     @DisplayName("게시글 스크랩 취소 테스트")
     @Transactional
     @WithMockCustomMember(role = "ROLE_AUTHUSER")
-    void test5() throws Exception {
+    void test6() throws Exception {
         //given
         Member member = Member.builder()
                 .name("테스터")

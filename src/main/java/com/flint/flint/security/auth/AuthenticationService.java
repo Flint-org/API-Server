@@ -65,7 +65,7 @@ public class AuthenticationService {
     @Transactional
     public AuthenticationResponse login(String providerName, AuthorizionRequestHeader authorizionRequestHeader) {
         OAuth2UserAttribute oAuth2UserAttribute = OAuth2UserAttributeFactory.of(providerName);
-        String oauth2AccessToekn = authorizionRequestHeader.getAccessToken().replace("Bearer", "");
+        String oauth2AccessToekn = authorizionRequestHeader.getAccessToken().replace("Bearer ", "");
         //정보 추출
         oAuth2UserAttribute.setUserAttributesByOauthToken(oauth2AccessToekn);
         String providerId = oAuth2UserAttribute.getProviderId();
