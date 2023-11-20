@@ -3,7 +3,6 @@ package com.flint.flint.security.auth;
 
 import com.flint.flint.common.exception.FlintCustomException;
 import com.flint.flint.common.spec.ResultCode;
-import com.flint.flint.security.auth.jwt.JwtService;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.domain.main.Policy;
 import com.flint.flint.member.repository.MemberRepository;
@@ -12,8 +11,9 @@ import com.flint.flint.redis.RedisUtil;
 import com.flint.flint.security.auth.dto.AuthenticationResponse;
 import com.flint.flint.security.auth.dto.ClaimsDTO;
 import com.flint.flint.security.auth.dto.RegisterRequest;
-import com.flint.flint.security.oauth.dto.OAuth2UserAttribute;
+import com.flint.flint.security.auth.jwt.JwtService;
 import com.flint.flint.security.oauth.dto.AuthorizionRequestHeader;
+import com.flint.flint.security.oauth.dto.OAuth2UserAttribute;
 import com.flint.flint.security.oauth.dto.OAuth2UserAttributeFactory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -76,11 +76,12 @@ public class AuthenticationService {
     @Transactional
     public AuthenticationResponse newTokenByRefreshToken(String refreshToken) {
         String providerId = jwtService.parseProviderId(refreshToken);
-        Member member = memberRepository.findByEmail(providerId).orElseThrow();
-        if (jwtService.isTokenValid(refreshToken)) {
+        Member member = memberRepository.findByProviderId(providerId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.USER_NOT_FOUND));
+        jwtService.isTokenValid(refreshToken);
+        if (redisUtil.findByKey(providerId).toString().equals(refreshToken)) {
             return generateToken(member);
         }
-        return null;
+        throw new FlintCustomException(HttpStatus.BAD_REQUEST, ResultCode.REFRESHTOKEN_OUTDATED);
     }
 
     /**
