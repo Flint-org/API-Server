@@ -96,12 +96,12 @@ public class AuthenticationService {
         String refreshToken = jwtService.generateRefreshToken(claimsDTO);
         redisUtil.save(providerId, refreshToken, refreshTokenExpiration);
 
-            return AuthenticationResponse.builder()
-                    .accessToken(accessToken)
-                    .refreshToken(refreshToken)
-                    .accessTokenExpiration(jwtService.parseExpiration(accessToken))
-                    .refreshTokenExpiration(jwtService.parseExpiration(refreshToken))
-                    .build();
-        }
+        return AuthenticationResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .accessTokenExpiration(jwtService.parseExpiration(accessToken))
+                .refreshTokenExpiration(jwtService.parseExpiration(refreshToken))
+                .build();
+    }
 
 }
