@@ -22,11 +22,14 @@ public enum ResultCode {
     MAIL_AUTHNUMBER_NOT("F200", "인증번호가 틀립니다."),
     AUTH_USER_NOT("F201", "현재 권한으로 접근 불가능합니다."),
     JWT_DATE_NOT("F202", "JWT토큰이 만료되었습니다."),
+    REFRESHTOKEN_OUTDATED("F203", "새로 발급된 토큰보다 이전의 리프레시 토큰입니다."),
 
     // F3xx: 유저 예외
     USER_NOT_FOUND("F300", "존재하지 않는 유저입니다."),
     USER_MANY_REQUEST("F301", "사용자의 API요청이 제한됩니다."),
     USER_UNIVERSITY_CERTIFICATION_NOT_FOUND("F302", "유저의 대학 정보가 없습니다"),
+    USER_ALREADY_JOIN("F303", "이미 회원가입된 유저입니다."),
+    USER_NOT_JOINED("F304", "회원가입이 되어있지 않은 유저입니다."),
 
     // F4xx: 커뮤니티, 게시글 예외
     MAJOR_BOARD_NOT_FOUND("F400", "존재하지 않는 전공 게시판입니다."),
