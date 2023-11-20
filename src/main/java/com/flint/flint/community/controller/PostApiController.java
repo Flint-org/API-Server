@@ -3,11 +3,13 @@ package com.flint.flint.community.controller;
 import com.flint.flint.common.ResponseForm;
 import com.flint.flint.community.dto.request.PostRequest;
 import com.flint.flint.community.dto.response.PostLikeResponse;
+import com.flint.flint.community.dto.response.PostListResponse;
 import com.flint.flint.community.dto.response.PostPreSignedUrlResponse;
 import com.flint.flint.community.service.PostLikeUpdateService;
 import com.flint.flint.community.service.PostReportService;
 import com.flint.flint.community.service.PostScrapUpdateService;
 import com.flint.flint.community.service.PostService;
+import com.flint.flint.community.spec.SortStrategy;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +52,21 @@ public class PostApiController {
         return new ResponseForm<>(postLikeUpdateService.createPostLike(memberDTO.getProviderId(), postId));
     }
 
+    @GetMapping("")
+    public ResponseForm<List<PostListResponse>> getPostsByPaging(
+            @RequestParam Long boardId,
+            @RequestParam Long cursorId,
+            @RequestParam Long size,
+            @RequestParam String sortStrategy
+    ) {
+        return new ResponseForm<>(postService.getPostsByPaging(
+                boardId,
+                cursorId,
+                size,
+                SortStrategy.findMatchedEnum(sortStrategy)
+        ));
+    }
+  
     /**
      * 좋아요 취소
      */
@@ -58,6 +75,7 @@ public class PostApiController {
         postLikeUpdateService.deletePostLike(memberDTO.getProviderId(), postId);
         return new ResponseForm<>();
     }
+  
      /**
      * 게시물 신고
      */
@@ -65,7 +83,7 @@ public class PostApiController {
     public ResponseForm reportPost(@AuthenticationPrincipal AuthorityMemberDTO memberDTO, @PathVariable long postId){
             postReportService.reportPost(memberDTO.getProviderId(), postId);
             return new ResponseForm<>();
-        }
+     }
 
      /**
      * 스크랩 생성

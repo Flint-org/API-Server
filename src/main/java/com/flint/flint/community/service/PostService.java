@@ -5,12 +5,13 @@ import com.flint.flint.community.domain.board.Board;
 import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.domain.post.PostImage;
 import com.flint.flint.community.dto.request.PostRequest;
+import com.flint.flint.community.dto.response.PostListResponse;
 import com.flint.flint.community.dto.response.PostPreSignedUrlResponse;
 import com.flint.flint.community.repository.PostRepository;
+import com.flint.flint.community.spec.SortStrategy;
 import com.flint.flint.media.dto.response.PreSignedUrlResponse;
 import com.flint.flint.media.service.MediaService;
 import com.flint.flint.member.domain.main.Member;
-import com.flint.flint.member.repository.MemberRepository;
 import com.flint.flint.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,6 @@ public class PostService {
     private final PostRepository postRepository;
     private final BoardService boardService;
     private final MediaService mediaService;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private static final String POST_IMAGE_FOLDER_NAME = "static";
     private static final int MAX_IMAGE_LIMIT = 20;
@@ -82,6 +82,30 @@ public class PostService {
         }
         postRepository.save(post);
         return preSignedUrls;
+    }
+
+    /**
+     * 게시글 목록 조회 페이징
+     *
+     * @param boardId      게시판 ID
+     * @param cursorId     현재 커서 ID(기준 게시글 ID)
+     * @param size         가져올 개수
+     * @param sortStrategy 정렬 전략
+     * @return 게시글 목록
+     */
+    @Transactional(readOnly = true)
+    public List<PostListResponse> getPostsByPaging(Long boardId, Long cursorId, Long size, SortStrategy sortStrategy) {
+        if (size == null || size < 1) {
+            throw new FlintCustomException(HttpStatus.BAD_REQUEST, INVALID_PAGE_SIZE);
+        }
+
+        Post post = null;
+        if (cursorId != null && cursorId != 0) {
+            post = postRepository.findById(cursorId).orElseThrow(
+                    () -> new FlintCustomException(HttpStatus.BAD_REQUEST, INVALID_POST_PAGE_CURSOR));
+        }
+
+        return postRepository.findPostsWithBoardByPaging(boardId, post, size, sortStrategy);
     }
 
     private boolean isExceedMaxImage(int requestSize) {
