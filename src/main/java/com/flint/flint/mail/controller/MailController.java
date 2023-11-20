@@ -4,7 +4,7 @@ import com.flint.flint.common.ResponseForm;
 import com.flint.flint.mail.dto.request.SendEmailAuthNumberReqeust;
 import com.flint.flint.mail.dto.request.SuccessUniversityAuthRequest;
 import com.flint.flint.mail.dto.response.EmailAuthNumberRespose;
-import com.flint.flint.mail.service.MailService;
+import com.flint.flint.mail.service.AuthEmailService;
 import com.flint.flint.security.auth.dto.AuthenticationResponse;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import jakarta.validation.Valid;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MailController {
 
 
-    private final MailService mailService;
+    private final AuthEmailService authEmailService;
 
     /**
      * 인증번호 보내기
@@ -37,8 +37,7 @@ public class MailController {
     @PreAuthorize("hasRole('ROLE_UNAUTHUSER')")
     @PostMapping("/send")
     public ResponseForm<EmailAuthNumberRespose> sendEmail(@Valid @RequestBody SendEmailAuthNumberReqeust request, @AuthenticationPrincipal AuthorityMemberDTO authorityMemberDTO) {
-        Long key = authorityMemberDTO.getId();
-        return new ResponseForm<>(mailService.sendCodeEmail(request.getEmail(), key));
+        return new ResponseForm<>(authEmailService.sendCodeEmail(request.getEmail(), authorityMemberDTO.getId()));
     }
 
     /**
@@ -49,7 +48,6 @@ public class MailController {
     @PreAuthorize("hasRole('ROLE_UNAUTHUSER')")
     @PostMapping("/success/auth")
     public ResponseForm<AuthenticationResponse> successUniversityAuth(@Valid @RequestBody SuccessUniversityAuthRequest request, @AuthenticationPrincipal AuthorityMemberDTO authorityMemberDTO) {
-        Long key = authorityMemberDTO.getId();
-        return new ResponseForm<>(mailService.successEmailAuth(request, key));
+        return new ResponseForm<>(authEmailService.successEmailAuth(request, authorityMemberDTO.getId()));
     }
 }

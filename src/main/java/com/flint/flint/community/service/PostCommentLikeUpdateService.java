@@ -12,8 +12,7 @@ import com.flint.flint.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author 정순원
@@ -27,20 +26,23 @@ public class PostCommentLikeUpdateService {
     private final MemberService memberService;
     private final PostCommentRepository postCommentRepository;
 
+    @Transactional
     public PostCommentLikeResponse createPostCommentLike(String providerId, long postCommentId) {
-        Optional<PostCommentLike> OptionalCommentLike = postCommentLikeRepository.findByProviderIdAndPostCommentId(providerId, postCommentId);
-        if(!OptionalCommentLike.isPresent()) {  //이전에 좋아요를 안했을 때
-            Member member = memberService.getMemberByProviderId(providerId);
-            PostComment postComment = postCommentRepository.findById(postCommentId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.POST_COMMENT_NOT_FOUND));
-            PostCommentLike build = PostCommentLike.builder()
-                    .member(member)
-                    .postComment(postComment)
-                    .build();
-            postCommentLikeRepository.save(build);
-        }
-        else postCommentLikeRepository.delete(OptionalCommentLike.get()); // 이전에 좋아요를 했을 때
+        Member member = memberService.getMemberByProviderId(providerId);
+        PostComment postComment = postCommentRepository.findById(postCommentId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.POST_COMMENT_NOT_FOUND));
+        PostCommentLike build = PostCommentLike.builder()
+                .member(member)
+                .postComment(postComment)
+                .build();
+        postCommentLikeRepository.save(build);
 
         int likeCount = postCommentLikeRepository.countByPostCommentId(postCommentId);
         return new PostCommentLikeResponse(likeCount);
+    }
+
+    @Transactional
+    public void deletePostCommentLike(String providerId, long postCommentId) {
+        PostCommentLike postCommentLike = postCommentLikeRepository.findByProviderIdAndPostCommentId(providerId, postCommentId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.POST_COMMENT_LIKE_NOT_FOUND));
+        postCommentLikeRepository.delete(postCommentLike);
     }
 }

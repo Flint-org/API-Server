@@ -41,7 +41,7 @@ public class NaverOAuth2UserAttribute extends OAuth2UserAttribute {
 
     @Override
     public String getProviderId() {
-        return response.get("id").toString();
+        return "naver " + response.get("id").toString();
     }
 
     @Override

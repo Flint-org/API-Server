@@ -40,6 +40,10 @@ public enum ResultCode {
     MAJOR_UPPER_BOARD_NOT_FOUND("F408", "존재하지 않는 전공 대분류입니다."),
     INVALID_PAGE_SIZE("F409", "유효하지 않은 페이지 크기입니다."),
     INVALID_POST_PAGE_CURSOR("F410", "유효하지 않은 커서 게시글입니다."),
+    POST_SCRAP_NOT_FOUND("F411", "존재하지 않는 게시물 스크랩입니다."),
+    POST_COMMENT_LIKE_NOT_FOUND("F412", "존재하지 않는 게시물 댓글 좋아요입니다."),
+    POST_LIKE_NOT_FOUND("F413", "존재하지 않는 게시물 좋아요입니다."),
+    USER_ALREADY_REPORTED("F414", "이미 게시글을 신고하였습니다."),
 
     // F5xx: 모임 예외
     CLUB_NOT_FOUND_ERROR("F500", "모임을 찾을 수 없습니다."),
