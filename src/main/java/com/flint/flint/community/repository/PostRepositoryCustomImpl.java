@@ -8,6 +8,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.flint.flint.community.domain.post.QPost.post;
 
@@ -41,10 +42,9 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     }
 
     private Predicate filterBoard(Long boardId) {
-        if (boardId == null) {
-            return null;
-        }
-        return post.board.id.eq(boardId);
+        return Optional.of(boardId)
+                .map(post.board.id::eq)
+                .orElse(null);
     }
 
     private Predicate filterPaging(Post cursorPost, SortStrategy strategy) {
