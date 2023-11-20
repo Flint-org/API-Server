@@ -27,6 +27,8 @@ public enum ResultCode {
     USER_NOT_FOUND("F300", "존재하지 않는 유저입니다."),
     USER_MANY_REQUEST("F301", "사용자의 API요청이 제한됩니다."),
     USER_UNIVERSITY_CERTIFICATION_NOT_FOUND("F302", "유저의 대학 정보가 없습니다"),
+    USER_ALREADY_JOIN("F303", "이미 회원가입된 유저입니다."),
+    USER_NOT_JOINED("F304", "회원가입이 되어있지 않은 유저입니다."),
 
     // F4xx: 커뮤니티, 게시글 예외
     MAJOR_BOARD_NOT_FOUND("F400", "존재하지 않는 전공 게시판입니다."),

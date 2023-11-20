@@ -1,6 +1,8 @@
 package com.flint.flint.security.auth;
 
 
+import com.flint.flint.common.exception.FlintCustomException;
+import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.security.auth.jwt.JwtService;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.domain.main.Policy;
@@ -16,10 +18,12 @@ import com.flint.flint.security.oauth.dto.OAuth2UserAttributeFactory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 /**
  * 로그인, 회원가입, 토큰 재발급에 관한 서비스
+ *
  * @Author 정순원
  * @Since 2023-08-19
  */
@@ -27,14 +31,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    @Value("${jwt.refreshTokenExpiration}")
-    private long refreshTokenExpiration;
-
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
     private final PolicyRepository policyRepository;
     private final RedisUtil redisUtil;
-
+    @Value("${jwt.refreshTokenExpiration}")
+    private long refreshTokenExpiration;
 
     /**
      * 회원가입
@@ -47,13 +49,8 @@ public class AuthenticationService {
         String oauth2AccessToekn = authorizionRequestHeader.getAccessToken().replace("Bearer ", "");
         //정보 추출
         oAuth2UserAttribute.setUserAttributesByOauthToken(oauth2AccessToekn);
-        Member member = oAuth2UserAttribute.toEntity();
-        Policy policy = Policy.builder().
-                member(member).
-                registerRequest(registerRequest).
-                build();
-        memberRepository.save(member);
-        policyRepository.save(policy);
+        checkRegistration(oAuth2UserAttribute.getProviderId());
+        Member member = saveInformation(registerRequest, oAuth2UserAttribute);
         return generateToken(member);
     }
 
@@ -69,7 +66,7 @@ public class AuthenticationService {
         //정보 추출
         oAuth2UserAttribute.setUserAttributesByOauthToken(oauth2AccessToekn);
         String providerId = oAuth2UserAttribute.getProviderId();
-        Member member = memberRepository.findByProviderId(providerId).orElseThrow();
+        Member member = memberRepository.findByProviderId(providerId).orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.USER_NOT_JOINED));
         return generateToken(member);
     }
 
@@ -104,4 +101,20 @@ public class AuthenticationService {
                 .build();
     }
 
+
+    private void checkRegistration(String providerId) {
+        if (memberRepository.existsByProviderId(providerId))
+            throw new FlintCustomException(HttpStatus.BAD_REQUEST, ResultCode.USER_ALREADY_JOIN);
+    }
+
+    private Member saveInformation(RegisterRequest registerRequest, OAuth2UserAttribute oAuth2UserAttribute) {
+        Member member = oAuth2UserAttribute.toEntity();
+        Policy policy = Policy.builder().
+                member(member).
+                registerRequest(registerRequest).
+                build();
+        memberRepository.save(member);
+        policyRepository.save(policy);
+        return member;
+    }
 }
