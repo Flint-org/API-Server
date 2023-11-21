@@ -5,7 +5,7 @@ import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.domain.post.PostReport;
 import com.flint.flint.community.repository.PostReportRepository;
-import com.flint.flint.community.repository.PostRepository;
+import com.flint.flint.community.repository.post.PostRepository;
 import com.flint.flint.mail.service.ReportEmailService;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.service.MemberService;

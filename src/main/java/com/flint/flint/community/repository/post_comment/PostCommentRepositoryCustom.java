@@ -1,4 +1,4 @@
-package com.flint.flint.community.repository.custom;
+package com.flint.flint.community.repository.post_comment;
 
 import com.flint.flint.community.domain.post.PostComment;
 import org.springframework.stereotype.Repository;

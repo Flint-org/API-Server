@@ -6,7 +6,7 @@ import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.domain.post.PostLike;
 import com.flint.flint.community.dto.response.PostLikeResponse;
 import com.flint.flint.community.repository.PostLikeRepository;
-import com.flint.flint.community.repository.PostRepository;
+import com.flint.flint.community.repository.post.PostRepository;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.service.MemberService;
 import lombok.RequiredArgsConstructor;

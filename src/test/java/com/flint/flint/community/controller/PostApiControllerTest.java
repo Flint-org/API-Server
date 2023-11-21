@@ -11,7 +11,7 @@ import com.flint.flint.community.domain.post.PostScrap;
 import com.flint.flint.community.dto.request.PostRequest;
 import com.flint.flint.community.repository.BoardRepository;
 import com.flint.flint.community.repository.PostLikeRepository;
-import com.flint.flint.community.repository.PostRepository;
+import com.flint.flint.community.repository.post.PostRepository;
 import com.flint.flint.community.repository.PostScrapRepository;
 import com.flint.flint.community.spec.BoardType;
 import com.flint.flint.custom_member.WithMockCustomMember;

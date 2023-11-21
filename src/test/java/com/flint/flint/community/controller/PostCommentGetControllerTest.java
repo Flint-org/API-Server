@@ -2,8 +2,8 @@ package com.flint.flint.community.controller;
 
 import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.domain.post.PostComment;
-import com.flint.flint.community.repository.PostCommentRepository;
-import com.flint.flint.community.repository.PostRepository;
+import com.flint.flint.community.repository.post_comment.PostCommentRepository;
+import com.flint.flint.community.repository.post.PostRepository;
 import com.flint.flint.custom_member.WithMockCustomMember;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

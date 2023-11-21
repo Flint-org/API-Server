@@ -7,7 +7,7 @@ import com.flint.flint.community.domain.post.PostImage;
 import com.flint.flint.community.dto.request.PostRequest;
 import com.flint.flint.community.dto.response.PostListResponse;
 import com.flint.flint.community.dto.response.PostPreSignedUrlResponse;
-import com.flint.flint.community.repository.PostRepository;
+import com.flint.flint.community.repository.post.PostRepository;
 import com.flint.flint.community.spec.SortStrategy;
 import com.flint.flint.media.dto.response.PreSignedUrlResponse;
 import com.flint.flint.media.service.MediaService;

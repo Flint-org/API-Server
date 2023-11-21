@@ -4,7 +4,7 @@ import com.flint.flint.common.exception.FlintCustomException;
 import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.domain.post.PostScrap;
-import com.flint.flint.community.repository.PostRepository;
+import com.flint.flint.community.repository.post.PostRepository;
 import com.flint.flint.community.repository.PostScrapRepository;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.service.MemberService;
