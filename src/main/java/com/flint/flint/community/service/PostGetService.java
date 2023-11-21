@@ -4,9 +4,13 @@ import com.flint.flint.common.exception.FlintCustomException;
 import com.flint.flint.common.spec.ResultCode;
 import com.flint.flint.community.domain.board.Board;
 import com.flint.flint.community.domain.post.Post;
+import com.flint.flint.community.dto.response.DetailPostResponse;
 import com.flint.flint.community.dto.response.PostResponse;
+import com.flint.flint.community.dto.response.WriterResponse;
 import com.flint.flint.community.repository.BoardRepository;
-import com.flint.flint.community.repository.PostRepository;
+import com.flint.flint.community.repository.post.PostRepository;
+import com.flint.flint.idcard.dto.response.IdCardGetResponse;
+import com.flint.flint.idcard.service.IdCardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +27,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PostGetService {
-
     private final PostRepository postRepository;
-
     private final BoardRepository boardRepository;
+    private final IdCardService idCardService;
+    private final BoardService boardService;
 
     @Transactional(readOnly = true)
     public List<PostResponse> searchInAllBoard(String keyword, Pageable pageable) {
@@ -54,5 +58,31 @@ public class PostGetService {
         } else {
             return ""; //TODO 기본 이미지 URL을 반환
         }
+    }
+
+    @Transactional(readOnly = true)
+    public DetailPostResponse getDetailPost(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.POST_NOT_FOUND));
+
+        IdCardGetResponse.GetIdCard writerIdCard = idCardService.getMyIdCardByMemberId(post.getMember().getId());
+
+        return DetailPostResponse.builder()
+                .postId(postId)
+                .boardName(boardService.getFormattedBoardName(post.getBoard()))
+                .title(post.getTitle())
+                .contents(post.getContents())
+                .createAt(post.getCreatedAt())
+                .commentCount(post.getPostComments().size())
+                .likeCount(post.getPostLikes().size())
+                .scrapCount(post.getPostScraps().size())
+                .images(post.convertImagesToString())
+                .writer(WriterResponse.builder()
+                        .memberId(post.getMember().getId())
+                        .major(writerIdCard.getMajor())
+                        .universityName(writerIdCard.getUniversity())
+                        .universityLogoUrl(writerIdCard.getUnivInfo().getLogoUrl())
+                        .build())
+                .build();
     }
 }
