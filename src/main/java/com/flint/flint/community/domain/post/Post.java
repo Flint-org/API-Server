@@ -70,4 +70,10 @@ public class Post extends BaseTimeEntity {
         this.postLikes.add(postLike);
         postLike.changePost(this);
     }
+
+    public List<String> convertImagesToString() {
+        return this.postImages.stream()
+                .map(PostImage::getImgUrl)
+                .toList();
+    }
 }
