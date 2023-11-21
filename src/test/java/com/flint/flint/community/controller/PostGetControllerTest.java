@@ -1,13 +1,18 @@
 package com.flint.flint.community.controller;
 
+import com.flint.flint.asset.domain.UniversityAsset;
+import com.flint.flint.asset.repository.UniversityAssetRepository;
 import com.flint.flint.community.domain.board.Board;
 import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.domain.post.PostImage;
 import com.flint.flint.community.repository.BoardRepository;
-import com.flint.flint.community.repository.PostRepository;
+import com.flint.flint.community.repository.post.PostRepository;
 import com.flint.flint.community.spec.BoardType;
 import com.flint.flint.custom_member.WithMockCustomMember;
-import jakarta.persistence.EntityManagerFactory;
+import com.flint.flint.idcard.domain.IdCard;
+import com.flint.flint.idcard.repository.IdCardJPARepository;
+import com.flint.flint.member.domain.main.Member;
+import com.flint.flint.member.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +39,13 @@ class PostGetControllerTest {
 
     @Autowired
     BoardRepository boardRepository;
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    private IdCardJPARepository idCardJPARepository;
+    @Autowired
+    private UniversityAssetRepository universityAssetRepository;
+
 
     @BeforeEach
     void setUp() {
@@ -128,5 +140,62 @@ class PostGetControllerTest {
                 .andExpect(jsonPath("$.data[0].imageURL").value(""))
                 .andExpect(jsonPath("$.data[1].title").value("제목2"))
                 .andExpect(jsonPath("$.data[1].imageURL").value("url3"));
+    }
+
+    @DisplayName("특정 게시글 ID로 상세 게시글 내용을 조회한다.")
+    @Test
+    @Transactional
+    @WithMockCustomMember
+    void getDetailPost() throws Exception {
+        Member member = Member.builder()
+                .name("테스터")
+                .email("test@test.com")
+                .providerName("kakao")
+                .providerId("kakao test")
+                .build();
+
+        memberRepository.save(member);
+        PostImage image1 = PostImage.builder()
+                .imgUrl("url1")
+                .build();
+        PostImage image2 = PostImage.builder()
+                .imgUrl("url1")
+                .build();
+        Post post = Post.builder()
+                .member(member)
+                .title("제목입니다.")
+                .contents("내용입니다.")
+                .board(boardRepository.findBoardByGeneralBoardName("자유게시판").get())
+                .build();
+
+        IdCard idCard = IdCard.builder()
+                .member(member)
+                .university("가천대학교")
+                .major("소프트웨어학과")
+                .email("test@test.com")
+                .admissionYear(2019)
+                .build();
+        idCardJPARepository.save(idCard);
+
+        UniversityAsset asset = UniversityAsset.builder()
+                .universityName("가천대학교")
+                .emailSuffix("gachon.ac.kr")
+                .red(8)
+                .green(56)
+                .blue(136)
+                .logoUrl("/가천")
+                .build();
+        universityAssetRepository.save(asset);
+        post.addImageUrl(image1);
+        post.addImageUrl(image2);
+
+        Post savedPost = postRepository.save(post);
+        mockMvc.perform(get("/api/v1/posts/{postId}", savedPost.getId()))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(jsonPath("$.data.title").value("제목입니다."))
+                .andExpect(jsonPath("$.data.contents").value("내용입니다."))
+                .andExpect(jsonPath("$.data.writer.universityName").value("가천대학교"))
+                .andExpect(jsonPath("$.data.images.size()").value(2));
     }
 }
