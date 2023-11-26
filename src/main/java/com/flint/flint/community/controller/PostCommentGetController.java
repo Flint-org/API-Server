@@ -1,7 +1,7 @@
 package com.flint.flint.community.controller;
 
 import com.flint.flint.common.ResponseForm;
-import com.flint.flint.community.dto.response.PostCommentGetResponse;
+import com.flint.flint.community.dto.response.PostCommentResponse;
 import com.flint.flint.community.service.PostCommentGetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,7 +28,7 @@ public class PostCommentGetController {
      * 특정 포스트 댓글/대댓글 조회
      */
     @GetMapping("/{postId}")
-    public ResponseForm<List<PostCommentGetResponse>> getPostComment(@PathVariable long postId) {
+    public ResponseForm<List<PostCommentResponse>> getPostComment(@PathVariable long postId) {
         return new ResponseForm<>(postCommentGeteService.getPostComment(postId));
     }
 }
