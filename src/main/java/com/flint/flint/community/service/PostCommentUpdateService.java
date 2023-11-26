@@ -6,16 +6,14 @@ import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.domain.post.PostComment;
 import com.flint.flint.community.dto.request.PostCommentUpdateRequest;
 import com.flint.flint.community.dto.response.PostCommentUpdateResponse;
-import com.flint.flint.community.repository.PostCommentRepository;
-import com.flint.flint.community.repository.PostRepository;
+import com.flint.flint.community.repository.post_comment.PostCommentRepository;
+import com.flint.flint.community.repository.post.PostRepository;
 import com.flint.flint.member.domain.main.Member;
 import com.flint.flint.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 /**
  * @author 정순원

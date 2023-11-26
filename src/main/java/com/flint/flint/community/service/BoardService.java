@@ -173,6 +173,7 @@ public class BoardService {
 
     /**
      * 즐겨찾기한 게시판 목록 조회
+     *
      * @param providerId 유저 provider id
      * @return
      */
@@ -184,23 +185,21 @@ public class BoardService {
 
         return bookmarks.stream().map(b -> {
             Board board = b.getBoard();
-            // 일반 게시판
-            if (board.getBoardType() == BoardType.GENERAL) {
-                return BookmarkBoardResponse.builder()
-                        .boardId(board.getId())
-                        .boardName(board.getGeneralBoardName())
-                        .build();
-            } else { // 전공 게시판
-                MajorBoard majorBoard = majorBoardRepository.findMajorBoardByBoard(board)
-                        .orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, MAJOR_BOARD_NOT_FOUND));
-
-                // 대분류만 딱 즐겨찾기는 하는 경우는 우선 배제
-                // 소분류(대분류) 형태로 전달
-                return BookmarkBoardResponse.builder()
-                        .boardId(board.getId())
-                        .boardName(majorBoard.getName() + "(" + majorBoard.getUpperMajorBoard().getName() + ")")
-                        .build();
-            }
+            String boardName = getFormattedBoardName(board);
+            return BookmarkBoardResponse.builder()
+                    .boardId(board.getId())
+                    .boardName(boardName)
+                    .build();
         }).toList();
+    }
+
+    public String getFormattedBoardName(Board board) {
+        if (board.getBoardType() == BoardType.MAJOR) {
+            MajorBoard majorBoard = majorBoardRepository.findMajorBoardByBoard(board)
+                    .orElseThrow(() -> new FlintCustomException(HttpStatus.NOT_FOUND, MAJOR_BOARD_NOT_FOUND));
+
+            return majorBoard.getName() + "(" + majorBoard.getUpperMajorBoard().getName() + ")";
+        }
+        return board.getGeneralBoardName();
     }
 }

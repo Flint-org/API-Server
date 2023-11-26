@@ -2,7 +2,7 @@ package com.flint.flint.community.service;
 
 import com.flint.flint.community.domain.post.PostComment;
 import com.flint.flint.community.dto.response.PostCommentGetResponse;
-import com.flint.flint.community.repository.custom.PostCommentRepositoryCustom;
+import com.flint.flint.community.repository.post_comment.PostCommentRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
