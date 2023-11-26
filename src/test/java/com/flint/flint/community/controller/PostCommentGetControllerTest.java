@@ -6,8 +6,8 @@ import com.flint.flint.community.domain.post.Post;
 import com.flint.flint.community.domain.post.PostComment;
 import com.flint.flint.community.domain.post.PostCommentLike;
 import com.flint.flint.community.repository.PostCommentLikeRepository;
-import com.flint.flint.community.repository.post.PostRepository;
-import com.flint.flint.community.repository.post_comment.PostCommentRepository;
+import com.flint.flint.community.repository.PostCommentRepository;
+import com.flint.flint.community.repository.PostRepository;
 import com.flint.flint.custom_member.WithMockCustomMember;
 import com.flint.flint.idcard.domain.IdCard;
 import com.flint.flint.idcard.repository.IdCardJPARepository;
@@ -165,54 +165,24 @@ class PostCommentGetControllerTest {
         postCommentRepository.save(childComment3);
 
         PostCommentLike postCommentLike1 = PostCommentLike.builder()
-                .postComment(parentComment2)
-                .member(member1)
+                .postComment(parentComment1)
+                .member(member2)
                 .build();
 
         PostCommentLike postCommentLike2 = PostCommentLike.builder()
-                .postComment(parentComment2)
-                .member(member2)
+                .postComment(parentComment1)
+                .member(member3)
                 .build();
+
 
         PostCommentLike postCommentLike3 = PostCommentLike.builder()
-                .postComment(parentComment2)
-                .member(member3)
-                .build();
-
-        PostCommentLike postCommentLike4 = PostCommentLike.builder()
-                .postComment(childComment2)
+                .postComment(childComment1)
                 .member(member1)
                 .build();
 
-        PostCommentLike postCommentLike5 = PostCommentLike.builder()
-                .postComment(childComment2)
-                .member(member2)
-                .build();
-
-        PostCommentLike postCommentLike6 = PostCommentLike.builder()
-                .postComment(childComment2)
-                .member(member3)
-                .build();
-
-        PostCommentLike postCommentLike7 = PostCommentLike.builder()
-                .postComment(parentComment1)
-                .member(member1)
-                .build();
-
-        PostCommentLike postCommentLike8 = PostCommentLike.builder()
-                .postComment(parentComment1)
-                .member(member2)
-                .build();
-
-        //댓글1 좋아요3, 대댓글1-1 좋아요1, 댓글2 좋아요2
         postCommentLikeRepository.save(postCommentLike1);
         postCommentLikeRepository.save(postCommentLike2);
         postCommentLikeRepository.save(postCommentLike3);
-        postCommentLikeRepository.save(postCommentLike4);
-        postCommentLikeRepository.save(postCommentLike5);
-        postCommentLikeRepository.save(postCommentLike6);
-        postCommentLikeRepository.save(postCommentLike7);
-        postCommentLikeRepository.save(postCommentLike8);
 
     }
 
