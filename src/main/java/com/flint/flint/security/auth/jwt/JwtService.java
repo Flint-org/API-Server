@@ -112,7 +112,7 @@ public class JwtService {
         if(expiration.before(new Date())) {
             throw new FlintCustomException(HttpStatus.BAD_REQUEST, ResultCode.JWT_DATE_NOT);
         }
-        if(memberRepository.existsByProviderId(providerId)) {
+        if(!memberRepository.existsByProviderId(providerId)) {
             throw new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.USER_NOT_FOUND);
         }
         return true;
