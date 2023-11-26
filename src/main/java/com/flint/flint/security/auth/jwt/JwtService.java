@@ -109,7 +109,7 @@ public class JwtService {
     public boolean isTokenValid(String token) {
         String providerId = parseProviderId(token);
         Date expiration = parseExpiration(token);
-        if(expiration.after(new Date())) {
+        if(expiration.before(new Date())) {
             throw new FlintCustomException(HttpStatus.BAD_REQUEST, ResultCode.JWT_DATE_NOT);
         }
         if(memberRepository.existsByProviderId(providerId)) {
