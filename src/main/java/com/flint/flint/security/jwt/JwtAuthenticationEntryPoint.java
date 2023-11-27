@@ -1,4 +1,4 @@
-package com.flint.flint.security.auth.jwt;
+package com.flint.flint.security.jwt;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

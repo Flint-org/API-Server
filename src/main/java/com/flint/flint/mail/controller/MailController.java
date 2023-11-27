@@ -5,7 +5,7 @@ import com.flint.flint.mail.dto.request.SendEmailAuthNumberReqeust;
 import com.flint.flint.mail.dto.request.SuccessUniversityAuthRequest;
 import com.flint.flint.mail.dto.response.EmailAuthNumberRespose;
 import com.flint.flint.mail.service.AuthEmailService;
-import com.flint.flint.security.auth.dto.AuthenticationResponse;
+import com.flint.flint.security.auth.dto.response.AuthenticationResponse;
 import com.flint.flint.security.auth.dto.AuthorityMemberDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

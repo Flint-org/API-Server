@@ -10,7 +10,7 @@ import com.flint.flint.member.service.MemberService;
 import com.flint.flint.member.spec.Authority;
 import com.flint.flint.redis.RedisUtil;
 import com.flint.flint.security.auth.AuthenticationService;
-import com.flint.flint.security.auth.dto.AuthenticationResponse;
+import com.flint.flint.security.auth.dto.response.AuthenticationResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

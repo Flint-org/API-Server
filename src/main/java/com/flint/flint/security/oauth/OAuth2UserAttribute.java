@@ -1,4 +1,4 @@
-package com.flint.flint.security.oauth.dto;
+package com.flint.flint.security.oauth;
 
 import com.flint.flint.member.domain.main.Member;
 import lombok.Data;
