@@ -103,8 +103,6 @@ public class JwtService {
                 .getBody();
     }
 
-    //토큰 검증 메소드
-    //TODO
     public boolean isTokenValid(String token) {
         String providerId = parseProviderId(token);
         Date expiration = parseExpiration(token);
