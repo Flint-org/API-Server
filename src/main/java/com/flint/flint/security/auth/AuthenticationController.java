@@ -1,9 +1,9 @@
 package com.flint.flint.security.auth;
 
 import com.flint.flint.common.ResponseForm;
-import com.flint.flint.security.auth.dto.AuthenticationResponse;
-import com.flint.flint.security.auth.dto.RegisterRequest;
-import com.flint.flint.security.oauth.dto.AuthorizionRequestHeader;
+import com.flint.flint.security.auth.dto.response.AuthenticationResponse;
+import com.flint.flint.security.auth.dto.request.RegisterRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -24,29 +24,28 @@ public class AuthenticationController {
     //테스트용
 
     @PostMapping("/register")
-    public ResponseForm<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest registerRequest, @RequestHeader(HttpHeaders.AUTHORIZATION) AuthorizionRequestHeader authorizionRequestHeader) {
-        AuthenticationResponse authenticationResponse = authenticationService.register(registerRequest, authorizionRequestHeader);
+    public ResponseForm<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest registerRequest, HttpServletRequest oauth2TokenWithBearer) {
+        AuthenticationResponse authenticationResponse = authenticationService.register(registerRequest, oauth2TokenWithBearer);
         return new ResponseForm<>(authenticationResponse);
 
     }
 
     @PostMapping("/login/{providerName}")
-    public ResponseForm<AuthenticationResponse> login(@PathVariable String providerName, @RequestHeader(HttpHeaders.AUTHORIZATION) AuthorizionRequestHeader authorizionRequestHeader) {
-        AuthenticationResponse authenticationResponse = authenticationService.login(providerName, authorizionRequestHeader);
+    public ResponseForm<AuthenticationResponse> loginByOauth2Provider(@PathVariable String providerName, HttpServletRequest oauth2TokenWithBearer) {
+        AuthenticationResponse authenticationResponse = authenticationService.loginByOauth2Provider(providerName, oauth2TokenWithBearer);
         return new ResponseForm<>(authenticationResponse);
     }
 
-//TODO
-//    @PostMapping("/withdraw")
-//    public void removeMember(@PathVariable String id) {
-//        Optional<Member> member = memberRepository.findById(id);
-//        memberRepository.deleteById(id);
-//        authenticationService.deleteRedisToken(email);
-//    }
+    @PostMapping("/login/accesstoken")
+    public ResponseForm loginByAccessToken(HttpServletRequest accessTokenWithBearer) {
+        authenticationService.loginByAccessToken(accessTokenWithBearer);
+        return new ResponseForm<>();
+    }
+
 
     @PostMapping("/renew")
-    public ResponseForm<AuthenticationResponse> newTokenByRefreshToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String refreshToken) {
-        AuthenticationResponse authenticationResponse = authenticationService.newTokenByRefreshToken(refreshToken);
+    public ResponseForm<AuthenticationResponse> newTokenByRefreshToken(HttpServletRequest refreshTokenWithBearer) {
+        AuthenticationResponse authenticationResponse = authenticationService.newTokenByRefreshToken(refreshTokenWithBearer);
         return new ResponseForm<>(authenticationResponse);
     }
 }
