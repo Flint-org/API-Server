@@ -41,6 +41,11 @@ cloud:
     stack:
       auto: false
 
+logging:
+  slack:
+    webhook-uri: ${SLACK_WEBHOOK_URI}
+  config: classpath:logback-spring.xml
+
 jwt:
   secretKey: ${TOKEN_SECRET}
   accessTokenExpiration: 43200000 #12시간
