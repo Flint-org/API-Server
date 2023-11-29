@@ -28,7 +28,7 @@ public class PostCommentGetController {
      * 특정 포스트 댓글/대댓글 조회
      */
     @GetMapping("/{postId}")
-    public ResponseForm<List<PostCommentResponse>> getPostComment(@PathVariable long postId) {
-        return new ResponseForm<>(postCommentGeteService.getPostComment(postId));
+    public ResponseForm<List<PostCommentResponse>> getPostComments(@PathVariable long postId) {
+        return new ResponseForm<>(postCommentGeteService.getPostComments(postId));
     }
 }

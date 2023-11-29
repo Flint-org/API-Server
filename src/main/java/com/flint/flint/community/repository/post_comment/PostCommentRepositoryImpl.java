@@ -1,8 +1,7 @@
-package com.flint.flint.community.repository.impl;
+package com.flint.flint.community.repository.post_comment;
 
 import com.flint.flint.community.dto.response.PostCommentResponse;
 import com.flint.flint.community.dto.response.QPostCommentResponse;
-import com.flint.flint.community.repository.custom.PostCommentRepositoryCustom;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
