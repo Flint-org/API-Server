@@ -1,4 +1,4 @@
-package com.flint.flint.security.auth.dto;
+package com.flint.flint.security.auth.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

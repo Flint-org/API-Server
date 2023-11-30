@@ -1,4 +1,4 @@
-package com.flint.flint.security.auth.jwt;
+package com.flint.flint.security.jwt;
 
 
 import com.flint.flint.common.exception.FlintCustomException;
@@ -24,8 +24,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.security.Key;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Set;
 
 /**
  * 엑세스, 리프레쉬 토큰 생성, 클레임 추출, 토큰 검증
@@ -37,16 +38,14 @@ import java.util.*;
 @RequiredArgsConstructor
 public class JwtService {
 
+    private static final String HEADER_PREFIX = "Bearer ";
+    private final MemberRepository memberRepository;
     @Value("${jwt.secretKey}")
     private String secretKey;
     @Value("${jwt.accessTokenExpiration}")
     private Long accessTokenExpiration;
     @Value("${jwt.refreshTokenExpiration}")
     private Long refreshTokenExpiration;
-
-    private final MemberRepository memberRepository;
-    private static final String HEADER_PREFIX = "Bearer ";
-
 
     //토큰 생성 메소드들
     //클레임으로 변환 후
@@ -104,43 +103,41 @@ public class JwtService {
                 .getBody();
     }
 
-    //토큰 검증 메소드
-    //TODO
     public boolean isTokenValid(String token) {
         String providerId = parseProviderId(token);
         Date expiration = parseExpiration(token);
-        if(expiration.before(new Date())) {
+        if (expiration.before(new Date())) {
             throw new FlintCustomException(HttpStatus.BAD_REQUEST, ResultCode.JWT_DATE_NOT);
         }
-        if(!memberRepository.existsByProviderId(providerId)) {
+        if (!memberRepository.existsByProviderId(providerId)) {
             throw new FlintCustomException(HttpStatus.NOT_FOUND, ResultCode.USER_NOT_FOUND);
         }
         return true;
     }
 
 
-        //request 헤더에서 토큰 추출
-        public String parseTokenFrom (HttpServletRequest request){
-            String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-            if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(HEADER_PREFIX))
-                return authorizationHeader.replace(HEADER_PREFIX, "");
-            return null;
-        }
-
-        public Authentication getAuthentication (String accessToken){
-
-            Claims claims = parseAllClaims(accessToken);
-            String providerId = claims.getSubject();
-            Long id = Long.parseLong((claims.get("id")).toString());
-            String email = claims.get("email").toString();
-            String authority = claims.get("authority").toString();
-            AuthorityMemberDTO authorityMemberDTO = AuthorityMemberDTO.builder()
-                    .id(id)
-                    .providerId(providerId)
-                    .email(email)
-                    .authority(authority)
-                    .build();
-            Collection<? extends GrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority(authority));
-            return new UsernamePasswordAuthenticationToken(authorityMemberDTO, "", authorities);
-        }
+    //request 헤더에서 토큰 추출
+    public String parseTokenFrom(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (StringUtils.hasText(authorizationHeader) && authorizationHeader.startsWith(HEADER_PREFIX))
+            return authorizationHeader.replace(HEADER_PREFIX, "");
+        return null;
     }
+
+    public Authentication getAuthentication(String accessToken) {
+
+        Claims claims = parseAllClaims(accessToken);
+        String providerId = claims.getSubject();
+        Long id = Long.parseLong((claims.get("id")).toString());
+        String email = claims.get("email").toString();
+        String authority = claims.get("authority").toString();
+        AuthorityMemberDTO authorityMemberDTO = AuthorityMemberDTO.builder()
+                .id(id)
+                .providerId(providerId)
+                .email(email)
+                .authority(authority)
+                .build();
+        Collection<? extends GrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority(authority));
+        return new UsernamePasswordAuthenticationToken(authorityMemberDTO, "", authorities);
+    }
+}
