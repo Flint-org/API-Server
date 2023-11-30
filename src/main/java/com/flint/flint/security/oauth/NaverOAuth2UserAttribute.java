@@ -13,6 +13,7 @@ import java.util.Map;
 
 /**
  * 네이버에서 받아오는 사용자 정보 담는 DTO
+ *
  * @Author 정순원
  * @Since 2023-08-19
  */
@@ -41,7 +42,7 @@ public class NaverOAuth2UserAttribute extends OAuth2UserAttribute {
 
     @Override
     public String getProviderId() {
-        return "naver " + response.get("id").toString();
+        return NAVER_PROVIDER_ID + " " + response.get("id").toString();
     }
 
     @Override
@@ -75,6 +76,6 @@ public class NaverOAuth2UserAttribute extends OAuth2UserAttribute {
                 .retrieve()
                 .bodyToMono(JSONObject.class)
                 .block();
-        this.response = (Map<String, Object>)naverResponse.get("response");
+        this.response = (Map<String, Object>) naverResponse.get("response");
     }
 }

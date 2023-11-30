@@ -13,6 +13,7 @@ import java.util.Map;
 
 /**
  * 카카오에서 받아오는 사용자 정보 담는 DTO
+ *
  * @Author 정순원
  * @Since 2023-08-19
  */
@@ -32,7 +33,7 @@ public class KakaoOAuth2UserAttribute extends OAuth2UserAttribute {
 
         return Member.builder()
                 .providerName(KAKAO_PROVIDER_ID)
-                .providerId(KAKAO_PROVIDER_ID+" "+getProviderId())//띄어쓰기 포함
+                .providerId(KAKAO_PROVIDER_ID + " " + getProviderId())//띄어쓰기 포함
                 .email(getEmail())
                 .name(getName())
                 .gender(Gender.valueOf(getGender().toUpperCase())) //대소문자 구별하니 바꿔줘야 함
@@ -43,7 +44,9 @@ public class KakaoOAuth2UserAttribute extends OAuth2UserAttribute {
 
     //TODO
     @Override
-    public String getProviderId() { return "kakao " + this.id;}
+    public String getProviderId() {
+        return KAKAO_PROVIDER_ID + " " + this.id;
+    }
 
     @Override
     public String getEmail() {
@@ -77,6 +80,6 @@ public class KakaoOAuth2UserAttribute extends OAuth2UserAttribute {
                 .bodyToMono(JSONObject.class)
                 .block();
         this.id = response.get("id").toString();
-        this.kakaoAccount = (Map<String, Object>)response.get("kakao_account");
+        this.kakaoAccount = (Map<String, Object>) response.get("kakao_account");
     }
 }
