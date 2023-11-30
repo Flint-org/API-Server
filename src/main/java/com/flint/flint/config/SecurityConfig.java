@@ -1,8 +1,8 @@
 package com.flint.flint.config;
 
-import com.flint.flint.security.auth.jwt.JwtAuthenticationEntryPoint;
-import com.flint.flint.security.auth.jwt.JwtAuthenticationFilter;
-import com.flint.flint.security.auth.jwt.JwtService;
+import com.flint.flint.security.jwt.JwtAuthenticationEntryPoint;
+import com.flint.flint.security.jwt.JwtAuthenticationFilter;
+import com.flint.flint.security.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

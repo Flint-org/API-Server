@@ -1,8 +1,6 @@
-package com.flint.flint.security.oauth.dto;
+package com.flint.flint.security.oauth;
 
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-
-import java.util.Map;
 
 /**
  * OAuth2 구별

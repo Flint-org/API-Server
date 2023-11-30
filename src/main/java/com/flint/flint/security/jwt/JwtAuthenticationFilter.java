@@ -1,4 +1,4 @@
-package com.flint.flint.security.auth.jwt;
+package com.flint.flint.security.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

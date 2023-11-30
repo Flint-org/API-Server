@@ -1,4 +1,4 @@
-package com.flint.flint.security.auth.dto;
+package com.flint.flint.security.auth.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

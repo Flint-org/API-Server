@@ -2,7 +2,7 @@ package com.flint.flint.member.domain.main;
 
 import com.flint.flint.common.BaseTimeEntity;
 import com.flint.flint.member.spec.Agree;
-import com.flint.flint.security.auth.dto.RegisterRequest;
+import com.flint.flint.security.auth.dto.request.RegisterRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
