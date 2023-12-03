@@ -13,6 +13,7 @@ import java.util.Map;
 
 /**
  * 카카오에서 받아오는 사용자 정보 담는 DTO
+ *
  * @Author 정순원
  * @Since 2023-08-19
  */
@@ -32,18 +33,20 @@ public class KakaoOAuth2UserAttribute extends OAuth2UserAttribute {
 
         return Member.builder()
                 .providerName(KAKAO_PROVIDER_ID)
-                .providerId(KAKAO_PROVIDER_ID+" "+getProviderId())//띄어쓰기 포함
+                .providerId(getProviderId())//띄어쓰기 포함
                 .email(getEmail())
                 .name(getName())
                 .gender(Gender.valueOf(getGender().toUpperCase())) //대소문자 구별하니 바꿔줘야 함
-                .authority(Authority.AUTHUSER)
+                .authority(Authority.UNAUTHUSER)
                 .birthday(getBirthday())
                 .build();
     }
 
     //TODO
     @Override
-    public String getProviderId() { return "kakao " + this.id;}
+    public String getProviderId() {
+        return KAKAO_PROVIDER_ID + "_" + this.id;
+    }
 
     @Override
     public String getEmail() {
@@ -66,17 +69,18 @@ public class KakaoOAuth2UserAttribute extends OAuth2UserAttribute {
     }
 
     @Override
-    public void setUserAttributesByOauthToken(String authorizionRequestHeader) {
+    public void setUserAttributesByOauthToken(String kakaoAccessToken) {
 
 
         JSONObject response = WebClient.create()
                 .get()
                 .uri("https://kapi.kakao.com/v2/user/me")
-                .headers(httpHeaders -> httpHeaders.setBearerAuth(authorizionRequestHeader))
+                .headers(httpHeaders -> httpHeaders.setBearerAuth(kakaoAccessToken))
                 .retrieve()
                 .bodyToMono(JSONObject.class)
                 .block();
+
         this.id = response.get("id").toString();
-        this.kakaoAccount = (Map<String, Object>)response.get("kakao_account");
+        this.kakaoAccount = (Map<String, Object>) response.get("kakao_account");
     }
 }
