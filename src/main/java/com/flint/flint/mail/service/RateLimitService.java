@@ -19,12 +19,13 @@ public class RateLimitService {
     private final RedisUtil redisUtil;
 
     public Boolean checkAPICall(Long key) {
-        String apiCall = String.valueOf(redisUtil.findAPICallByKey(key));
+        Object apiCall = redisUtil.findAPICallByKey(key);
+
         if (apiCall == null) { //한 번도 호출 안 한 경우
-            redisUtil.saveAPICall(key, String.valueOf((int)1), Expiration);
+            redisUtil.saveAPICall(key, String.valueOf(1), Expiration);
             return true;
-        } else if (Integer.parseInt(apiCall) < MAX_API_CALL) { //10 번 미만 호출 한 경우
-            redisUtil.updateAPICall(key, String.valueOf(Integer.parseInt(apiCall) + 1));
+        } else if (Integer.parseInt((String) apiCall) < MAX_API_CALL) { //10 번 미만 호출 한 경우
+            redisUtil.updateAPICall(key, String.valueOf(Integer.parseInt((String) apiCall) + 1));
             return true;
         }
         return false; //10 번인 경우
