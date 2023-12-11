@@ -2,12 +2,16 @@ package com.flint.flint.community.repository.post_comment;
 
 import com.flint.flint.community.dto.response.PostCommentResponse;
 import com.flint.flint.community.dto.response.QPostCommentResponse;
+import com.flint.flint.community.dto.response.QWriterResponse;
+import com.flint.flint.community.dto.response.WriterResponse;
+import com.querydsl.core.annotations.QueryProjection;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.flint.flint.asset.domain.QUniversityAsset.universityAsset;
@@ -32,23 +36,21 @@ public class PostCommentRepositoryImpl implements PostCommentRepositoryCustom {
                 .from(postCommentLike)
                 .where(postCommentLike.postComment.eq(postComment));
 
-        JPQLQuery<String> logoUrlSubQuery = JPAExpressions
-                .select(universityAsset.logoUrl)
-                .from(idCard)
-                .innerJoin(universityAsset).on(universityAsset.universityName.eq(idCard.university))
-                .where(idCard.member.id.eq(postComment.member.id));
-
         return queryFactory
                 .select(new QPostCommentResponse(
                         postComment.parentComment.id,
                         postComment.id,
                         postComment.contents,
                         postComment.createdAt,
-                        postComment.member.id,
                         likeCountSubQuery,
-                        logoUrlSubQuery))
-                .from(postComment)
-                .where(postComment.post.id.eq(postId))
+                        new QWriterResponse(
+                                idCard.member.id,
+                                universityAsset.logoUrl,
+                                idCard.university,
+                                idCard.major)))
+                .from(postComment, idCard)
+                .innerJoin(universityAsset).on(universityAsset.universityName.eq(idCard.university))
+                .where(postComment.post.id.eq(postId).and(idCard.member.id.eq(postComment.member.id)))
                 .orderBy(postComment.createdAt.asc())
                 .fetch();
     }
