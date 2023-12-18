@@ -42,7 +42,7 @@ public class NaverOAuth2UserAttribute extends OAuth2UserAttribute {
 
     @Override
     public String getProviderId() {
-        return "naver " + response.get("id").toString();
+        return NAVER_PROVIDER_ID + "_" + response.get("id").toString();
     }
 
     @Override
