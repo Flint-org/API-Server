@@ -31,18 +31,18 @@ public class NaverOAuth2UserAttribute extends OAuth2UserAttribute {
     public Member toEntity() {
         return Member.builder()
                 .providerName(NAVER_PROVIDER_ID)
-                .providerId(NAVER_PROVIDER_ID + " " + getProviderId())
+                .providerId(getProviderId())
                 .email(getEmail())
                 .name(getName())
                 .gender(Gender.valueOf(getGender().toUpperCase())) //대소문자 구별하니 바꿔줘야 함
-                .authority(Authority.AUTHUSER)
+                .authority(Authority.UNAUTHUSER)
                 .birthday(getBirthday())
                 .build();
     }
 
     @Override
     public String getProviderId() {
-        return NAVER_PROVIDER_ID + " " + response.get("id").toString();
+        return NAVER_PROVIDER_ID + "_" + response.get("id").toString();
     }
 
     @Override

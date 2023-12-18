@@ -27,7 +27,6 @@ public class AuthenticationController {
     public ResponseForm<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest registerRequest, HttpServletRequest oauth2TokenWithBearer) {
         AuthenticationResponse authenticationResponse = authenticationService.register(registerRequest, oauth2TokenWithBearer);
         return new ResponseForm<>(authenticationResponse);
-
     }
 
     @PostMapping("/login/{providerName}")

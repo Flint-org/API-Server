@@ -53,6 +53,7 @@ public class Member extends BaseTimeEntity {
     private String providerName;
 
     @NotNull
+    @Column(unique = true)
     private String providerId;
 
     @Builder
