@@ -26,12 +26,13 @@ public class PostCommentResponse {
     private List<PostCommentResponse> replies = new ArrayList<>();
 
     @QueryProjection
-    public PostCommentResponse(Long parentCommentId, long postCommentId, String contents, LocalDateTime createdAt, Long likeCount, WriterResponse writerResponse) {
+    public PostCommentResponse(Long parentCommentId, long postCommentId, String contents, LocalDateTime createdAt, long memberId, Long likeCount, String logoUrl) {
         this.parentCommentId = parentCommentId;
         this.postCommentId = postCommentId;
         this.contents = contents;
         this.createdAt = createdAt;
+        this.memberId = memberId;
         this.likeCount = likeCount;
-        this.writerResponse = writerResponse;
+        this.logoUrl = logoUrl;
     }
 }

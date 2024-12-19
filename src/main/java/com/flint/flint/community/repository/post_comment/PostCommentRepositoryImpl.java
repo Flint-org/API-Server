@@ -36,22 +36,26 @@ public class PostCommentRepositoryImpl implements PostCommentRepositoryCustom {
                 .from(postCommentLike)
                 .where(postCommentLike.postComment.eq(postComment));
 
-        return queryFactory
+        JPQLQuery<String> logoUrlSubQuery = JPAExpressions
+                .select(universityAsset.logoUrl)
+                .from(idCard)
+                .innerJoin(universityAsset).on(universityAsset.universityName.eq(idCard.university))
+                .where(idCard.member.id.eq(postComment.member.id));
+
+        List<PostCommentResponse> comments = queryFactory
                 .select(new QPostCommentResponse(
                         postComment.parentComment.id,
                         postComment.id,
                         postComment.contents,
                         postComment.createdAt,
+                        postComment.member.id,
                         likeCountSubQuery,
-                        new QWriterResponse(
-                                idCard.member.id,
-                                universityAsset.logoUrl,
-                                idCard.university,
-                                idCard.major)))
-                .from(postComment, idCard)
-                .innerJoin(universityAsset).on(universityAsset.universityName.eq(idCard.university))
-                .where(postComment.post.id.eq(postId).and(idCard.member.id.eq(postComment.member.id)))
+                        logoUrlSubQuery))
+                .from(postComment)
+                .where(postComment.post.id.eq(postId))
                 .orderBy(postComment.createdAt.asc())
                 .fetch();
+
+        return comments;
     }
 }
